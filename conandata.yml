@@ -1,0 +1,7 @@
+# This file is managed by Conan, contents will be overwritten.
+# To keep your changes, remove these comment lines, but the plugin won't be able to modify your requirements
+
+requirements:
+  - "poco/1.13.3"
+  - "catch2/3.5.4"
+  - "eigen/3.4.0"
