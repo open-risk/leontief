@@ -69,6 +69,8 @@ set(ALGORITHM_FILES
 
 # TODO
 set(UTIL_FILES
+        utils/generate_matrix.cpp
+        utils/utils.h
 )
 
 set(TEST_FILES
@@ -78,22 +80,24 @@ set(TEST_FILES
         testing/test_load_a_matrix.cpp
         testing/test_leontief_inverse.cpp
         testing/test_loading_lib.cpp
+        testing/test_ras.cpp
 )
 
-set(SOURCE_FILES ${CORE_FILES}
+set(SOURCE_FILES
+        ${CORE_FILES}
         ${ALGORITHM_FILES}
         ${UTIL_FILES})
 
 
 # DEBUG MODE EXECUTABLE
-add_executable(leontief.dbg examples/main.cpp ${SOURCE_FILES})
+add_executable(leontief.dbg examples/benchmark.cpp ${SOURCE_FILES})
 target_include_directories(leontief.dbg PRIVATE ${Catch2_INCLUDE_DIRS})
 target_include_directories(leontief.dbg PRIVATE ${Eigen3_INCLUDE_DIRS})
 target_compile_definitions(leontief.dbg PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(leontief.dbg Catch2::Catch2WithMain Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # PRODUCTION MODE EXECUTABLE
-add_executable(leontief.tty examples/main.cpp ${SOURCE_FILES})
+add_executable(leontief.tty examples/benchmark.cpp ${SOURCE_FILES})
 target_include_directories(leontief.tty PRIVATE ${Eigen3_INCLUDE_DIRS})
 add_compile_options("-O3")
 target_compile_definitions(leontief.tty PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})

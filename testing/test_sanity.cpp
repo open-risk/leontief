@@ -18,6 +18,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <Poco/Environment.h>
 #include <Poco/Path.h>
+#include <iostream>
 
 TEST_CASE("Runtime environment is ready", "[environment]") {
 

@@ -15,14 +15,17 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "core/leontief.h"
+#ifndef UTILS_H
+#define UTILS_H
 
-#include <catch2/catch_test_macros.hpp>
 #include <fstream>
+#include <iostream>
+#include <random>
 
-// TODO
+#include <Eigen/Core>
+#include <unsupported/Eigen/CXX11/Tensor>
 
-TEST_CASE("Test loading Leontief classes", "[environment]") {
+Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction);
 
+#endif /* UTILS_H */
 
-}

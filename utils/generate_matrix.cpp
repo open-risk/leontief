@@ -15,14 +15,32 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "core/leontief.h"
+#include "utils.h"
 
-#include <catch2/catch_test_macros.hpp>
-#include <fstream>
-
-// TODO
-
-TEST_CASE("Test loading Leontief classes", "[environment]") {
+using namespace std;
+using namespace Eigen;
 
 
+Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
+
+    Eigen::MatrixXd result;
+    srand((unsigned int) time(0));
+    result.resize(Size, Size);
+    result.setRandom();
+
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
+
+    for (Eigen::Index i = 0; i < Size; i++) {
+        for (Eigen::Index j = 0; j < Size; j++) {
+            double draw = distribution(generator);
+            if (draw < Fraction) {
+                result(i, j) = 0.0;
+            }
+            else {
+                result(i, j) = std::abs(result(i, j));
+            }
+        }
+    }
+    return result;
 }

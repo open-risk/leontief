@@ -4,10 +4,12 @@ Leontief is a C++ package to work with economic Input-Output models
 
 ## Overall Functionality Objectives
 
-* Download Public IO Data Sets
-* Pre-process Input-Output tables using command line tools
-* Ingest IO matrices into a C++ environment
-* Solve IO systems using the Eigen linear algebra library
+Leontief helps with a number of typical tasks in Input-Output modeling:
+
+* Downloading Public IO Data Sets from various Web locations
+* Pre-processing Input-Output tables using command line tools
+* Ingesting IO matrices into a C++ environment for further calculations
+* Solving typical IO problems using the Eigen linear algebra library
 
 ## Installation / Workflow
 
