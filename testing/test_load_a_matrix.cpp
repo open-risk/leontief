@@ -16,7 +16,6 @@
 */
 
 #include <catch2/catch_test_macros.hpp>
-#include <Poco/Environment.h>
 #include <filesystem>
 #include <fstream>
 #include <Eigen/Dense>

@@ -15,14 +15,32 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <catch2/catch_test_macros.hpp>
-#include <filesystem>
-#include <fstream>
-#include <Eigen/Dense>
+#ifndef LEONTIEF_LEONTIEF_H
+#define LEONTIEF_LEONTIEF_H
 
-TEST_CASE("Test Eigen matrices setup", "[eigen]") {
+#include "misc/optim_options.hpp"
 
-    Eigen::MatrixXd A(9800, 9800);
-    A.setRandom();
+namespace leontief {
+
+// misc/utility files
+#include "misc/optim_misc.hpp"
+
+// stats/rng files
+#include "stats/optim_stats.hpp"
+
+// line search
+#include "line_search/more_thuente.hpp"
+
+// unconstrained optimization
+#include "unconstrained/optim_unconstrained.hpp"
+
+// constrained optimization
+#include "constrained/sumt.hpp"
+
+// solving systems of nonlinear equations
+#include "zeros/optim_zeros.hpp"
 
 }
+
+
+#endif //LEONTIEF_LEONTIEF_H

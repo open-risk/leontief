@@ -15,34 +15,12 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "include/leontief.h"
+
 #include <catch2/catch_test_macros.hpp>
-#include <iostream>
-#include <filesystem>
 #include <fstream>
 
+TEST_CASE("Test loading Leontief classes", "[environment]") {
 
-TEST_CASE("Test reading EXIOBASE data", "[data-io]") {
 
-    std::string filename = "../data/IOT_2022_pxp/A_Clean.txt";
-    const char *cstr = filename.c_str();
-
-    if (std::filesystem::exists(filename)) {
-        std::cout << "Ok" << std::endl;
-
-        std::ifstream t(cstr);
-        std::stringstream buffer;
-
-        try {
-            buffer << t.rdbuf();
-            std::cout << "Ok++" << std::endl;
-        } catch (...) {
-            std::cout << "ERROR: Problem loading IO data" << std::endl;
-            abort();
-        };
-
-    }
-    else {
-        std::cout << "ERROR: Input File does not exist" << std::endl;
-        abort();
-    }
 }
