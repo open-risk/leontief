@@ -18,8 +18,6 @@
 #ifndef LEONTIEF_OPTIONS_H
 #define LEONTIEF_OPTIONS_H
 
-#pragma once
-
 #include <algorithm>
 #include <numeric>
 #include <random>

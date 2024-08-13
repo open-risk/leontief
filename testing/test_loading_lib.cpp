@@ -19,10 +19,19 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <fstream>
+#include "core/options.h"
+#include "core/io_system.h"
+#include "utils/utils.h"
 
-// TODO
 
-TEST_CASE("Test loading Leontief classes", "[environment]") {
+TEST_CASE("Test loading IO/Leontief classes", "[environment]") {
 
+    leontief::Mat_t my_mat;
+    IOSystem MyIO = IOSystem();
+    int size = 10;
+    float fraction = 0.25;
+    Eigen::MatrixXd A0 = RandomSymmetricMatrix(size, fraction);
+    std::cout << A0 << std::endl;
+    Eigen::MatrixXd result = leontief::RAS(A0);
 
 }

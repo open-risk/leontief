@@ -18,7 +18,7 @@
 #ifndef LEONTIEF_IO_SYSTEM_H
 #define LEONTIEF_IO_SYSTEM_H
 
-#include <Eigen/Dense>
+#include <Eigen/Core>
 
 #pragma once
 
@@ -64,15 +64,15 @@ public:
     void update(const Eigen::VectorXd& y);
 
     /**
-    * Update the estimated state based on measured valuessy
+    * Update the estimated state based on measured values
     */
-    void update(const Eigen::VectorXd& y, double dt, const Eigen::MatrixXd A);
+    void update(const Eigen::VectorXd& y, double dt, Eigen::MatrixXd A);
 
     /**
     * Return the current state and time.
     */
     Eigen::VectorXd state() { return x_hat; };
-    double time() { return t; };
+    [[nodiscard]] double current_time() const { return t; };
 
 private:
 
@@ -80,16 +80,16 @@ private:
     Eigen::MatrixXd A, C, Q, R, P, K, P0;
 
     // System dimensions
-    int m, n;
+    int m{}, n{};
 
     // Initial and current time
-    double t0, t;
+    double t0{}, t{};
 
     // Discrete time step
-    double dt;
+    double dt{};
 
     // Is the system initialized?
-    bool initialized;
+    bool initialized{};
 
     // n-size identity
     Eigen::MatrixXd I;
@@ -97,4 +97,28 @@ private:
     // Estimated states
     Eigen::VectorXd x_hat, x_hat_new;
 };
+
+IOSystem::IOSystem(double dt, const Eigen::MatrixXd &A, const Eigen::MatrixXd &C, const Eigen::MatrixXd &Q,
+                   const Eigen::MatrixXd &R, const Eigen::MatrixXd &P) {
+
+}
+
+IOSystem::IOSystem() = default;
+
+void IOSystem::init() {
+
+}
+
+void IOSystem::init(double t0, const Eigen::VectorXd &x0) {
+
+}
+
+void IOSystem::update(const Eigen::VectorXd &y) {
+
+}
+
+void IOSystem::update(const Eigen::VectorXd &y, double dt, const Eigen::MatrixXd A) {
+
+}
+
 #endif //LEONTIEF_IO_SYSTEM_H

@@ -20,9 +20,10 @@
 #include <Poco/Path.h>
 #include <iostream>
 
-TEST_CASE("Runtime environment is ready", "[environment]") {
+TEST_CASE("Runtime OS/Poco C++ Environment is ready", "[environment]") {
 
-    // Use SANITY_CHECK = 1 as a compilation parameter to check the basic sanity of the leontief environment. This test will simply fetch and print the environment variables
+    // Use SANITY_CHECK = 1 as a compilation parameter to check the basic sanity of the Leontief environment.
+    // This test will simply fetch and print some relevant environment variables
 
     std::cout << "------------------------------------" << std::endl;
     std::cout << "OS Name: " << Poco::Environment::osName() << std::endl

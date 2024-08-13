@@ -20,7 +20,7 @@
 #include <fstream>
 #include <Eigen/Dense>
 
-TEST_CASE("Test Eigen matrices setup", "[eigen]") {
+TEST_CASE("Test Eigen setup", "[environment]") {
 
     Eigen::MatrixXd A(9800, 9800);
     A.setRandom();

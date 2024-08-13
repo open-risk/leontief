@@ -75,11 +75,11 @@ set(UTIL_FILES
 
 set(TEST_FILES
         testing/test_sanity.cpp
-        testing/test_read_exiobase.cpp
         testing/test_eigen_setup.cpp
+        testing/test_loading_lib.cpp
+        testing/test_read_exiobase.cpp
         testing/test_load_a_matrix.cpp
         testing/test_leontief_inverse.cpp
-        testing/test_loading_lib.cpp
         testing/test_ras.cpp
 )
 
