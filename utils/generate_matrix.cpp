@@ -44,3 +44,27 @@ Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
     }
     return result;
 }
+
+Eigen::MatrixXd RandomAggregationMatrix(int Size1, int Size2) {
+
+    Eigen::MatrixXd result;
+    srand((unsigned int) time(0));
+    result.resize(Size1, Size1);
+
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
+//    std::uniform_int_distribution<> dis(0, std::distance(start, end) - 1);
+
+    for (Eigen::Index i = 0; i < Size1; i++) {
+        for (Eigen::Index j = 0; j < Size2; j++) {
+            double draw = distribution(generator);
+            if (draw < 0.5) {
+                result(i, j) = 0;
+            }
+            else {
+                result(i, j) = 1;
+            }
+        }
+    }
+    return result;
+}

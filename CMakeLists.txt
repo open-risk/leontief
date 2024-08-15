@@ -81,6 +81,7 @@ set(TEST_FILES
         testing/test_load_a_matrix.cpp
         testing/test_leontief_inverse.cpp
         testing/test_ras.cpp
+        testing/test_agg.cpp
         testing/test_disagg.cpp
 )
 
