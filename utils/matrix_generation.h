@@ -15,7 +15,12 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "utils.h"
+#include <Eigen/Core>
+#include <unsupported/Eigen/CXX11/Tensor>
+
+Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction);
+
+Eigen::MatrixXd RandomAggregationatrix(int Size1, int Size2);
 
 using namespace std;
 using namespace Eigen;
@@ -29,15 +34,14 @@ Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
     result.setRandom();
 
     std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0,1.0);
+    std::uniform_real_distribution<double> distribution(0.0, 1.0);
 
     for (Eigen::Index i = 0; i < Size; i++) {
         for (Eigen::Index j = 0; j < Size; j++) {
             double draw = distribution(generator);
             if (draw < Fraction) {
                 result(i, j) = 0.0;
-            }
-            else {
+            } else {
                 result(i, j) = std::abs(result(i, j));
             }
         }
@@ -47,24 +51,25 @@ Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
 
 Eigen::MatrixXd RandomAggregationMatrix(int Size1, int Size2) {
 
+    /** Aggregation method / data
+     *
+     * Standard Linear Aggregation matrix S
+     *
+     */
+
     Eigen::MatrixXd result;
-    srand((unsigned int) time(0));
-    result.resize(Size1, Size1);
+    result.resize(Size1, Size2);
+    result.setZero();
 
-    std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0,1.0);
-//    std::uniform_int_distribution<> dis(0, std::distance(start, end) - 1);
+    std::vector<int> in(Size2), out;
+    std::iota(in.begin(), in.end(), 1);
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(in.begin(), in.end(), g);
 
-    for (Eigen::Index i = 0; i < Size1; i++) {
-        for (Eigen::Index j = 0; j < Size2; j++) {
-            double draw = distribution(generator);
-            if (draw < 0.5) {
-                result(i, j) = 0;
-            }
-            else {
-                result(i, j) = 1;
-            }
-        }
+    for (int j = 0; j < Size2; j++) {
+        result(j % Size1, in[j] - 1) = 1;
     }
+
     return result;
 }

@@ -56,20 +56,15 @@ find_package(OpenMP)
 
 include_directories(.)
 
-# TODO
+
 set(CORE_FILES
         core/leontief.h
         core/options.h
         core/io_system.h
 )
 
-# TODO
-set(ALGORITHM_FILES
-        )
-
-# TODO
 set(UTIL_FILES
-        utils/generate_matrix.cpp
+        utils/matrix_generation.h
         utils/utils.h
 )
 
@@ -91,15 +86,15 @@ set(SOURCE_FILES
         ${UTIL_FILES})
 
 
-# DEBUG MODE EXECUTABLE
-add_executable(leontief.dbg examples/benchmark.cpp ${SOURCE_FILES})
+# DEBUG MODE EXAMPLE
+add_executable(leontief.dbg examples/aggregation_roundtrip.cpp ${SOURCE_FILES})
 target_include_directories(leontief.dbg PRIVATE ${Catch2_INCLUDE_DIRS})
 target_include_directories(leontief.dbg PRIVATE ${Eigen3_INCLUDE_DIRS})
 target_compile_definitions(leontief.dbg PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(leontief.dbg Catch2::Catch2WithMain Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-# PRODUCTION MODE EXECUTABLE
-add_executable(leontief.tty examples/benchmark.cpp ${SOURCE_FILES})
+# PRODUCTION MODE EXAMPLE
+add_executable(leontief.tty examples/inversion_benchmark.cpp ${SOURCE_FILES})
 target_include_directories(leontief.tty PRIVATE ${Eigen3_INCLUDE_DIRS})
 add_compile_options("-O3")
 target_compile_definitions(leontief.tty PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})

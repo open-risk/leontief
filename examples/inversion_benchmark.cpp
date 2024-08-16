@@ -16,25 +16,10 @@
 */
 
 #include <iostream>
-#include <chrono>
 #include <fstream>
 #include <Eigen/Core>
+#include "utils/utils.h"
 
-std::string get_current_time() {
-    time_t t = time(nullptr);
-    struct tm *now = localtime(&t);
-    std::stringstream current_time;
-
-    current_time << (now->tm_year + 1900) << '-'
-                 << (now->tm_mon + 1) << '-'
-                 << now->tm_mday << '-'
-                 << now->tm_hour << '-'
-                 << now->tm_min << '-'
-                 << now->tm_sec;
-
-    std::string c_time = current_time.str();
-    return c_time;
-}
 
 int main(int num_args, char **arg_strings) {
 

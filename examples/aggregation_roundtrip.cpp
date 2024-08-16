@@ -15,43 +15,31 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <catch2/catch_test_macros.hpp>
-#include <catch2/matchers/catch_matchers_floating_point.hpp>
-#include <filesystem>
-#include <fstream>
-#include <algorithm>
-#include <random>
-#include <Eigen/Dense>
 #include <iostream>
+#include <fstream>
 #include "utils/matrix_generation.h"
 
-TEST_CASE("Test Aggregation Algorithm", "[algorithms]") {
+int main(int num_args, char **arg_strings) {
 
-    int m = 20;
-    int n = 5;
-    std::vector<int> in(m), out;
-    std::iota(in.begin(), in.end(), 1);
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(in.begin(), in.end(), g);
+    int m = 20; //  cols
+    int n = 5; // rows
+
+    Eigen::MatrixXd S = RandomAggregationMatrix(n, m);
+    std::cout << "Aggregation Matrix: " << S << std::endl;
 
     float fraction = 0.25;
     Eigen::MatrixXd A0 = RandomSymmetricMatrix(m, fraction);
 
-    Eigen::MatrixXd S(n, m);
-    S.setZero();
-
-    for(int j=0; j<m; j++) {
-      S(j % n, in[j] - 1) = 1;
-    }
-
     Eigen::MatrixXd  A(n, n);
-
     A = S * A0 * S.transpose();
+    std::cout << A << std::endl;
 
     std::cout << "Row Sum Micro:" << S * A0.colwise().sum().transpose() << std::endl;
     std::cout << "Row Sum Macro:" << A.colwise().sum() << std::endl;
     std::cout << "Col Sum Micro:" << A0.rowwise().sum().transpose() * S.transpose() << std::endl;
     std::cout << "Col Sum Macro:" << A.rowwise().sum().transpose() << std::endl;
 
+    return 0;
 }
+
+
