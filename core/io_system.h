@@ -28,19 +28,18 @@ public:
 
     /**
     * Create an Input-Output system with the specified matrices.
-    *   A - System dynamics matrix
-    *   C - Output matrix
-    *   Q - Process noise covariance
-    *   R - Measurement noise covariance
-    *   P - Estimate error covariance
+    *   Z - Flow matrix
+    *   x - Industry output vector
+    *   A - Coefficients matrix
+    *   L - Leontief matrix
+    *   y - Final demand vector
     */
     IOSystem(
-            double dt,
-            const Eigen::MatrixXd& A,
-            const Eigen::MatrixXd& C,
-            const Eigen::MatrixXd& Q,
-            const Eigen::MatrixXd& R,
-            const Eigen::MatrixXd& P
+            const Eigen::MatrixXd &Z,
+            const Eigen::MatrixXd &Y,
+            const Eigen::MatrixXd &A,
+            const Eigen::MatrixXd &x,
+            const Eigen::MatrixXd &L
     );
 
     /**
@@ -56,50 +55,36 @@ public:
     /**
     * Initialize the filter with a guess for initial states.
     */
-    void init(double t0, const Eigen::VectorXd& x0);
+    void init(double t0, const Eigen::VectorXd &x0);
 
     /**
     * Update the estimated state based on measured values.
     */
-    void update(const Eigen::VectorXd& y);
+    void update(const Eigen::VectorXd &y);
 
     /**
     * Update the estimated state based on measured values
     */
-    void update(const Eigen::VectorXd& y, double dt, Eigen::MatrixXd A);
-
-    /**
-    * Return the current state and time.
-    */
-    Eigen::VectorXd state() { return x_hat; };
-    [[nodiscard]] double current_time() const { return t; };
+    void update(const Eigen::VectorXd &y, double dt, Eigen::MatrixXd A);
 
 private:
 
-    // Matrices for computation
-    Eigen::MatrixXd A, C, Q, R, P, K, P0;
+    // Matrices and vectors for computation
+    Eigen::MatrixXd A, Z, Q, R, P, K, P0;
 
-    // System dimensions
-    int m{}, n{};
-
-    // Initial and current time
-    double t0{}, t{};
-
-    // Discrete time step
-    double dt{};
+    // System dimensions (for Symmetric IO should be identical)
+    int n{}; // rows
+    int m{}; // columns
 
     // Is the system initialized?
     bool initialized{};
 
-    // n-size identity
+    // n x n -sized identity
     Eigen::MatrixXd I;
 
-    // Estimated states
-    Eigen::VectorXd x_hat, x_hat_new;
 };
 
-IOSystem::IOSystem(double dt, const Eigen::MatrixXd &A, const Eigen::MatrixXd &C, const Eigen::MatrixXd &Q,
-                   const Eigen::MatrixXd &R, const Eigen::MatrixXd &P) {
+IOSystem::IOSystem(const Eigen::MatrixXd &A, const Eigen::MatrixXd &Z, const Eigen::MatrixXd &x, const Eigen::MatrixXd &y, const Eigen::MatrixXd &L) {
 
 }
 

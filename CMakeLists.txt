@@ -58,9 +58,10 @@ include_directories(.)
 
 
 set(CORE_FILES
-        core/leontief.h
         core/options.h
         core/io_system.h
+        core/sut_system.h
+        core/leontief.h
 )
 
 set(UTIL_FILES
@@ -78,6 +79,7 @@ set(TEST_FILES
         testing/test_ras.cpp
         testing/test_agg.cpp
         testing/test_disagg.cpp
+        testing/test_sut.cpp
 )
 
 set(SOURCE_FILES
