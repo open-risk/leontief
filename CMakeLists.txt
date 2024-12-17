@@ -16,7 +16,7 @@
 
 # Project metadata
 set(PROJECT_VENDOR "Open Risk")
-set(PROJECT_CONTACT "info@openrisk.eu")
+set(PROJECT_CONTACT "info@openriskmanagement.com")
 set(PROJECT_URL "https://github.com/open-risk/leontief")
 set(PROJECT_DESCRIPTION "Leontief is a C++ package to work with Input-Output models")
 

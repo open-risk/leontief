@@ -21,9 +21,9 @@
 #include <fstream>
 #include <Eigen/Dense>
 #include "utils/utils.h"
+#include "utils/matrix_generation.h"
 
 TEST_CASE("Test RAS Algorithm", "[algorithms]") {
-
     int size = 10;
     float fraction = 0.25;
     Eigen::MatrixXd A0 = RandomSymmetricMatrix(size, fraction);
@@ -38,7 +38,6 @@ TEST_CASE("Test RAS Algorithm", "[algorithms]") {
     double norm = 10.0;
 
     while (norm > 0.001) {
-
         row_sum = A.colwise().sum();
         column_sum = A.rowwise().sum().transpose();
         delta = column_sum - row_sum;

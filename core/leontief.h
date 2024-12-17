@@ -23,11 +23,9 @@
 #include <iostream>
 
 namespace leontief {
+    //// RAS algorithm
 
-//// RAS algorithm
-
-    Eigen::MatrixXd RAS(Eigen::MatrixXd &A0) {
-
+    inline Eigen::MatrixXd RAS(Eigen::MatrixXd &A0) {
         int size = A0.cols();
         Eigen::MatrixXd A = A0;
         Eigen::ArrayXd column_sum;
@@ -43,7 +41,6 @@ namespace leontief {
         double norm = 10.0;
 
         while (norm > 0.001) {
-
             row_sum = A.colwise().sum();
             column_sum = A.rowwise().sum().transpose();
             delta = column_sum - row_sum;
@@ -65,14 +62,10 @@ namespace leontief {
                     A(i, max_index) = A(i, max_index) / scale;
                 }
             }
-
         }
 
         return A;
-
     }
-
 }
-
 
 #endif //LEONTIEF_LEONTIEF_H

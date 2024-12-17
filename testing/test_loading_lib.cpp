@@ -22,10 +22,10 @@
 #include "core/options.h"
 #include "core/io_system.h"
 #include "utils/utils.h"
+#include "utils/matrix_generation.h"
 
 
 TEST_CASE("Test loading IO/Leontief classes", "[environment]") {
-
     leontief::Mat_t my_mat;
     IOSystem MyIO = IOSystem();
     int size = 10;
@@ -33,5 +33,4 @@ TEST_CASE("Test loading IO/Leontief classes", "[environment]") {
     Eigen::MatrixXd A0 = RandomSymmetricMatrix(size, fraction);
     std::cout << A0 << std::endl;
     Eigen::MatrixXd result = leontief::RAS(A0);
-
 }

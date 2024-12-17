@@ -43,7 +43,7 @@ public:
     );
 
     /**
-    * Create a blank estimator.
+    * Create a blank system.
     */
     IOSystem();
 
@@ -53,17 +53,17 @@ public:
     void init();
 
     /**
-    * Initialize the filter with a guess for initial states.
+    * Initialize with data
     */
     void init(double t0, const Eigen::VectorXd &x0);
 
     /**
-    * Update the estimated state based on measured values.
+    * Update with data
     */
     void update(const Eigen::VectorXd &y);
 
     /**
-    * Update the estimated state based on measured values
+    * Update
     */
     void update(const Eigen::VectorXd &y, double dt, Eigen::MatrixXd A);
 

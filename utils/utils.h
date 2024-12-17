@@ -24,10 +24,7 @@
 #include <chrono>
 
 
-
-std::string get_current_time();
-
-std::string get_current_time() {
+inline std::string get_current_time() {
     time_t t = time(nullptr);
     struct tm *now = localtime(&t);
     std::stringstream current_time;

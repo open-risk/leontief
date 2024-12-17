@@ -27,13 +27,16 @@ class SUTSystem {
 public:
 
     /**
-    * Create an Supply-Use system with the specified matrices.
+    * Create a Supply-Use system with the specified matrices.
     *   S - Supply matrix
     *   U - Use matrix
     */
     SUTSystem(
             const Eigen::MatrixXd &S,
-            const Eigen::MatrixXd &U
+            const Eigen::MatrixXd &U,
+            const Eigen::MatrixXd &W,
+            const Eigen::MatrixXd &Qu,
+            const Eigen::MatrixXd &Qd
     );
 
     /**
@@ -54,8 +57,9 @@ private:
 
     // System dimensions
 
-    int n{}; // rows
-    int m{}; // columns
+    int N{}; // total size
+    int n{}; // sectors
+    int m{}; // products
 
     // Is the system initialized?
     bool initialized{};

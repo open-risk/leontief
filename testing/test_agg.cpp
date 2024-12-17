@@ -26,7 +26,6 @@
 #include "utils/matrix_generation.h"
 
 TEST_CASE("Test Aggregation Algorithm", "[algorithms]") {
-
     int m = 20;
     int n = 5;
     std::vector<int> in(m), out;
@@ -41,11 +40,11 @@ TEST_CASE("Test Aggregation Algorithm", "[algorithms]") {
     Eigen::MatrixXd S(n, m);
     S.setZero();
 
-    for(int j=0; j<m; j++) {
-      S(j % n, in[j] - 1) = 1;
+    for (int j = 0; j < m; j++) {
+        S(j % n, in[j] - 1) = 1;
     }
 
-    Eigen::MatrixXd  A(n, n);
+    Eigen::MatrixXd A(n, n);
 
     A = S * A0 * S.transpose();
 
@@ -53,5 +52,4 @@ TEST_CASE("Test Aggregation Algorithm", "[algorithms]") {
     std::cout << "Row Sum Macro:" << A.colwise().sum() << std::endl;
     std::cout << "Col Sum Micro:" << A0.rowwise().sum().transpose() * S.transpose() << std::endl;
     std::cout << "Col Sum Macro:" << A.rowwise().sum().transpose() << std::endl;
-
 }

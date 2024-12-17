@@ -22,7 +22,6 @@
 
 
 TEST_CASE("Test loading EXIOBASE A matrix", "[data-io]") {
-
     std::ifstream input_file("../data/IOT_2022_pxp/A_Clean.txt");
     std::string data_row;
     int row_index = 0;

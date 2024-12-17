@@ -22,7 +22,6 @@
 
 
 TEST_CASE("Test reading EXIOBASE data", "[data-io]") {
-
     std::string filename = "../data/IOT_2022_pxp/A_Clean.txt";
     const char *cstr = filename.c_str();
 
@@ -39,9 +38,7 @@ TEST_CASE("Test reading EXIOBASE data", "[data-io]") {
             std::cout << "ERROR: Problem loading IO data" << std::endl;
             abort();
         };
-
-    }
-    else {
+    } else {
         std::cout << "ERROR: Input File does not exist" << std::endl;
         abort();
     }

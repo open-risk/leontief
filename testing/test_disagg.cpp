@@ -21,14 +21,14 @@
 #include <fstream>
 #include <Eigen/Dense>
 #include "utils/utils.h"
+#include "utils/matrix_generation.h"
 
 TEST_CASE("Test Disaggregation Algorithm", "[algorithms]") {
+    constexpr int size = 5;
+    constexpr float fraction = 0.25;
+    const Eigen::MatrixXd A0 = RandomSymmetricMatrix(size, fraction);
 
-    int size = 5;
-    float fraction = 0.25;
-    Eigen::MatrixXd A0 = RandomSymmetricMatrix(size, fraction);
-
-    Eigen::MatrixXd  A(10, 10);
+    Eigen::MatrixXd A(10, 10);
     A.setZero();
 
     /** Disaggregation method / data
@@ -40,7 +40,6 @@ TEST_CASE("Test Disaggregation Algorithm", "[algorithms]") {
     int J = 4;
     int inserts = 5;
 
-    A.block(0,0,size,size) = A0;
+    A.block(0, 0, size, size) = A0;
     std::cout << A << std::endl;
-
 }

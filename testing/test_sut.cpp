@@ -25,9 +25,9 @@
 #include <iostream>
 #include "utils/matrix_generation.h"
 
-TEST_CASE("Test SUT procedure", "[io]") {
+TEST_CASE("Test SUT procedure", "[sut]") {
 
-    int m = 20;
-    int n = 5;
+    int m = 3;
+    int n = 3;
 
 }
