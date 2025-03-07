@@ -15,22 +15,31 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "core/leontief.h"
-
 #include <catch2/catch_test_macros.hpp>
+#include <iostream>
+#include <filesystem>
 #include <fstream>
-#include "core/options.h"
-#include "core/io_system.h"
-#include "utils/utils.h"
-#include "utils/matrix_generation.h"
 
 
-TEST_CASE("Test loading IO/Leontief classes", "[environment]") {
-    leontief::Mat_t my_mat;
-    IOSystem MyIO = IOSystem();
-    int size = 10;
-    float fraction = 0.25;
-    Eigen::MatrixXd A0 = RandomSymmetricMatrix(size, fraction);
-    std::cout << A0 << std::endl;
-    Eigen::MatrixXd result = leontief::RAS(A0);
+TEST_CASE("Test reading FIGARO data", "[data-io]") {
+    std::string filename = "../data/flatfile_eu-ic-supply_24ed_2022.csv";
+    const char *cstr = filename.c_str();
+
+    if (std::filesystem::exists(filename)) {
+        std::cout << "Ok" << std::endl;
+
+        std::ifstream t(cstr);
+        std::stringstream buffer;
+
+        try {
+            buffer << t.rdbuf();
+            std::cout << "Ok++" << std::endl;
+        } catch (...) {
+            std::cout << "ERROR: Problem loading FIGARO data" << std::endl;
+            abort();
+        };
+    } else {
+        std::cout << "ERROR: FIGARO Input File does not exist" << std::endl;
+        abort();
+    }
 }

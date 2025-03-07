@@ -67,6 +67,7 @@ set(CORE_FILES
 set(UTIL_FILES
         utils/matrix_generation.h
         utils/utils.h
+        utils/csv.h
 )
 
 set(TEST_FILES
@@ -74,7 +75,9 @@ set(TEST_FILES
         testing/test_eigen_setup.cpp
         testing/test_loading_lib.cpp
         testing/test_read_exiobase.cpp
-        testing/test_load_a_matrix.cpp
+        testing/test_read_figaro.cpp
+        testing/test_load_exiobase_a_matrix.cpp
+        testing/test_load_figaro_supply_matrix.cpp
         testing/test_leontief_inverse.cpp
         testing/test_ras.cpp
         testing/test_agg.cpp

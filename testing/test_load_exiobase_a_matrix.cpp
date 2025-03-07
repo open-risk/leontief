@@ -1,6 +1,6 @@
 /*
 * This file is part of the Leontief distribution (https://github.com/open-risk/leontief).
-* Copyright (c) 2024 Open Risk (https://www.openriskmanagement.com)
+* Copyright (c) 2024 - 2025 Open Risk (https://www.openriskmanagement.com)
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <Eigen/Dense>
 
 
-TEST_CASE("Test loading EXIOBASE A matrix", "[data-io]") {
+TEST_CASE("Test loading EXIOBASE A matrix (TSV Format)", "[data-io]") {
     std::ifstream input_file("../data/IOT_2022_pxp/A_Clean.txt");
     std::string data_row;
     int row_index = 0;
