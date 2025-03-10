@@ -77,7 +77,8 @@ set(TEST_FILES
         testing/test_read_exiobase.cpp
         testing/test_read_figaro.cpp
         testing/test_load_exiobase_a_matrix.cpp
-        testing/test_load_figaro_supply_matrix.cpp
+        testing/test_load_figaro_supply_csv_flat.cpp
+        testing/test_load_figaro_supply_csv_matrix.cpp
         testing/test_leontief_inverse.cpp
         testing/test_ras.cpp
         testing/test_agg.cpp
@@ -98,12 +99,19 @@ target_include_directories(leontief.dbg PRIVATE ${Eigen3_INCLUDE_DIRS})
 target_compile_definitions(leontief.dbg PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(leontief.dbg Catch2::Catch2WithMain Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-# PRODUCTION MODE EXAMPLE
+# EXAMPLE 1
 add_executable(leontief.tty examples/inversion_benchmark.cpp ${SOURCE_FILES})
 target_include_directories(leontief.tty PRIVATE ${Eigen3_INCLUDE_DIRS})
 add_compile_options("-O3")
 target_compile_definitions(leontief.tty PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(leontief.tty Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+
+# EXAMPLE 2
+add_executable(example2 examples/aggregate_use_table.cpp ${SOURCE_FILES})
+target_include_directories(example2 PRIVATE ${Eigen3_INCLUDE_DIRS})
+add_compile_options("-O3")
+target_compile_definitions(example2 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+target_link_libraries(example2 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # CATCH2 TESTING
 include(Catch)

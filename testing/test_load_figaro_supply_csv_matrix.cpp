@@ -20,29 +20,31 @@
 #include <iostream>
 #include <fstream>
 #include <Eigen/Dense>
-# include "utils/csv.h"
+#include "utils/csv.h"
 
 using namespace csv;
 
-TEST_CASE("Test loading FIGARO Supply matrix (CSV Format)", "[data-io]") {
+TEST_CASE("Test loading FIGARO Supply matrix (Matrix Format)", "[data-io]") {
 
-    // TOTAL ROWS = 2944 * 2944;
-
-    int MAX = 2944;
-
+    constexpr int MAX = 2944; // Matrix dimension
     Eigen::MatrixXd S(MAX, MAX);
 
-    CSVReader reader("../data/flatfile_eu-ic-supply_24ed_2022.csv");
+    CSVReader reader("../data/matrix_eu-ic-supply_24ed_2022.csv");
 
     double value = 0;
-    int index  = 0;
-    int row_index, col_index;
-    for (auto& row: reader) {
-        value = row["obsValue"].get<double>();
-        col_index = index % MAX;
-        row_index = (int) index / MAX;
-        S(row_index, col_index) = value;
-        index++;
-        // std::cout << index << " " << row_index  << " " << col_index << " " << value << std::endl;
+    std::string label;
+    int i = 0;
+    for (auto &row: reader) {
+        for (int j = 0; j < MAX+1; j++) {
+            if (i > 0 && j > 0) {
+                value = row[j].get<double>();
+                S(i-1, j-1) = value;
+                // std::cout << i << " " << j << " " << value << std::endl;
+            } else {
+                label = row[j].get_sv();
+                // std::cout << i << " " << j << " " << label << std::endl;
+            }
+        }
+        i++;
     }
 }
