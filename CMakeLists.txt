@@ -65,6 +65,7 @@ set(CORE_FILES
 )
 
 set(UTIL_FILES
+        utils/compactify_use_matrix.h
         utils/matrix_generation.h
         utils/utils.h
         utils/csv.h
@@ -84,6 +85,7 @@ set(TEST_FILES
         testing/test_agg.cpp
         testing/test_disagg.cpp
         testing/test_sut.cpp
+        testing/test_use_matrix_compactify.cpp
 )
 
 set(SOURCE_FILES
@@ -107,11 +109,19 @@ target_compile_definitions(leontief.tty PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION
 target_link_libraries(leontief.tty Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # EXAMPLE 2
-add_executable(example2 examples/aggregate_use_table.cpp ${SOURCE_FILES})
+add_executable(example2 examples/compactify_use_table.cpp ${SOURCE_FILES})
 target_include_directories(example2 PRIVATE ${Eigen3_INCLUDE_DIRS})
 add_compile_options("-O3")
 target_compile_definitions(example2 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(example2 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+
+# EXAMPLE 3
+add_executable(example3 examples/construct_transition_matrix.cpp ${SOURCE_FILES})
+target_include_directories(example3 PRIVATE ${Eigen3_INCLUDE_DIRS})
+add_compile_options("-O3")
+target_compile_definitions(example3 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+target_link_libraries(example3 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+
 
 # CATCH2 TESTING
 include(Catch)

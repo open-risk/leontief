@@ -26,6 +26,40 @@
 using namespace std;
 using namespace Eigen;
 
+/*
+ * Generate a test Use matrix with an symmetric IO part and a desired number of
+ * final demand columns and value added rows
+ *
+ */
+inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA) {
+
+    Eigen::MatrixXd result;
+
+    const int SizeX = IO + FD;
+    const int SizeY = IO + VA;
+
+    result.resize(SizeY, SizeX);
+
+    for (int i=0; i<SizeY; i++) {
+        for (int j=0; j<SizeX; j++) {
+            if (i >= IO && j < IO) {
+                result(i, j) =2;
+            }
+            else if (i < IO && j >= IO) {
+                result(i, j) =3;
+            }
+            else if (i >= IO && j >= IO) {
+                result(i, j) =0;
+            }
+            else {
+                result(i, j) = 1;
+            }
+        }
+    }
+
+    return result;
+}
+
 
 inline Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
 

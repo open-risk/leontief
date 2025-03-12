@@ -19,10 +19,16 @@
 #include <fstream>
 #include <Eigen/Dense>
 #include "utils/csv.h"
+#include "utils/compactify_use_matrix.h"
 
 using namespace csv;
 
+/*
+ *  Compact the Final Demand and Value Added columns / rows of a Use matrix into one column and row respectively
+ */
+
 int main(int num_args, char **arg_strings) {
+
 
     constexpr int MAX_ROW = 2950; // Matrix row size
     constexpr int MAX_COL = 3174; // Matrix col size
@@ -49,56 +55,20 @@ int main(int num_args, char **arg_strings) {
         // if (i > 1) break;
     }
 
+    // Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+    // std::cout << S.row(0).format(CleanFmt) << std::endl;
+
     std::cout << "FIGARO Use Matrix of Total Size: " << U.size() << std::endl;
     std::cout << "FIGARO Use Matrix with Rows: " << U.rows() << std::endl;
     std::cout << "FIGARO Use Matrix with Columns: " << U.cols() << std::endl;
 
-    // STEP 1
-    // Extract final demand block (230 last columns) into matrix UFD
-    // Block of size (p,q), starting at (i,j)
     constexpr int FD = 230;
-    Eigen::Map<Eigen::MatrixXd> UFD(U.block<MAX_ROW, FD>(0, MAX_COL - FD).data(), MAX_ROW, FD);
-
-    // Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
-    // std::cout << S.row(0).format(CleanFmt) << std::endl;
-    // std::cout << UFD.row(0).format(CleanFmt) << std::endl;
-
-    // STEP 2
-    // Horizontal Sum (Scan) UFD into column vector FD (One Per Region!)
-    const auto tmp = UFD.rowwise().sum();
-    // Block of size (p,q), starting at (i,j) 	matrix.block(i, j, p, q);     matrix.block<p, q>(i, j);
-    U.block(0, MAX_COL - FD + 1, MAX_ROW, 1) = tmp;
-
-    // std::cout << V << std::endl;
-    // std::cout << S.col(MAX_COL - FD + 1) << std::endl;
-
-    // STEP 3
-    // Remove block UFD from U -> U'
-    // Attach column vector FD to U'
-    Eigen::Map<Eigen::MatrixXd> U1(U.block<MAX_ROW, MAX_COL - FD + 1>(0, 0).data(), MAX_ROW, MAX_COL - FD + 1);
-
-
-    constexpr int NEW_COL = MAX_COL - FD + 1; // New Matrix col size
-
-    // STEP 4
-    // Extract value added bloc (6 last rows) from U' into matrix UVA
-    // Block of size (p,q), starting at (i,j) 	matrix.block(i, j, p, q);     matrix.block<p, q>(i, j);
     constexpr int VA = 6;
-    Eigen::Map<Eigen::MatrixXd> UVA(U1.block<VA, NEW_COL>(MAX_ROW - VA, 0).data(), VA, NEW_COL);
+    Eigen::MatrixXd U2 = CompactifyUseMatrix(U, FD, VA);
 
-    // STEP 5
-    // Vertical Sum UvA into row vector VA
-    constexpr int NEW_ROW = MAX_ROW - VA + 1;
-    const auto tmp1 = UVA.colwise().sum();
-    U1.block(NEW_ROW, 0, 1, NEW_COL) = tmp1;
-
-    // STEP 6
-    // Attach row vector VA to U' -> U''
-    Eigen::Map<Eigen::MatrixXd> U2(U1.block<NEW_ROW, NEW_COL>(0, 0).data(), NEW_ROW, NEW_COL);
-
-    std::cout << "FIGARO Use Matrix of Total Size: " << U2.size() << std::endl;
-    std::cout << "FIGARO Use Matrix with Rows: " << U2.rows() << std::endl;
-    std::cout << "FIGARO Use Matrix with Columns: " << U2.cols() << std::endl;
+    std::cout << "Compactified Use Matrix of Total Size: " << U2.size() << std::endl;
+    std::cout << "Compactified Use Matrix with Rows: " << U2.rows() << std::endl;
+    std::cout << "Compactified Use Matrix with Columns: " << U2.cols() << std::endl;
 
     const static Eigen::IOFormat CSVFormat(Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", "\n");
     std::ofstream file("test.csv");

@@ -21,7 +21,7 @@
 #include <fstream>
 #include <Eigen/Dense>
 
-TEST_CASE("Test inverting EXIOBASE A matrix", "[io]") {
+TEST_CASE("Test inverting EXIOBASE A matrix", "[algorithms]") {
     std::ifstream input_file("../data/IOT_2022_pxp/A_Clean.txt");
     std::string data_row;
     int row_index = 0;
