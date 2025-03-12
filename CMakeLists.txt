@@ -67,6 +67,7 @@ set(CORE_FILES
 set(UTIL_FILES
         utils/compactify_use_matrix.h
         utils/matrix_generation.h
+        utils/check_norms.h
         utils/utils.h
         utils/csv.h
 )

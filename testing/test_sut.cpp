@@ -23,11 +23,23 @@
 #include <random>
 #include <Eigen/Dense>
 #include <iostream>
+#include "core/sut_system.h"
 #include "utils/matrix_generation.h"
+#include "utils/check_norms.h"
 
-TEST_CASE("Test SUT procedure", "[sut]") {
+TEST_CASE("Test SUT system creation", "[sut]") {
 
-    int m = 3;
-    int n = 3;
+    int IO = 10;
+    int FD = 1;
+    int VA = 1;
+
+    Eigen::MatrixXd S = TestSupplyMatrix(IO);
+    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA);
+    SUTSystem testSUT;
+    testSUT.CreateTransactionsMatrix(S, U);
+    testSUT.CreateUpstreamProbabilities(IO, IO);
+    testSUT.CreateDownstreamProbabilities();
+
+    REQUIRE(TestColumnNorm(testSUT.getQu()) == 1);
 
 }

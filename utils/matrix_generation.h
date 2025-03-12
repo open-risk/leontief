@@ -26,13 +26,19 @@
 using namespace std;
 using namespace Eigen;
 
+inline Eigen::MatrixXd TestSupplyMatrix(const int IO) {
+    Eigen::MatrixXd result;
+    result.resize(IO, IO);
+    result.setOnes();
+    return result;
+}
+
 /*
  * Generate a test Use matrix with an symmetric IO part and a desired number of
  * final demand columns and value added rows
  *
  */
 inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA) {
-
     Eigen::MatrixXd result;
 
     const int SizeX = IO + FD;
@@ -40,18 +46,15 @@ inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA) {
 
     result.resize(SizeY, SizeX);
 
-    for (int i=0; i<SizeY; i++) {
-        for (int j=0; j<SizeX; j++) {
+    for (int i = 0; i < SizeY; i++) {
+        for (int j = 0; j < SizeX; j++) {
             if (i >= IO && j < IO) {
-                result(i, j) =2;
-            }
-            else if (i < IO && j >= IO) {
-                result(i, j) =3;
-            }
-            else if (i >= IO && j >= IO) {
-                result(i, j) =0;
-            }
-            else {
+                result(i, j) = 2;
+            } else if (i < IO && j >= IO) {
+                result(i, j) = 3;
+            } else if (i >= IO && j >= IO) {
+                result(i, j) = 0;
+            } else {
                 result(i, j) = 1;
             }
         }
@@ -62,7 +65,6 @@ inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA) {
 
 
 inline Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
-
     Eigen::MatrixXd result;
     srand((unsigned int) time(0));
     result.resize(Size, Size);
@@ -85,7 +87,6 @@ inline Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
 }
 
 inline Eigen::MatrixXd RandomAggregationMatrix(int Size1, int Size2) {
-
     /** Aggregation method / data
      *
      * Standard Linear Aggregation matrix S

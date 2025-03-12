@@ -19,28 +19,30 @@
 #define LEONTIEF_SUT_SYSTEM_H
 
 #include <Eigen/Core>
+#include "utils/check_norms.h"
 
 #pragma once
 
 class SUTSystem {
-
 public:
-
     /**
     * Create a Supply-Use system with the specified matrices.
     *   S - Supply matrix
     *   U - Use matrix
+    *   W - Transactions matrix
+    *   Qu - Upstream probabilities
+    *   Qd - Downstream probabilities
     */
     SUTSystem(
-            const Eigen::MatrixXd &S,
-            const Eigen::MatrixXd &U,
-            const Eigen::MatrixXd &W,
-            const Eigen::MatrixXd &Qu,
-            const Eigen::MatrixXd &Qd
+        Eigen::MatrixXd &S,
+        Eigen::MatrixXd &U,
+        Eigen::MatrixXd &W,
+        Eigen::MatrixXd &Qu,
+        Eigen::MatrixXd &Qd
     );
 
     /**
-    * Create a blank system.
+    * Create an empty system.
     */
     SUTSystem();
 
@@ -49,11 +51,43 @@ public:
     */
     void init();
 
+    void CreateTransactionsMatrix(const Eigen::MatrixXd &S, const Eigen::MatrixXd U) {
+        int wx = S.cols() + U.cols() + 1;
+        int wy = S.rows() + U.rows() + 1;
+        _W.resize(wx, wy);
+        _W.block(U.rows(),0, S.rows(), S.cols()) = S;
+        _W.block(0,S.cols()+1, U.rows(), U.cols()) = U;
+    }
+
+    void CreateUpstreamProbabilities(int unitCol, int unitRow) {
+
+        _Qu.resizeLike(_W);
+
+        auto colsum = _W.colwise().sum();
+
+         for (int i = 0; i < _W.cols(); i++)
+             if (colsum(i) > 0) _Qu.col(i) = _W.col(i) / colsum(i);
+
+        _Qu(unitRow, unitCol) = 1.0;
+
+    }
+
+    void CreateDownstreamProbabilities() {
+        _Qd = _W;
+    }
+
+    Eigen::MatrixXd &getW() {
+        return _W;
+    }
+
+    Eigen::MatrixXd &getQu() {
+        return _Qu;
+    }
 
 private:
-
     // Matrices and vectors for computation
-    Eigen::MatrixXd S, U;
+    Eigen::MatrixXd
+            _S, _U, _W, _Qu, _Qd;
 
     // System dimensions
 
@@ -63,18 +97,21 @@ private:
 
     // Is the system initialized?
     bool initialized{};
-
-
 };
 
-SUTSystem::SUTSystem(const Eigen::MatrixXd &S, const Eigen::MatrixXd &U) {
-
+inline SUTSystem::SUTSystem(Eigen::MatrixXd &S, Eigen::MatrixXd &U, Eigen::MatrixXd &W, Eigen::MatrixXd &Qu,
+                            Eigen::MatrixXd &Qd) {
+    _S = S;
+    _U = U;
+    _W = W;
+    _Qu = Qu;
+    _Qd = Qd;
+    initialized = true;
 }
 
-SUTSystem::SUTSystem() = default;
+inline SUTSystem::SUTSystem() = default;
 
-void SUTSystem::init() {
-
+inline void SUTSystem::init() {
 }
 
 #endif //LEONTIEF_SUT_SYSTEM_H

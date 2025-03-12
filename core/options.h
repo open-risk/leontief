@@ -68,6 +68,10 @@
 
 // Floating point number type (float or double)
 
+#ifndef LEONTIEF_TOLERANCE
+#define LEONTIEF_TOLERANCE 1e-05
+#endif
+
 #ifndef LEONTIEF_FPN_TYPE
 #define LEONTIEF_FPN_TYPE double
 #endif
