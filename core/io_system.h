@@ -36,10 +36,10 @@ public:
     */
     IOSystem(
             const Eigen::MatrixXd &Z,
-            const Eigen::MatrixXd &Y,
-            const Eigen::MatrixXd &A,
-            const Eigen::MatrixXd &x,
-            const Eigen::MatrixXd &L
+            const Eigen::MatrixXd &Y
+            // const Eigen::MatrixXd &A,
+            // const Eigen::MatrixXd &x,
+            // const Eigen::MatrixXd &L
     );
 
     /**
@@ -67,10 +67,19 @@ public:
     */
     void update(const Eigen::VectorXd &y, double dt, Eigen::MatrixXd A);
 
+    /**
+     * calculate standard flow
+     */
+    void calc_all_io();
+
+    Eigen::MatrixXd getX() {
+        return _x;
+    }
+
 private:
 
     // Matrices and vectors for computation
-    Eigen::MatrixXd A, Z, Q, R, P, K, P0;
+    Eigen::MatrixXd _A, _Z, _Y, _x, _L;
 
     // System dimensions (for Symmetric IO should be identical)
     int n{}; // rows
@@ -84,26 +93,13 @@ private:
 
 };
 
-IOSystem::IOSystem(const Eigen::MatrixXd &A, const Eigen::MatrixXd &Z, const Eigen::MatrixXd &x, const Eigen::MatrixXd &y, const Eigen::MatrixXd &L) {
+inline IOSystem::IOSystem() = default;
 
-}
 
-IOSystem::IOSystem() = default;
-
-void IOSystem::init() {
-
-}
-
-void IOSystem::init(double t0, const Eigen::VectorXd &x0) {
-
-}
-
-void IOSystem::update(const Eigen::VectorXd &y) {
-
-}
-
-void IOSystem::update(const Eigen::VectorXd &y, double dt, const Eigen::MatrixXd A) {
-
+inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y) {
+    _Z = Z;
+    _Y = Y;
+    initialized = true;
 }
 
 #endif //LEONTIEF_IO_SYSTEM_H

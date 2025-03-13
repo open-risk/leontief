@@ -21,7 +21,6 @@
 #include <fstream>
 #include <algorithm>
 #include <random>
-#include <Eigen/Dense>
 #include <iostream>
 #include "utils/matrix_generation.h"
 

@@ -15,25 +15,10 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTILS_H
-#define UTILS_H
+#include "core/io_system.h"
 
-inline std::string get_current_time() {
-    time_t t = time(nullptr);
-    struct tm *now = localtime(&t);
-    std::stringstream current_time;
+void IOSystem::calc_all_io() {
 
-    current_time << (now->tm_year + 1900) << '-'
-                 << (now->tm_mon + 1) << '-'
-                 << now->tm_mday << '-'
-                 << now->tm_hour << '-'
-                 << now->tm_min << '-'
-                 << now->tm_sec;
+    _x = _Z.rowwise().sum() + _Y.rowwise().sum();
 
-    std::string c_time = current_time.str();
-    return c_time;
 }
-
-
-#endif /* UTILS_H */
-

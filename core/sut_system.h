@@ -19,7 +19,6 @@
 #define LEONTIEF_SUT_SYSTEM_H
 
 #include <Eigen/Core>
-#include "utils/check_norms.h"
 
 #pragma once
 

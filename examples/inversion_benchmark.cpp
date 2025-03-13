@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <chrono>
 #include <Eigen/Core>
 #include "utils/utils.h"
 

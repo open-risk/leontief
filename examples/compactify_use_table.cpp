@@ -17,7 +17,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <Eigen/Dense>
 #include "utils/csv.h"
 #include "utils/compactify_use_matrix.h"
 

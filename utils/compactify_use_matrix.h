@@ -20,12 +20,6 @@
 
 #include <Eigen/Core>
 
-#include <fstream>
-#include <iostream>
-#include <random>
-#include <chrono>
-
-
 inline Eigen::MatrixXd CompactifyUseMatrix(Eigen::MatrixXd &U, int FD, int VA) {
     int MAX_ROW = U.rows();
     int MAX_COL = U.cols();

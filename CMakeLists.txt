@@ -60,8 +60,9 @@ include_directories(.)
 set(CORE_FILES
         core/options.h
         core/io_system.h
-        core/sut_system.h
+        core/calc_all_io.cpp
         core/leontief.h
+        core/sut_system.h
 )
 
 set(UTIL_FILES
@@ -122,6 +123,20 @@ target_include_directories(example3 PRIVATE ${Eigen3_INCLUDE_DIRS})
 add_compile_options("-O3")
 target_compile_definitions(example3 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(example3 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+
+# EXAMPLE 4
+add_executable(example4 examples/random_walk.cpp ${SOURCE_FILES})
+target_include_directories(example4 PRIVATE ${Eigen3_INCLUDE_DIRS})
+add_compile_options("-O3")
+target_compile_definitions(example4 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+target_link_libraries(example4 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+
+# EXAMPLE 5
+add_executable(example5 examples/io_calculations.cpp ${SOURCE_FILES})
+target_include_directories(example5 PRIVATE ${Eigen3_INCLUDE_DIRS})
+add_compile_options("-O3")
+target_compile_definitions(example5 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+target_link_libraries(example5 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 
 # CATCH2 TESTING

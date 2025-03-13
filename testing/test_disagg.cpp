@@ -19,7 +19,7 @@
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <filesystem>
 #include <fstream>
-#include <Eigen/Dense>
+#include <iostream>
 #include "utils/utils.h"
 #include "utils/matrix_generation.h"
 

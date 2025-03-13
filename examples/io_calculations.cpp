@@ -1,6 +1,6 @@
 /*
 * This file is part of the Leontief distribution (https://github.com/open-risk/leontief).
-* Copyright (c) 2024 Open Risk (https://www.openriskmanagement.com)
+* Copyright (c) 2024 - 2025 Open Risk (https://www.openriskmanagement.com)
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,25 +15,24 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTILS_H
-#define UTILS_H
+#include <iostream>
+#include <Eigen/Core>
 
-inline std::string get_current_time() {
-    time_t t = time(nullptr);
-    struct tm *now = localtime(&t);
-    std::stringstream current_time;
+#include "core/io_system.h"
 
-    current_time << (now->tm_year + 1900) << '-'
-                 << (now->tm_mon + 1) << '-'
-                 << now->tm_mday << '-'
-                 << now->tm_hour << '-'
-                 << now->tm_min << '-'
-                 << now->tm_sec;
 
-    std::string c_time = current_time.str();
-    return c_time;
+int main(int num_args, char **arg_strings) {
+
+    // Initialize IO System
+
+    Eigen::Matrix<double, 1,1> Z {{1}};
+    Eigen::Matrix<double, 1,1> Y {{2}};
+
+    IOSystem io(Z, Y);
+
+    // Calculate everything that can be calculated
+    io.calc_all_io();
+
+    std::cout << io.getX() << std::endl;
+
 }
-
-
-#endif /* UTILS_H */
-
