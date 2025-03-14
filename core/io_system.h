@@ -72,14 +72,29 @@ public:
      */
     void calc_all_io();
 
+    Eigen::MatrixXd getZ() {
+        return _Z;
+    }
+    Eigen::MatrixXd getY() {
+        return _Y;
+    }
     Eigen::MatrixXd getX() {
         return _x;
     }
+    Eigen::MatrixXd getA() {
+        return _A;
+    }
+    Eigen::MatrixXd getL() {
+        return _L;
+    }
+
+
 
 private:
 
     // Matrices and vectors for computation
-    Eigen::MatrixXd _A, _Z, _Y, _x, _L;
+    Eigen::MatrixXd _A, _Z, _Y, _L;
+    Eigen::VectorXd _x, _E, _f, _v, _U;
 
     // System dimensions (for Symmetric IO should be identical)
     int n{}; // rows
@@ -99,6 +114,13 @@ inline IOSystem::IOSystem() = default;
 inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y) {
     _Z = Z;
     _Y = Y;
+
+    _x.resize(_Z.rows());
+    _E.resizeLike(_x);
+    _f.resizeLike(_E);
+    _A.resizeLike(_Z);
+    _L.resizeLike(_Z);
+
     initialized = true;
 }
 

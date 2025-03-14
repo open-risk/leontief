@@ -25,14 +25,23 @@ int main(int num_args, char **arg_strings) {
 
     // Initialize IO System
 
-    Eigen::Matrix<double, 1,1> Z {{1}};
-    Eigen::Matrix<double, 1,1> Y {{2}};
+    // Eigen::Matrix<double, 1,1> Z {{1}};
+    // Eigen::Matrix<double, 1,1> Y {{2}};
+
+    Eigen::MatrixXd Z(2,2);
+    Z << 200, 100, 80, 50;
+    Eigen::MatrixXd Y(2, 2);
+    Y << 300, 100, 200, 150;
 
     IOSystem io(Z, Y);
 
     // Calculate everything that can be calculated
     io.calc_all_io();
 
+    std::cout << io.getZ() << std::endl;
+    std::cout << io.getY() << std::endl;
     std::cout << io.getX() << std::endl;
+    std::cout << io.getA() << std::endl;
+    std::cout << io.getL() << std::endl;
 
 }
