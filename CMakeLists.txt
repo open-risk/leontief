@@ -60,7 +60,7 @@ include_directories(.)
 set(CORE_FILES
         core/options.h
         core/io_system.h
-        core/calc_all_io.cpp
+        core/calc_io.cpp
         core/leontief.h
         core/sut_system.h
 )

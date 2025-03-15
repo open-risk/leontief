@@ -23,20 +23,34 @@
 
 int main(int num_args, char **arg_strings) {
 
-    // Initialize IO System
-
+    // Initialize Trivial IO System
+    // mode=0
     // Eigen::Matrix<double, 1,1> Z {{1}};
     // Eigen::Matrix<double, 1,1> Y {{2}};
 
-    Eigen::MatrixXd Z(2,2);
-    Z << 200, 100, 80, 50;
-    Eigen::MatrixXd Y(2, 2);
-    Y << 300, 100, 200, 150;
+    // Initialize 2x2 System
+    // mode=0
+    // Eigen::MatrixXd Z(2,2);
+    // Z << 200, 100, 80, 50;
+    // Eigen::MatrixXd Y(2, 2);
+    // Y << 300, 100, 200, 150;
+    // IOSystem io(Z, Y);
 
-    IOSystem io(Z, Y);
+    // Calculate everything that can be calculated (starting with Z,Y)
+    // io.calc_from_z();
 
-    // Calculate everything that can be calculated
-    io.calc_all_io();
+    // Initialize 7x7 System
+    // mode=1
+    Eigen::MatrixXd A(7,7);
+    A << .2008, .0000, .0011, .0338, .0001, .0018, .0009, .0010, .0658, .0035, .0219, .0151, .0001, .0026,.0034, .0002, .0012, .0021, .0035, .0071, .0214, .1247, .0684, .1801, .2319, .0339, .0414, .0726, .0855, .0529, .0914, .0952, .0645, .0315, .0528, .0897, .1668, .1332, .1255, .1647, .2712, .1873, .0093, .0129, .0095, .0197, .0190, .0184, .022;
+
+    Eigen::VectorXd Y(7);
+    Y << 1.2, 0, 0, 6.8, 0, 0, 0;
+
+    IOSystem io(A, Y, 1);
+
+    // Calculate everything that can be calculated (starting with Z,Y)
+    io.calc_from_a();
 
     std::cout << io.getZ() << std::endl;
     std::cout << io.getY() << std::endl;

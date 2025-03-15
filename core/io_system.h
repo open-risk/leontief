@@ -36,7 +36,8 @@ public:
     */
     IOSystem(
             const Eigen::MatrixXd &Z,
-            const Eigen::MatrixXd &Y
+            const Eigen::MatrixXd &Y,
+            int mode
             // const Eigen::MatrixXd &A,
             // const Eigen::MatrixXd &x,
             // const Eigen::MatrixXd &L
@@ -68,9 +69,13 @@ public:
     void update(const Eigen::VectorXd &y, double dt, Eigen::MatrixXd A);
 
     /**
-     * calculate standard flow
+     * calculate standard flow (inputs Z, Y)
      */
-    void calc_all_io();
+    void calc_from_z();
+    /**
+      * calculate shortcut flow (inputs A, Y)
+    */
+    void calc_from_a();
 
     Eigen::MatrixXd getZ() {
         return _Z;
@@ -87,7 +92,6 @@ public:
     Eigen::MatrixXd getL() {
         return _L;
     }
-
 
 
 private:
@@ -111,15 +115,27 @@ private:
 inline IOSystem::IOSystem() = default;
 
 
-inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y) {
-    _Z = Z;
-    _Y = Y;
+inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y, int mode) {
 
-    _x.resize(_Z.rows());
-    _E.resizeLike(_x);
-    _f.resizeLike(_E);
-    _A.resizeLike(_Z);
-    _L.resizeLike(_Z);
+    if (mode == 0) {
+        _Z = Z;
+        _Y = Y;
+
+        _x.resize(_Z.rows());
+        _E.resizeLike(_x);
+        _f.resizeLike(_E);
+        _A.resizeLike(_Z);
+        _L.resizeLike(_Z);
+    }
+    else if (mode == 1) {
+        _A = Z;
+        _Y = Y;
+
+        _E.resizeLike(_Y); // TODO vector only
+        _f.resizeLike(_E);
+        _L.resizeLike(_A);
+    }
+
 
     initialized = true;
 }
