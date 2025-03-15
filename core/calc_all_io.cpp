@@ -56,15 +56,28 @@ void IOSystem::calc_all_io() {
 
     _f = _E.array() / _x.array();
     Eigen::DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> xh(_x.size());
-    xh.diagonal() = _x.asDiagonal().inverse();
+    xh = _x.asDiagonal().inverse();
+
+    std::cout << xh.toDenseMatrix() << std::endl;
 
     _A = _Z * xh;
 
+    std::cout << _A << std::endl;
 
     Eigen::MatrixXd I = Eigen::MatrixXd::Identity(_x.size(), _x.size());
 
+    std::cout << I << std::endl;
+
     _L = (I - _A).inverse();
+
+    std::cout << _L << std::endl;
+
     _v = _f.transpose() * _L;
-    _U = _v.array() * _Y.array();
+
+    std::cout << _v << std::endl;
+
+    _U = _v.array() * _Y.rowwise().sum().array();
+
+    std::cout << _U << std::endl;
 
 }
