@@ -26,10 +26,16 @@
 using namespace std;
 using namespace Eigen;
 
-inline Eigen::MatrixXd TestSupplyMatrix(const int IO) {
+inline Eigen::MatrixXd TestSupplyMatrix(const int IO, const int mode) {
     Eigen::MatrixXd result;
-    result.resize(IO, IO);
-    result.setOnes();
+    if (mode ==0) {
+        result.resize(IO, IO);
+        result.setOnes();
+    }
+    else if (mode ==1) {
+        result.resize(2 , 2);
+        result << 16, 0, 0, 12;
+    }
     return result;
 }
 
@@ -38,26 +44,32 @@ inline Eigen::MatrixXd TestSupplyMatrix(const int IO) {
  * final demand columns and value added rows
  *
  */
-inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA) {
+inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA, const int mode) {
     Eigen::MatrixXd result;
 
-    const int SizeX = IO + FD;
-    const int SizeY = IO + VA;
+    if (mode == 0) {
+        const int SizeX = IO + FD;
+        const int SizeY = IO + VA;
 
-    result.resize(SizeY, SizeX);
+        result.resize(SizeY, SizeX);
 
-    for (int i = 0; i < SizeY; i++) {
-        for (int j = 0; j < SizeX; j++) {
-            if (i >= IO && j < IO) {
-                result(i, j) = 2;
-            } else if (i < IO && j >= IO) {
-                result(i, j) = 3;
-            } else if (i >= IO && j >= IO) {
-                result(i, j) = 0;
-            } else {
-                result(i, j) = 1;
+        for (int i = 0; i < SizeY; i++) {
+            for (int j = 0; j < SizeX; j++) {
+                if (i >= IO && j < IO) {
+                    result(i, j) = 2;
+                } else if (i < IO && j >= IO) {
+                    result(i, j) = 3;
+                } else if (i >= IO && j >= IO) {
+                    result(i, j) = 0;
+                } else {
+                    result(i, j) = 1;
+                }
             }
         }
+    }
+    else if (mode==1) {
+        result.resize(3 ,3);
+        result << 8, 5, 3, 4, 2, 6, 4, 5, 0;
     }
 
     return result;

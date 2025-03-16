@@ -23,73 +23,80 @@
 #include "utils/matrix_generation.h"
 
 int main(int num_args, char **arg_strings) {
+
     // Initialize SUT System
     // Total Output vector
     // Emission Densities
     // f = E.array() / X.array();
 
-    int Sectors;
-    Eigen::VectorXd x;
-    int IO = 10;
+    // TEST 1
+    // int IO = 10;
+    // int FD = 1;
+    // int VA = 1;
+    // Eigen::MatrixXd S = TestSupplyMatrix(IO, 0);
+    // Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, 0);
+
+    // TEST 2 INPUTS
+    int Sectors = 6;
+    int IO = 2;
     int FD = 1;
     int VA = 1;
+    Eigen::MatrixXd S = TestSupplyMatrix(IO, 1);
+    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, 1);
 
-    Eigen::MatrixXd S = TestSupplyMatrix(IO);
-    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA);
+    // Construct SUT system
     SUTSystem testSUT;
     testSUT.CreateTransactionsMatrix(S, U);
     testSUT.CreateUpstreamProbabilities(IO, IO);
 
-    // IO Storage (Calculated Values)
-    Eigen::MatrixXd W; // Weight Matrix
-    Eigen::VectorXd Intensity; // Upstream total intensity
-    Eigen::VectorXd Impact; // Upstream absolute impact
+    std::cout << testSUT.getQu() << std::endl;
 
-    // input transition probabilities Q
+    // Construct Markov Chain from Transition Matrix
+    // input is the upstream transition probabilities Qu
+
     Eigen::VectorXd weights(Sectors);
-
     std::map<int, std::discrete_distribution<> > prob_vector;
-    for (int i = 0; i < Sectors; i++) {
-        double row_sum = 0;
-        for (int j = 0; j < Sectors; j++) {
-            row_sum += testSUT.getQu()(i, j);
-            weights[j] = testSUT.getQu()(i, j);
+    for (int j = 0; j < Sectors; j++) {
+        double col_sum = 0;
+        for (int i = 0; i < Sectors; i++) {
+            col_sum += testSUT.getQu()(i, j);
+            weights[i] = testSUT.getQu()(i, j);
         }
         std::discrete_distribution<int> d(weights.begin(), weights.end());
-        prob_vector[i] = d;
-        std::cout << i << " " << row_sum << std::endl;
+        prob_vector[j] = d;
+        // std::cout << j << " " << col_sum << std::endl;
     }
 
-    int Scenarios = 10;
+    int Scenarios = 100000;
 
     // Here the weights are from Q columns and the integers are from the sector index
 
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    // For each unique random walk path
+    int Steps = 7;
 
-    double impact = 0, cumulative_impact = 0;
+    Eigen::VectorXd Intensity(Sectors); // Impact intensity
+    Intensity << 0.5, 0.33, 0, 0, 0, 0;
 
-    std::vector<double> F(Scenarios);
+    // Eigen::VectorXi State(Scenarios);
+
+    Eigen::VectorXd Impact(Steps);
+    Impact.setZero();
 
     for (int fs = 0; fs < Scenarios; fs++) {
-
-        int old_state = static_cast<int>(x[0]);
+        int old_state = 4;
         int k = 0; // Step Count
         // While not absorbed
-        while (old_state != 3 && k < 3) {
+        while (old_state != 2 && k < Steps) {
             // Compute Next Node
             int new_state = prob_vector[old_state](gen);
             // Compute Impact Intensity
-            std::cout << "Step " << k << " : from " << old_state << " to " << new_state << " with impact " << Intensity[new_state] << std::endl;
-            // Store desired k-round result
-            if (k == 1) {
-                F[fs] = Intensity[new_state];
-            }
-
+            // std::cout << "Step " << k << " : from " << old_state << " to " << new_state << " with impact " << Intensity[new_state] << std::endl;
+            Impact[k] += Intensity[new_state];
             old_state = new_state;
             k += 1;
         }
     }
+    std::cout << Impact / Scenarios << std::endl;
 }

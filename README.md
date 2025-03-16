@@ -11,25 +11,43 @@ Leontief helps with a number of typical tasks in Input-Output modeling:
 * Solving typical IO problems using the existing library. 
 * Investing ad-hoc questions by writing new code using the very usable and performant Eigen C++ linear algebra library
 
-The focus of Leontief is on high performance *numerical calculations* involving large matrices. It does not offer dataframe type functionality for filtering data. Downloading Public IO Data Sets from various Web locations might be easier using e.g., Pymrio.
 
 ## Installation / Workflow
-
-Specific instructions are not provided as those will vary depending on user setup.
 
 * Clone the repository into your work environment (e.g., a leontief directory). 
 * The command line scripts included in the leontief/scripts directory should be working immediately on a standard linux distribution. 
 
-Create a leontief/data subdirectory. Download, move and extract the IO databases into the data directory.
+### Dependencies
 
-Strip the matrix files (e.g., bash strip_exiobase.sh) from label data (we will not need those for numerical C++ calculations).
+Leontief is a C++ library. To augment or rebuild it from source you will need a working C++ toolchain. Conan is recommended as a means to pull in dependencies. The current dependency list includes:
 
-Compile the C++ code. Leontief uses cmake and conan. Test that everything is running properly.
+* eigen
+* poco
+* catch2
+
+For compiling the C++ code, Leontief uses cmake and conan. There is a suit of tests that helps verify that everything is installed and running properly.
 
 ### Conan Installation
 
 * pip install conan
 * conan install . --output-folder=cmake-build-debug --build=missing -s build_type=Debug
+
+### Data Organization
+
+#### Downloading Scripts
+
+Create a leontief/data subdirectory. Download, move and extract publicly available IO databases into the data directory. Current download scripts:
+
+* exiobase
+* figaro
+* oecd-icion
+
+#### Pre-processing
+
+The focus of Leontief is on high performance *numerical calculations* involving large matrices. It does not offer dataframe type functionality for searching or filtering data. The following scripts offer some needed functionality:
+
+* Strip the matrix files (e.g., bash strip_exiobase.sh) from label data (we will not need those for numerical C++ calculations).
+
 
 
 ## Further Resources
