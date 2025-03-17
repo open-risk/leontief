@@ -21,7 +21,6 @@
 #include <fstream>
 #include <iostream>
 #include <Eigen/Dense>
-#include "utils/utils.h"
 #include "utils/matrix_generation.h"
 
 TEST_CASE("Test RAS Algorithm", "[algorithms]") {

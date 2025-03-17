@@ -18,9 +18,12 @@
 #include <iostream>
 #include <map>
 #include <random>
-
+#include "utils/csv.h"
 #include "core/sut_system.h"
 #include "utils/matrix_generation.h"
+#include "utils/compactify_use_matrix.h"
+
+using namespace csv;
 
 int main(int num_args, char **arg_strings) {
 
@@ -29,7 +32,7 @@ int main(int num_args, char **arg_strings) {
     // Emission Densities
     // f = E.array() / X.array();
 
-    // TEST 1
+    // TEST 1 INPUTS
     // int IO = 10;
     // int FD = 1;
     // int VA = 1;
@@ -37,19 +40,76 @@ int main(int num_args, char **arg_strings) {
     // Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, 0);
 
     // TEST 2 INPUTS
-    int Sectors = 6;
-    int IO = 2;
-    int FD = 1;
-    int VA = 1;
-    Eigen::MatrixXd S = TestSupplyMatrix(IO, 1);
-    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, 1);
+    // int Sectors = 6;
+    // int IO = 2;
+    // int FD = 1;
+    // int VA = 1;
+    // Eigen::MatrixXd S = TestSupplyMatrix(IO, 1);
+    // Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, 1);
+    // Eigen::VectorXd Intensity(Sectors); // Impact intensity
+    // Intensity << 0.5, 0.33, 0, 0, 0, 0;
+
+    // LOAD SUPPLY MATRIX
+    constexpr int MAX = 2944;
+    Eigen::MatrixXd S(MAX, MAX);
+    CSVReader reader1("../data/matrix_eu-ic-supply_24ed_2022.csv");
+
+    double value = 0;
+    std::string label;
+    int i = 0;
+    for (auto &row: reader1) {
+        for (int j = 0; j < MAX+1; j++) {
+            if (i > 0 && j > 0) {
+                value = row[j].get<double>();
+                S(i-1, j-1) = value;
+            } else {
+                label = row[j].get_sv();
+            }
+        }
+        i++;
+    }
+
+    std::cout << "Load Supply" << std::endl;
+
+    constexpr int MAX_ROW = 2950;
+    constexpr int MAX_COL = 3174;
+
+    Eigen::MatrixXd UP(MAX_ROW, MAX_COL);
+
+    CSVReader reader2("../data/matrix_eu-ic-use_24ed_2022.csv");
+
+    i = 0;
+    for (auto &row: reader2) {
+        for (int j = 0; j < MAX_COL + 1; j++) {
+            if (j > 0) {
+                value = row[j].get<double>();
+                UP(i, j - 1) = value;
+            } else {
+                label = row[j].get_sv();
+            }
+        }
+        i++;
+    }
+
+    std::cout << "Load Use" << std::endl;
+
+    constexpr int FD = 230;
+    constexpr int VA = 6;
+    Eigen::MatrixXd U = CompactifyUseMatrix(UP, FD, VA);
+
+    std::cout << "Compactify Use" << std::endl;
+
+    int Sectors = S.cols() + U.cols();
+    int IO = S.cols();
 
     // Construct SUT system
     SUTSystem testSUT;
     testSUT.CreateTransactionsMatrix(S, U);
     testSUT.CreateUpstreamProbabilities(IO, IO);
 
-    std::cout << testSUT.getQu() << std::endl;
+    // std::cout << testSUT.getQu() << std::endl;
+
+    std::cout << "Construct Probability Matrix" << std::endl;
 
     // Construct Markov Chain from Transition Matrix
     // input is the upstream transition probabilities Qu
@@ -58,16 +118,17 @@ int main(int num_args, char **arg_strings) {
     std::map<int, std::discrete_distribution<> > prob_vector;
     for (int j = 0; j < Sectors; j++) {
         double col_sum = 0;
-        for (int i = 0; i < Sectors; i++) {
-            col_sum += testSUT.getQu()(i, j);
-            weights[i] = testSUT.getQu()(i, j);
+        for (int ii = 0; ii < Sectors; ii++) {
+            col_sum += testSUT.getQu()(ii, j);
+            weights[ii] = testSUT.getQu()(ii, j);
         }
         std::discrete_distribution<int> d(weights.begin(), weights.end());
         prob_vector[j] = d;
-        // std::cout << j << " " << col_sum << std::endl;
     }
 
-    int Scenarios = 100000;
+    std::cout << "Construct Markov Chain" << std::endl;
+
+    int Scenarios = 1;
 
     // Here the weights are from Q columns and the integers are from the sector index
 
@@ -77,9 +138,7 @@ int main(int num_args, char **arg_strings) {
     int Steps = 7;
 
     Eigen::VectorXd Intensity(Sectors); // Impact intensity
-    Intensity << 0.5, 0.33, 0, 0, 0, 0;
-
-    // Eigen::VectorXi State(Scenarios);
+    Intensity.setOnes();
 
     Eigen::VectorXd Impact(Steps);
     Impact.setZero();
@@ -98,5 +157,6 @@ int main(int num_args, char **arg_strings) {
             k += 1;
         }
     }
-    std::cout << Impact / Scenarios << std::endl;
+    std::cout << "Simulate" << std::endl;
+    // std::cout << Impact / Scenarios << std::endl;
 }

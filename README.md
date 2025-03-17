@@ -2,6 +2,8 @@
 
 Leontief is a C++ toolkit to work with economic Input-Output models. 
 
+![IO](docs/US-IO.png)
+
 ## Overall Functionality Objectives
 
 The overall design principle behind Leontief is to strike a balance between usability and performance when working with and/or developing algorithms and tools related to economic input-output systems. A key such design decision is to use a user-friendly C++ library for vector, matrix, tensor manipulations that offers a higher-level API similar e.g., to that of Matlab.  

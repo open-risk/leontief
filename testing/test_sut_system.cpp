@@ -30,9 +30,10 @@ TEST_CASE("Test SUT system creation", "[sut]") {
     int IO = 10;
     int FD = 1;
     int VA = 1;
+    int mode = 0;
 
-    Eigen::MatrixXd S = TestSupplyMatrix(IO);
-    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA);
+    Eigen::MatrixXd S = TestSupplyMatrix(IO, mode);
+    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, mode);
     SUTSystem testSUT;
     testSUT.CreateTransactionsMatrix(S, U);
     testSUT.CreateUpstreamProbabilities(IO, IO);

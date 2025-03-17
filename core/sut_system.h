@@ -58,6 +58,9 @@ public:
         _W.block(0,S.cols()+1, U.rows(), U.cols()) = U;
     }
 
+    /*
+     * Inputs are the matrix coordinates of the unit value
+     */
     void CreateUpstreamProbabilities(int unitCol, int unitRow) {
 
         _Qu.resizeLike(_W);

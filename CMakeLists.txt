@@ -86,7 +86,7 @@ set(TEST_FILES
         testing/test_ras.cpp
         testing/test_agg.cpp
         testing/test_disagg.cpp
-        testing/test_sut.cpp
+        testing/test_sut_system.cpp
         testing/test_use_matrix_compactify.cpp
 )
 
