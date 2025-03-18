@@ -20,6 +20,7 @@
 #include <random>
 #include "utils/csv.h"
 #include "core/sut_system.h"
+#include "utils/check_norms.h"
 #include "utils/matrix_generation.h"
 #include "utils/compactify_use_matrix.h"
 
@@ -69,7 +70,10 @@ int main(int num_args, char **arg_strings) {
         i++;
     }
 
-    std::cout << "Load Supply" << std::endl;
+    std::cout << "Loaded Supply Matrix" << std::endl;
+    std::cout << "FIGARO Supply Matrix of Total Size: " << S.size() << std::endl;
+    std::cout << "FIGARO Supply Matrix with Rows: " << S.rows() << std::endl;
+    std::cout << "FIGARO Supply Matrix with Columns: " << S.cols() << std::endl;
 
     constexpr int MAX_ROW = 2950;
     constexpr int MAX_COL = 3174;
@@ -91,13 +95,18 @@ int main(int num_args, char **arg_strings) {
         i++;
     }
 
-    std::cout << "Load Use" << std::endl;
+    std::cout << "Loaded Use Matrix" << std::endl;
+    std::cout << "FIGARO Use Matrix of Total Size: " << UP.size() << std::endl;
+    std::cout << "FIGARO Use Matrix with Rows: " << UP.rows() << std::endl;
+    std::cout << "FIGARO Use Matrix with Columns: " << UP.cols() << std::endl;
 
     constexpr int FD = 230;
     constexpr int VA = 6;
     Eigen::MatrixXd U = CompactifyUseMatrix(UP, FD, VA);
 
-    std::cout << "Compactify Use" << std::endl;
+    std::cout << "Compactified Use Matrix" << std::endl;
+    std::cout << "New Use Matrix with Rows: " << U.rows() << std::endl;
+    std::cout << "New Use Matrix with Columns: " << U.cols() << std::endl;
 
     int Sectors = S.cols() + U.cols();
     int IO = S.cols();
@@ -109,7 +118,8 @@ int main(int num_args, char **arg_strings) {
 
     // std::cout << testSUT.getQu() << std::endl;
 
-    std::cout << "Construct Probability Matrix" << std::endl;
+    std::cout << "Constructed Probability Matrix" << std::endl;
+    std::cout << "Column-wise norm check: " << TestColumnNorm(testSUT.getQu()) << std::endl;
 
     // Construct Markov Chain from Transition Matrix
     // input is the upstream transition probabilities Qu
@@ -126,7 +136,7 @@ int main(int num_args, char **arg_strings) {
         prob_vector[j] = d;
     }
 
-    std::cout << "Construct Markov Chain" << std::endl;
+    std::cout << "Constructed Markov Chain" << std::endl;
 
     int Scenarios = 1;
 
@@ -144,14 +154,14 @@ int main(int num_args, char **arg_strings) {
     Impact.setZero();
 
     for (int fs = 0; fs < Scenarios; fs++) {
-        int old_state = 4;
+        int old_state = 400;
         int k = 0; // Step Count
         // While not absorbed
         while (old_state != 2 && k < Steps) {
             // Compute Next Node
             int new_state = prob_vector[old_state](gen);
             // Compute Impact Intensity
-            // std::cout << "Step " << k << " : from " << old_state << " to " << new_state << " with impact " << Intensity[new_state] << std::endl;
+            std::cout << "Step " << k << " : from " << old_state << " to " << new_state << " with impact " << Intensity[new_state] << std::endl;
             Impact[k] += Intensity[new_state];
             old_state = new_state;
             k += 1;

@@ -26,7 +26,7 @@
 using namespace std;
 using namespace Eigen;
 
-bool TestColumnNorm(Eigen::MatrixXd &S) {
+inline bool TestColumnNorm(Eigen::MatrixXd &S) {
     bool test = true;
     auto colsum = S.colwise().sum();
     for (int i = 0; i < S.cols(); i++)
