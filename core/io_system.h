@@ -32,7 +32,7 @@ public:
     *   x - Industry output vector
     *   A - Coefficients matrix
     *   L - Leontief matrix
-    *   y - Final demand vector
+    *   y - Final demand vector / matrix
     */
     IOSystem(
             const Eigen::MatrixXd &Z,
@@ -117,7 +117,7 @@ inline IOSystem::IOSystem() = default;
 
 inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y, int mode) {
 
-    if (mode == 0) {
+    if (mode == 0) {  // Initialize with Z and Y matrix
         _Z = Z;
         _Y = Y;
 
@@ -127,7 +127,7 @@ inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y, in
         _A.resizeLike(_Z);
         _L.resizeLike(_Z);
     }
-    else if (mode == 1) {
+    else if (mode == 1) { // Initialize with A and Y matrix
         _A = Z;
         _Y = Y;
 
@@ -135,7 +135,6 @@ inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y, in
         _f.resizeLike(_E);
         _L.resizeLike(_A);
     }
-
 
     initialized = true;
 }

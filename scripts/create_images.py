@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
-array_data = np.loadtxt('../data/use.csv', delimiter=",")
+# array_data = np.loadtxt('../data/use.csv', delimiter=",")
+array_data = np.loadtxt('../data/figaro_qu.csv', delimiter=",")
 array_data = np.abs(array_data)
 print(array_data.min(), array_data.max())
 shift = 0.01

@@ -19,8 +19,11 @@
 #include <Eigen/Core>
 #include "core/options.h"
 
-// Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction);
+/*
+ * Various utilities for checking IO / SUT table properties
+ */
 
+// Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction);
 // Eigen::MatrixXd RandomAggregationatrix(int Size1, int Size2);
 
 using namespace std;
@@ -29,7 +32,19 @@ using namespace Eigen;
 inline bool TestColumnNorm(Eigen::MatrixXd &S) {
     bool test = true;
     auto colsum = S.colwise().sum();
-    for (int i = 0; i < S.cols(); i++)
-        if (abs(colsum(i) - 1.0) > LEONTIEF_TOLERANCE) test = false;
+    for (int j = 0; j < S.cols(); j++) {
+        if (abs(colsum(j) - 1.0) > LEONTIEF_TOLERANCE) {
+            std::cout << "Column: " << j << " " << colsum(j) << std::endl;
+            test = false;
+        }
+    }
+    return test;
+}
+
+inline bool TestProbabilities(Eigen::MatrixXd &S) {
+    bool test = true;
+    for (int i = 0; i < S.rows(); i++)
+        for (int j = 0; j < S.cols(); j++)
+            if (S(i, j) > 1.0) test = false;
     return test;
 }

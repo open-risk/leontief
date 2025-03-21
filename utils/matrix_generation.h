@@ -14,13 +14,13 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+
 #pragma once
 
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>
 
 // Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction);
-
 // Eigen::MatrixXd RandomAggregationatrix(int Size1, int Size2);
 
 using namespace std;

@@ -68,7 +68,7 @@ set(CORE_FILES
 set(UTIL_FILES
         utils/compactify_use_matrix.h
         utils/matrix_generation.h
-        utils/check_norms.h
+        utils/scan_matrix.h
         utils/utils.h
         utils/csv.h
 )
@@ -137,6 +137,13 @@ target_include_directories(example5 PRIVATE ${Eigen3_INCLUDE_DIRS})
 #add_compile_options("-O3")
 target_compile_definitions(example5 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(example5 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+
+# EXAMPLE 6: SUT Balance
+add_executable(example6 examples/sut_balance.cpp ${SOURCE_FILES})
+target_include_directories(example6 PRIVATE ${Eigen3_INCLUDE_DIRS})
+#add_compile_options("-O3")
+target_compile_definitions(example6 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+target_link_libraries(example6 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # CATCH2 TESTING
 include(Catch)

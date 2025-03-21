@@ -15,31 +15,35 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <catch2/catch_test_macros.hpp>
-#include <catch2/matchers/catch_matchers_floating_point.hpp>
-#include <filesystem>
-#include <fstream>
-#include <random>
 #include <iostream>
+#include <map>
+#include <random>
+#include "utils/csv.h"
 #include "core/sut_system.h"
-#include "utils/matrix_generation.h"
 #include "utils/scan_matrix.h"
+#include "utils/matrix_generation.h"
+#include "utils/compactify_use_matrix.h"
 
-TEST_CASE("Test SUT system creation", "[sut]") {
+using namespace csv;
 
-    int IO = 10;
-    int FD = 1;
-    int VA = 1;
-    int mode = 0;
+int main(int num_args, char **arg_strings) {
 
-    Eigen::MatrixXd S = TestSupplyMatrix(IO, mode);
-    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, mode);
-    SUTSystem testSUT;
-    testSUT.CreateTransactionsMatrix(S, U);
-    testSUT.CreateUpstreamProbabilities(IO, IO);
-    testSUT.CreateDownstreamProbabilities();
+    // LOAD FIGARO-E3 SUPPLY MATRIX
+    constexpr int ROWS = 9798;
+    constexpr int COLS = 8096;
+    Eigen::MatrixXd S(ROWS, COLS);
+    CSVReader reader1("../data/supply-e3.csv");
 
-    REQUIRE(TestProbabilities(testSUT.getQu()) == 1);
-    REQUIRE(TestColumnNorm(testSUT.getQu()) == 1);
+    int Products = S.rows();
+    int Sectors = S.cols();
 
+    // Transpose S (Rows->Sectors, Cols->Products)
+    // Iterate over rows (Sectors)
+    // Sum rows
+
+    auto row_sum = S.transpose().rowwise().sum();
+    auto col_sum = S.transpose().colwise().sum();
+    for (int j = 0; j < Sectors; j++) {
+        std::cout << col_sum(j) << std::endl;
+    }
 }

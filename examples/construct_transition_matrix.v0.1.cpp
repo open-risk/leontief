@@ -24,7 +24,7 @@
 
 using namespace csv;
 
-// Load U and S tables (clean form - without labels)
+// Load U and S tables
 // Concatenate them into a single matrix
 //   - putting the S, U pieces together (block operations)
 //   - adding additional entries (manual)
@@ -32,17 +32,22 @@ using namespace csv;
 
 int main(int num_args, char **arg_strings) {
 
-    // STEP 1: LOAD SUPPLY MATRIX
+    // LOAD SUPPLY MATRIX
     constexpr int MAX = 2944;
     Eigen::MatrixXd S(MAX, MAX);
-    CSVReader reader1("../data/supply.csv");
+    CSVReader reader1("../data/matrix_eu-ic-supply_24ed_2022.csv");
 
     double value = 0;
+    std::string label;
     int i = 0;
     for (auto &row: reader1) {
-        for (int j = 0; j < MAX; j++) {
-            value =
-            S(i, j) = row[j].get<double>();
+        for (int j = 0; j < MAX+1; j++) {
+            if (i > 0 && j > 0) {
+                value = row[j].get<double>();
+                S(i-1, j-1) = value;
+            } else {
+                label = row[j].get_sv();
+            }
         }
         i++;
     }
@@ -51,22 +56,24 @@ int main(int num_args, char **arg_strings) {
     std::cout << "FIGARO Supply Matrix of Total Size: " << S.size() << std::endl;
     std::cout << "FIGARO Supply Matrix with Rows: " << S.rows() << std::endl;
     std::cout << "FIGARO Supply Matrix with Columns: " << S.cols() << std::endl;
-    std::cout << "FIGARO Supply Matrix Checksum: " << S.sum() << std::endl;
-
-    // STEP 2: LOAD USE MATRIX
 
     constexpr int MAX_ROW = 2950;
     constexpr int MAX_COL = 3174;
 
     Eigen::MatrixXd UP(MAX_ROW, MAX_COL);
 
-    CSVReader reader2("../data/use.csv");
+    CSVReader reader2("../data/matrix_eu-ic-use_24ed_2022.csv");
 
     i = 0;
     for (auto &row: reader2) {
-        for (int j = 0; j < MAX_COL; j++) {
-                UP(i, j) = row[j].get<double>();
+        for (int j = 0; j < MAX_COL + 1; j++) {
+            if (j > 0) {
+                value = row[j].get<double>();
+                UP(i, j - 1) = value;
+            } else {
+                label = row[j].get_sv();
             }
+        }
         i++;
     }
 
@@ -74,7 +81,6 @@ int main(int num_args, char **arg_strings) {
     std::cout << "FIGARO Use Matrix of Total Size: " << UP.size() << std::endl;
     std::cout << "FIGARO Use Matrix with Rows: " << UP.rows() << std::endl;
     std::cout << "FIGARO Use Matrix with Columns: " << UP.cols() << std::endl;
-    std::cout << "FIGARO Use Matrix Checksum: " << UP.sum() << std::endl;
 
     constexpr int FD = 230;
     constexpr int VA = 6;
@@ -83,16 +89,12 @@ int main(int num_args, char **arg_strings) {
     std::cout << "Compactified Use Matrix" << std::endl;
     std::cout << "New Use Matrix with Rows: " << U.rows() << std::endl;
     std::cout << "New Use Matrix with Columns: " << U.cols() << std::endl;
-    std::cout << "New Use Matrix Checksum: " << U.sum() << std::endl;
 
     int IO = S.cols();
 
     // Construct SUT system
     SUTSystem figaro;
     figaro.CreateTransactionsMatrix(S, U);
-    std::cout << "Combined Matrix Checksum: " << figaro.getW().sum() << std::endl;
-    std::cout << "Component Checksum: " << S.sum() + U.sum() << std::endl;
-
     figaro.CreateUpstreamProbabilities(IO, IO);
 
     // std::cout << figaro.getQu() << std::endl;
@@ -101,7 +103,6 @@ int main(int num_args, char **arg_strings) {
     std::cout << "Number of Rows: " << figaro.getQu().rows() << std::endl;
     std::cout << "Number of Columns: " << figaro.getQu().cols() << std::endl;
     std::cout << "Column-wise norm check: " << TestColumnNorm(figaro.getQu()) << std::endl;
-    std::cout << "Probability check: " << TestProbabilities(figaro.getQu()) << std::endl;
 
     const static Eigen::IOFormat CSVFormat(Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", "\n");
     std::ofstream file("../data/figaro_qu.csv");

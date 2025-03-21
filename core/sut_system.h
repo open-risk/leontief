@@ -54,6 +54,7 @@ public:
         int wx = S.cols() + U.cols() + 1;
         int wy = S.rows() + U.rows() + 1;
         _W.resize(wx, wy);
+        _W.setZero();
         _W.block(U.rows(),0, S.rows(), S.cols()) = S;
         _W.block(0,S.cols()+1, U.rows(), U.cols()) = U;
     }
@@ -64,11 +65,12 @@ public:
     void CreateUpstreamProbabilities(int unitCol, int unitRow) {
 
         _Qu.resizeLike(_W);
+        _Qu.setZero();
 
         auto colsum = _W.colwise().sum();
 
-         for (int i = 0; i < _W.cols(); i++)
-             if (colsum(i) > 0) _Qu.col(i) = _W.col(i) / colsum(i);
+         for (int j = 0; j < _W.cols(); j++)
+             if (colsum(j) > 0) _Qu.col(j) = _W.col(j) / colsum(j);
 
         _Qu(unitRow, unitCol) = 1.0;
 
