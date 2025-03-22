@@ -27,18 +27,30 @@
 
 TEST_CASE("Test SUT system creation", "[sut]") {
 
-    int IO = 10;
-    int FD = 1;
-    int VA = 1;
-    int mode = 0;
+    int m = 2; // product count
+    int n = 2; // sector count
+    int fd = 1; // final demand count
+    int va = 1; // value added count
+    int mode = 2; // select test
 
-    Eigen::MatrixXd S = TestSupplyMatrix(IO, mode);
-    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, mode);
-    SUTSystem testSUT;
+    // Insert test data
+    Eigen::MatrixXd S = TestSupplyMatrix(m, n, mode);
+    Eigen::MatrixXd U = TestUseMatrix(m, n, mode);
+    Eigen::MatrixXd VA = TestVAMatrix(n, va, mode);
+    Eigen::MatrixXd FD = TestFDMatrix(m, va, mode);
+
+    // Initialize and compute full SUT system
+    SUTSystem testSUT(S, U, VA, FD);
+    testSUT.CreateTotalInput();
+    std::cout << testSUT.getTI() << std::endl;
+    testSUT.CreateTotalOutput();
+    std::cout << testSUT.getTO() << std::endl;
     testSUT.CreateTransactionsMatrix(S, U);
-    testSUT.CreateUpstreamProbabilities(IO, IO);
+    testSUT.CreateUpstreamProbabilities(m, m);
     testSUT.CreateDownstreamProbabilities();
 
+    // Test
+    REQUIRE(TestBalance(testSUT.getTI(), testSUT.getTO()) == 1);
     REQUIRE(TestProbabilities(testSUT.getQu()) == 1);
     REQUIRE(TestColumnNorm(testSUT.getQu()) == 1);
 

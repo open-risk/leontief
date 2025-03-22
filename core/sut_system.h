@@ -28,6 +28,8 @@ public:
     * Create a Supply-Use system with the specified matrices.
     *   S - Supply matrix
     *   U - Use matrix
+    *   VA - Value Added matrix
+    *   FD - Final Demand matrix
     *   W - Transactions matrix
     *   Qu - Upstream probabilities
     *   Qd - Downstream probabilities
@@ -35,20 +37,11 @@ public:
     SUTSystem(
         Eigen::MatrixXd &S,
         Eigen::MatrixXd &U,
-        Eigen::MatrixXd &W,
-        Eigen::MatrixXd &Qu,
-        Eigen::MatrixXd &Qd
+        Eigen::MatrixXd &VA,
+        Eigen::MatrixXd &FD
     );
 
-    /**
-    * Create an empty system.
-    */
-    SUTSystem();
-
-    /**
-    * Initialize the system with initial states as zero.
-    */
-    void init();
+    SUTSystem() = default;
 
     void CreateTransactionsMatrix(const Eigen::MatrixXd &S, const Eigen::MatrixXd U) {
         int wx = S.cols() + U.cols() + 1;
@@ -64,6 +57,8 @@ public:
      */
     void CreateUpstreamProbabilities(int unitCol, int unitRow) {
 
+        // TODO test for squareness
+
         _Qu.resizeLike(_W);
         _Qu.setZero();
 
@@ -75,6 +70,17 @@ public:
         _Qu(unitRow, unitCol) = 1.0;
 
     }
+
+    void CreateTotalInput() {
+        auto colsum = _S.colwise().sum() + _VA.colwise().sum();
+        _TI = colsum;
+    }
+
+    void CreateTotalOutput() {
+        auto rowsum = _U.rowwise().sum() + _FD.rowwise().sum();
+        _TO = rowsum;
+    }
+
 
     void CreateDownstreamProbabilities() {
         _Qd = _W;
@@ -88,34 +94,37 @@ public:
         return _Qu;
     }
 
+    Eigen::MatrixXd &getTO() {
+        return _TO;
+    }
+
+    Eigen::MatrixXd &getTI() {
+        return _TI;
+    }
+
 private:
     // Matrices and vectors for computation
     Eigen::MatrixXd
-            _S, _U, _W, _Qu, _Qd;
+            _S, _U, _VA, _FD, _TI, _TO, _W, _Qu, _Qd;
 
     // System dimensions
 
     int N{}; // total size
     int n{}; // sectors
     int m{}; // products
+    int va{}; // value added types
+    int fd{}; // final demand types
 
     // Is the system initialized?
     bool initialized{};
 };
 
-inline SUTSystem::SUTSystem(Eigen::MatrixXd &S, Eigen::MatrixXd &U, Eigen::MatrixXd &W, Eigen::MatrixXd &Qu,
-                            Eigen::MatrixXd &Qd) {
+inline SUTSystem::SUTSystem(Eigen::MatrixXd &S, Eigen::MatrixXd &U,Eigen::MatrixXd &VA, Eigen::MatrixXd &FD) {
     _S = S;
     _U = U;
-    _W = W;
-    _Qu = Qu;
-    _Qd = Qd;
+    _VA = VA;
+    _FD = FD;
     initialized = true;
-}
-
-inline SUTSystem::SUTSystem() = default;
-
-inline void SUTSystem::init() {
 }
 
 #endif //LEONTIEF_SUT_SYSTEM_H

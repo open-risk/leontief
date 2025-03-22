@@ -24,28 +24,49 @@
 // Eigen::MatrixXd RandomAggregationatrix(int Size1, int Size2);
 
 using namespace std;
-using namespace Eigen;
 
-inline Eigen::MatrixXd TestSupplyMatrix(const int IO, const int mode) {
+inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
     Eigen::MatrixXd result;
-    if (mode ==0) {
-        result.resize(IO, IO);
-        result.setOnes();
+    if (mode == 2) {
+        result.resize(va, n);
+        result << 60, 95;
     }
-    else if (mode ==1) {
-        result.resize(2 , 2);
+    return result;
+}
+
+inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
+    Eigen::MatrixXd result;
+    if (mode == 2) {
+        result.resize(m, fd);
+        result << 80, 83;
+    }
+    return result;
+}
+
+inline Eigen::MatrixXd TestSupplyMatrix(const int m, const int n, const int mode) {
+    Eigen::MatrixXd result;
+    if (mode == 0) {
+        result.resize(m, m);
+        result.setOnes();
+    } else if (mode == 1) {
+        result.resize(2, 2);
         result << 16, 0, 0, 12;
+    } else if (mode == 2) {
+        result.resize(2, 2);
+        result << 90, 0, 10, 100;
     }
     return result;
 }
 
 /*
- * Generate a test Use matrix with an symmetric IO part and a desired number of
- * final demand columns and value added rows
+ * Generate a test Use matrix with an symmetric IO part and a desired number of final demand columns and value added rows
  *
  */
-inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA, const int mode) {
+inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
     Eigen::MatrixXd result;
+    int IO = m;
+    int FD = 1;
+    int VA = 1;
 
     if (mode == 0) {
         const int SizeX = IO + FD;
@@ -66,10 +87,12 @@ inline Eigen::MatrixXd TestUseMatrix(const int IO, const int FD, const int VA, c
                 }
             }
         }
-    }
-    else if (mode==1) {
-        result.resize(3 ,3);
+    } else if (mode == 1) {
+        result.resize(3, 3);
         result << 8, 5, 3, 4, 2, 6, 4, 5, 0;
+    } else if (mode == 2) {
+        result.resize(2, 2);
+        result << 12, 6, 10, 7;
     }
 
     return result;

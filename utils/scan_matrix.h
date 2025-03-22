@@ -48,3 +48,11 @@ inline bool TestProbabilities(Eigen::MatrixXd &S) {
             if (S(i, j) > 1.0) test = false;
     return test;
 }
+
+inline bool TestBalance(Eigen::MatrixXd &TI, Eigen::MatrixXd &TO) {
+    bool test = true;
+    for (int i = 0; i < TI.rows(); i++) {
+        if (abs(TI(i) - TO(i)) > LEONTIEF_TOLERANCE) test = false;
+    }
+    return test;
+}

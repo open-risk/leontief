@@ -18,6 +18,10 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+/*
+ * General utility functions
+ */
+
 inline std::string get_current_time() {
     time_t t = time(nullptr);
     struct tm *now = localtime(&t);

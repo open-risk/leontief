@@ -29,7 +29,7 @@ TEST_CASE("Test the compactification of Use matrix data", "[algorithms]") {
     int FD = 3;
     int VA = 4;
 
-    Eigen::MatrixXd U = TestUseMatrix(IO, FD, VA, 0);
+    Eigen::MatrixXd U = TestUseMatrix(IO, IO, 0);
     std::cout << U << std::endl;
     std::cout << "----------------" << std::endl;
 
