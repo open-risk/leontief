@@ -20,26 +20,48 @@
 #include <filesystem>
 #include <fstream>
 
+/*
+ * Test that a basic collection of FIGARO files is available and readable. NB: This does not ensure the desired collection is available.
+ */
 
 TEST_CASE("Test reading FIGARO data", "[data-io]") {
-    std::string filename = "../data/flatfile_eu-ic-supply_24ed_2022.csv";
-    const char *cstr = filename.c_str();
 
-    if (std::filesystem::exists(filename)) {
-        std::cout << "Ok" << std::endl;
+    std::string filename1 = "../data/matrix_eu-ic-supply_24ed_2022.csv";
+    std::string filename2 = "../data/matrix_eu-ic-use_24ed_2022.csv";
 
-        std::ifstream t(cstr);
+    const char *cstr1 = filename1.c_str();
+    const char *cstr2 = filename2.c_str();
+
+    bool test = false;
+
+    if (std::filesystem::exists(filename1) && std::filesystem::exists(filename2)) {
+        std::cout << "Files Found" << std::endl;
+
+        std::ifstream t1(cstr1);
+        std::ifstream t2(cstr2);
         std::stringstream buffer;
 
         try {
-            buffer << t.rdbuf();
-            std::cout << "Ok++" << std::endl;
+            buffer << t1.rdbuf();
+            std::cout << "Ok Buffering File 1" << std::endl;
         } catch (...) {
             std::cout << "ERROR: Problem loading FIGARO data" << std::endl;
             abort();
         };
+
+        try {
+            buffer << t1.rdbuf();
+            std::cout << "Ok Buffering File 1" << std::endl;
+        } catch (...) {
+            std::cout << "ERROR: Problem loading FIGARO data" << std::endl;
+            abort();
+        };
+
+        test = true;
+
     } else {
         std::cout << "ERROR: FIGARO Input File does not exist" << std::endl;
         abort();
     }
+    REQUIRE(test == true);
 }

@@ -24,7 +24,16 @@
 
 using namespace csv;
 
-TEST_CASE("Test loading FIGARO Supply matrix (Matrix Format)", "[data-io]") {
+TEST_CASE("Test parse FIGARO Use matrix", "[data-io]") {
+
+    int n{}; // sectors
+    int m{}; // products
+    int va{}; // value added types
+    int fd{}; // final demand types
+
+    Eigen::MatrixXd _U;  // m x n use matrix
+    Eigen::MatrixXd _VA; // va x n value added matrix (part of use table)
+    Eigen::MatrixXd _FD; // m x fd final demand matrix (part of use table)
 
     constexpr int MAX = 2944; // Matrix dimension
     Eigen::MatrixXd S(MAX, MAX);
@@ -39,10 +48,8 @@ TEST_CASE("Test loading FIGARO Supply matrix (Matrix Format)", "[data-io]") {
             if (i > 0 && j > 0) {
                 value = row[j].get<double>();
                 S(i-1, j-1) = value;
-                // std::cout << i << " " << j << " " << value << std::endl;
             } else {
                 label = row[j].get_sv();
-                // std::cout << i << " " << j << " " << label << std::endl;
             }
         }
         i++;

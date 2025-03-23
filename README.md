@@ -1,6 +1,6 @@
 # Leontief
 
-Leontief is a C++ toolkit to work with economic Input-Output models. 
+Leontief is a C++/Python toolkit to facilitate working with economic Input-Output models. 
 
 ![IO](docs/US-IO.png)
 
@@ -14,6 +14,8 @@ Leontief helps with a number of typical tasks in Input-Output modeling:
 * Ingesting IO matrices into a C++ environment for further calculations.
 * Solving typical IO problems using a library of tested algorithms. 
 * Investigating ad-hoc research questions by writing new high-level code in the form scripts.
+
+The current focus of development is around the FIGARO dataset.
 
 ## Installation / Workflow
 

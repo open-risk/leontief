@@ -8,7 +8,9 @@ Total 46
 * 18 Others
 * 1 "ROW"
 
-## FIGARO Supply Table Header (CSV Flat)
+## FIGARO Supply Tables
+
+### CSV Flat
 
 csv column headers:
 
@@ -25,7 +27,16 @@ Total csv rows: 8667136 = (46 x 64)^2
 46 geographical entities; 64 production activities
 (46x64 x 46x64 = 2 944 x 2 944 = 8 667 1360)
 
-## FIGARO Use Table Header  (CSV Flat)
+### CSV Matrix
+
+* icsupRow: Concatenation (flattening) of refArea and rowPi codes
+* icsupCol: Concatenation of counterpartArea and colPi codes
+
+Total csv rows / columns: 2944
+
+## FIGARO Use Table 
+
+### CSV Flat
 
 csv column headers:
 
@@ -43,14 +54,7 @@ csv column headers:
 
 Total csv rows: 9363300 = 8667136 + 696164 (= 46 x 15134 = 46 x 46 x (6 + 1) x (46 + 1))
 
-## FIGARO Supply Table Header (CSV Matrix)
-
-* icsupRow: Concatenation (flattening) of refArea and rowPi codes
-* icsupCol: Concatenation of counterpartArea and colPi codes
-
-Total csv rows / columns: 2944
-
-## FIGARO USE Table Header (CSV Matrix)
+### CSV Matrix 
 
 * icsupRow: Concatenation (flattening) of refArea and rowPi codes
 * icsupCol: Concatenation of counterpartArea and colPi codes
@@ -62,6 +66,7 @@ Total csv columns: 2944 + 5 * 46 (230) = 3174
 
 46 geographical entities; 64 production activities + 1 households
 (1 x 46 x (64+1) = 2 990)
+
 
 ## FIGARO-E3 
 

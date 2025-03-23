@@ -73,12 +73,12 @@ public:
 
     void CreateTotalInput() {
         auto colsum = _S.colwise().sum() + _VA.colwise().sum();
-        _TI = colsum;
+        _TPI = colsum;
     }
 
     void CreateTotalOutput() {
         auto rowsum = _U.rowwise().sum() + _FD.rowwise().sum();
-        _TO = rowsum;
+        _TPO = rowsum;
     }
 
 
@@ -95,25 +95,41 @@ public:
     }
 
     Eigen::MatrixXd &getTO() {
-        return _TO;
+        return _TPO;
     }
 
     Eigen::MatrixXd &getTI() {
-        return _TI;
+        return _TPI;
     }
 
 private:
-    // Matrices and vectors for computation
-    Eigen::MatrixXd
-            _S, _U, _VA, _FD, _TI, _TO, _W, _Qu, _Qd;
 
     // System dimensions
 
-    int N{}; // total size
     int n{}; // sectors
     int m{}; // products
     int va{}; // value added types
     int fd{}; // final demand types
+
+    // Matrices and vectors for SUT system storage
+    // both input data and computed data
+
+    // Components
+    Eigen::MatrixXd _S;  // m x n supply matrix (transpose of n x m make matrix)
+    Eigen::MatrixXd _U;  // m x n use matrix
+    Eigen::MatrixXd _VA; // va x n value added matrix (part of use table)
+    Eigen::MatrixXd _FD; // m x fd final demand matrix (part of use table)
+
+    // Sums
+    Eigen::MatrixXd _TII; // total industry input from supply table (1 x n row vector)
+    Eigen::MatrixXd _TIO; // total industry output from use table (1 x n row vector)
+    Eigen::MatrixXd _TPI; // total product input from use table (m x 1 column vector)
+    Eigen::MatrixXd _TPO; // total product output from supply table (m x 1 column vector)
+
+    // Normalizations
+    Eigen::MatrixXd _W;
+    Eigen::MatrixXd _Qu;
+    Eigen::MatrixXd _Qd;
 
     // Is the system initialized?
     bool initialized{};
