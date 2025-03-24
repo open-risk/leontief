@@ -43,32 +43,33 @@ public:
 
     SUTSystem() = default;
 
-    void CreateTransactionsMatrix(const Eigen::MatrixXd &S, const Eigen::MatrixXd U) {
-        int wx = S.cols() + U.cols() + 1;
-        int wy = S.rows() + U.rows() + 1;
+    void CreateTransactionsMatrix(const Eigen::MatrixXd &M, const Eigen::MatrixXd U) {
+        int wy = M.cols() + U.cols() + 1;
+        int wx = M.rows() + U.rows() + 1;
         _W.resize(wx, wy);
         _W.setZero();
-        _W.block(U.rows(),0, S.rows(), S.cols()) = S;
-        _W.block(0,S.cols()+1, U.rows(), U.cols()) = U;
+        _W.block(U.rows(), 0, M.rows(), M.cols()) = M;
+        _W.block(0, M.cols() + 1, U.rows(), U.cols()) = U;
     }
 
     /*
      * Inputs are the matrix coordinates of the unit value
      */
-    void CreateUpstreamProbabilities(int unitCol, int unitRow) {
-
-        // TODO test for squareness
-
+    void CreateUpstreamProbabilities(int unitRow, int unitCol) {
         _Qu.resizeLike(_W);
         _Qu.setZero();
 
         auto colsum = _W.colwise().sum();
 
-         for (int j = 0; j < _W.cols(); j++)
-             if (colsum(j) > 0) _Qu.col(j) = _W.col(j) / colsum(j);
+        // Normalize non-zero columns
+        for (int j = 0; j < _W.cols(); j++) {
+            if (colsum(j) != 0) {
+                _Qu.col(j) = _W.col(j) / colsum(j);
+            }
+        }
 
+        // Set absorbing node
         _Qu(unitRow, unitCol) = 1.0;
-
     }
 
     void CreateTotalInput() {
@@ -103,7 +104,6 @@ public:
     }
 
 private:
-
     // System dimensions
 
     int n{}; // sectors
@@ -115,8 +115,8 @@ private:
     // both input data and computed data
 
     // Components
-    Eigen::MatrixXd _S;  // m x n supply matrix (transpose of n x m make matrix)
-    Eigen::MatrixXd _U;  // m x n use matrix
+    Eigen::MatrixXd _S; // m x n supply matrix (transpose of n x m make matrix)
+    Eigen::MatrixXd _U; // m x n use matrix
     Eigen::MatrixXd _VA; // va x n value added matrix (part of use table)
     Eigen::MatrixXd _FD; // m x fd final demand matrix (part of use table)
 
@@ -135,7 +135,7 @@ private:
     bool initialized{};
 };
 
-inline SUTSystem::SUTSystem(Eigen::MatrixXd &S, Eigen::MatrixXd &U,Eigen::MatrixXd &VA, Eigen::MatrixXd &FD) {
+inline SUTSystem::SUTSystem(Eigen::MatrixXd &S, Eigen::MatrixXd &U, Eigen::MatrixXd &VA, Eigen::MatrixXd &FD) {
     _S = S;
     _U = U;
     _VA = VA;

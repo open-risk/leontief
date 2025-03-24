@@ -34,6 +34,18 @@ inline bool TestColumnNorm(Eigen::MatrixXd &S) {
     auto colsum = S.colwise().sum();
     for (int j = 0; j < S.cols(); j++) {
         if (abs(colsum(j) - 1.0) > LEONTIEF_TOLERANCE) {
+            // std::cout << "Column: " << j << " " << colsum(j) << std::endl;
+            test = false;
+        }
+    }
+    return test;
+}
+
+inline bool TestColumnSum(Eigen::MatrixXd &S) {
+    bool test = true;
+    auto colsum = S.colwise().sum();
+    for (int j = 0; j < S.cols(); j++) {
+        if (abs(colsum(j)) < LEONTIEF_TOLERANCE) {
             std::cout << "Column: " << j << " " << colsum(j) << std::endl;
             test = false;
         }
@@ -43,9 +55,27 @@ inline bool TestColumnNorm(Eigen::MatrixXd &S) {
 
 inline bool TestProbabilities(Eigen::MatrixXd &S) {
     bool test = true;
-    for (int i = 0; i < S.rows(); i++)
-        for (int j = 0; j < S.cols(); j++)
-            if (S(i, j) > 1.0) test = false;
+    for (int i = 0; i < S.rows(); i++) {
+        for (int j = 0; j < S.cols(); j++) {
+            if (S(i, j) > 1.0) {
+                test = false;
+                std::cout << i << " " << j << " " << S(i, j) << std::endl;
+            }
+        }
+    }
+    return test;
+}
+
+inline bool TestPositivity(Eigen::MatrixXd &S) {
+    bool test = true;
+    for (int i = 0; i < S.rows(); i++) {
+        for (int j = 0; j < S.cols(); j++) {
+            if (S(i, j) < 0.0) {
+                test = false;
+                std::cout << i << " " << j << " " << S(i, j) << std::endl;
+            }
+        }
+    }
     return test;
 }
 

@@ -53,7 +53,7 @@ inline Eigen::MatrixXd TestSupplyMatrix(const int m, const int n, const int mode
         result << 16, 0, 0, 12;
     } else if (mode == 2) {
         result.resize(2, 2);
-        result << 90, 0, 10, 100;
+        result << 90, 10, 0, 100;
     }
     return result;
 }
@@ -91,8 +91,8 @@ inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
         result.resize(3, 3);
         result << 8, 5, 3, 4, 2, 6, 4, 5, 0;
     } else if (mode == 2) {
-        result.resize(2, 2);
-        result << 12, 6, 10, 7;
+        result.resize(3, 3);
+        result << 12, 8, 80, 10, 7, 83, 68, 95, 0;
     }
 
     return result;

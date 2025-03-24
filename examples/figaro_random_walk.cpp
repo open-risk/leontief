@@ -29,9 +29,18 @@ using namespace csv;
 int main(int num_args, char **arg_strings) {
 
     // LOAD FIGARO TRANSITION MATRIX
-    constexpr int MAX = 2944;
+    constexpr int MAX = 5890;
     Eigen::MatrixXd Q(MAX, MAX);
     CSVReader reader1("../data/figaro_qu.csv");
+    double value = 0;
+    int i = 0;
+    for (auto &row: reader1) {
+        for (int j = 0; j < MAX; j++) {
+            value = Q(i, j) = row[j].get<double>();
+        }
+        i++;
+    }
+
     std::cout << "Column-wise norm check: " << TestColumnNorm(Q) << std::endl;
 
     // Construct Markov Chain from Transition Matrix
@@ -47,7 +56,7 @@ int main(int num_args, char **arg_strings) {
             col_sum += Q(ii, j);
             weights[ii] = Q(ii, j);
         }
-        std::cout << weights << std::endl;
+        // std::cout << weights << std::endl;
         std::discrete_distribution<int> d(weights.begin(), weights.end());
         prob_vector[j] = d;
     }
@@ -58,10 +67,19 @@ int main(int num_args, char **arg_strings) {
 
     // Here the weights are from Q columns and the integers are from the sector index
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // std::random_device rd;
+    //std::mt19937 gen(rd());
+    // std::default_random_engine eng{static_cast<long unsigned int>(time(0))};
 
-    int Steps = 7;
+    std::random_device rd;
+    std::size_t seed;
+    if (rd.entropy())
+        seed = rd();
+    else
+        seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::mt19937 gen(seed);
+
+    int Steps = 10;
 
     Eigen::VectorXd Intensity(Sectors); // Impact intensity
     Intensity.setOnes();
@@ -70,10 +88,10 @@ int main(int num_args, char **arg_strings) {
     Impact.setZero();
 
     for (int fs = 0; fs < Scenarios; fs++) {
-        int old_state = 400;
+        int old_state = 100;
         int k = 0; // Step Count
         // While not absorbed
-        while (old_state != 2 && k < Steps) {
+        while (old_state != 2944 && k < Steps) {
             // Compute Next Node
             int new_state = prob_vector[old_state](gen);
             // Compute Impact Intensity
@@ -83,6 +101,5 @@ int main(int num_args, char **arg_strings) {
             k += 1;
         }
     }
-    std::cout << "Simulate" << std::endl;
     // std::cout << Impact / Scenarios << std::endl;
 }

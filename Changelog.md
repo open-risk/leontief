@@ -2,7 +2,8 @@
 
 # 0.2 (TBD)
 
-* First bundled release, alpha
+* First bundled alpha release
+* Focus on SUT system development and FIGARO data
 
 
 # 0.1 (Apr 25, 2024)

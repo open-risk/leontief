@@ -24,10 +24,9 @@
 
 using namespace csv;
 
-// ATTN the two file formats do not agree on ~6986 elements (Factors 2, 7, 499)
-// Tested 2022, 2021
+// The two file formats do not automatically agree
+//
 // TOTAL NUMERICAL ROWS = 2944 * 2944;
-// TODO test that labels agree (python script)
 
 
 TEST_CASE("Test parsing FIGARO Supply matrix", "[data-io]") {

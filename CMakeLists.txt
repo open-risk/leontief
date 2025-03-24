@@ -139,7 +139,7 @@ target_compile_definitions(example5 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${L
 target_link_libraries(example5 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # EXAMPLE 6: SUT Balance
-add_executable(example6 examples/sut_balance.cpp ${SOURCE_FILES})
+add_executable(example6 examples/check_sut_balance.cpp ${SOURCE_FILES})
 target_include_directories(example6 PRIVATE ${Eigen3_INCLUDE_DIRS})
 #add_compile_options("-O3")
 target_compile_definitions(example6 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
