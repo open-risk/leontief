@@ -40,7 +40,7 @@ int main(int num_args, char **arg_strings) {
 
     // STEP 1: CONFIGURATION
 
-    // MILLER
+    // MILLER-BLAIR SYSTEM
     // constexpr int SROWS = 2;
     // constexpr int SCOLS = 2;
     // constexpr int UROWS = 3;
@@ -48,7 +48,7 @@ int main(int num_args, char **arg_strings) {
     // constexpr int FD = 1;
     // constexpr int VA = 1;
 
-    // FIGARO
+    // FIGARO SYSTEM
     constexpr int SROWS = 2944;
     constexpr int SCOLS = 2944;
     constexpr int UROWS = 2950;

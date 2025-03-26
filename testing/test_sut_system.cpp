@@ -27,11 +27,26 @@
 
 TEST_CASE("Test SUT system creation", "[sut]") {
 
-    int m = 2; // product count
-    int n = 2; // sector count
+    // MODE 0: Stylized System
+    int m = 10; // product count
+    int n = 10; // sector count
     int fd = 1; // final demand count
     int va = 1; // value added count
-    int mode = 2; // select test
+    int mode = 0; // select test
+
+    // MODE 1: Open Risk WP 16, Appendix 1 System (Based on Kitzes 2013)
+    // int m = 2; // product count
+    // int n = 2; // sector count
+    // int fd = 1; // final demand count
+    // int va = 1; // value added count
+    // int mode = 1; // select test
+
+    // MODE 2: Miller-Blair Table 5.3 Page 187
+    // int m = 2; // product count
+    // int n = 2; // sector count
+    // int fd = 1; // final demand count
+    // int va = 1; // value added count
+    // int mode = 2; // select test
 
     // Insert test data
     Eigen::MatrixXd S = TestSupplyMatrix(m, n, mode);
@@ -39,15 +54,15 @@ TEST_CASE("Test SUT system creation", "[sut]") {
     Eigen::MatrixXd VA = TestVAMatrix(n, va, mode);
     Eigen::MatrixXd FD = TestFDMatrix(m, va, mode);
 
+
     // Initialize and compute full SUT system
     SUTSystem testSUT(S, U, VA, FD);
-    testSUT.CreateTotalInput();
-    std::cout << testSUT.getTI() << std::endl;
-    testSUT.CreateTotalOutput();
-    std::cout << testSUT.getTO() << std::endl;
+    // testSUT.CreateTotalInput();
+    // testSUT.CreateTotalOutput();
+    // std::cout << testSUT.getTO() << std::endl;
     testSUT.CreateTransactionsMatrix(S, U);
     testSUT.CreateUpstreamProbabilities(m, m);
-    testSUT.CreateDownstreamProbabilities();
+    // testSUT.CreateDownstreamProbabilities();
 
     // Test
     REQUIRE(TestBalance(testSUT.getTI(), testSUT.getTO()) == 1);

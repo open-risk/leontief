@@ -25,6 +25,20 @@
 
 using namespace std;
 
+inline Eigen::VectorXd TestIntensity(const int m, const int n, const int mode) {
+    Eigen::VectorXd result;
+    result.setZero();
+    if (mode == 0) {
+        for (int j=0; j<m; j++) {
+            result(j) = 1.0;
+        }
+    } else if (mode == 1) {
+        result.resize(6);
+        result << 0.5, 0.33, 0, 0, 0, 0;
+    }
+    return result;
+}
+
 inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
     Eigen::MatrixXd result;
     if (mode == 2) {
@@ -46,8 +60,10 @@ inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
 inline Eigen::MatrixXd TestSupplyMatrix(const int m, const int n, const int mode) {
     Eigen::MatrixXd result;
     if (mode == 0) {
-        result.resize(m, m);
-        result.setOnes();
+        // result.resize(m, m);
+        // result.setRandom();
+        // result = result.cwiseAbs();
+        result = Eigen::MatrixXd::Identity(m, m);
     } else if (mode == 1) {
         result.resize(2, 2);
         result << 16, 0, 0, 12;
@@ -69,6 +85,10 @@ inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
     int VA = 1;
 
     if (mode == 0) {
+        result.resize(m+1, m+1);
+        result.setRandom();
+        result = result.cwiseAbs();
+    } else if (mode == 3) {
         const int SizeX = IO + FD;
         const int SizeY = IO + VA;
 
