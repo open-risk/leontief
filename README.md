@@ -46,11 +46,18 @@ There is a suit of catch2 based tests that help verify that everything is instal
 
 #### Downloading Scripts
 
-Create a leontief/data subdirectory. Download, move and extract publicly available IO databases into the data directory. Current download scripts:
+Create a leontief/data subdirectory. Download, move and extract publicly available IO databases into the data directory. 
 
-* exiobase
-* figaro
-* oecd-icio
+Current download scripts are in the directory leontief/scripts
+
+* [exiobase](scripts/download_exiobase.sh)
+* [figaro](scripts/download_figaro.sh)
+* [oecd-icio](scripts/download_oecd-icio.sh)
+
+```text
+bash scripts/download_oecd-ici.sh
+```
+
 
 #### Pre-processing
 
