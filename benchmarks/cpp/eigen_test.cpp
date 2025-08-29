@@ -1,7 +1,7 @@
 /**
  ################################################################################
  ##
- ##  Copyright (C) 2022-2024 Open Risk (www.openriskmanagement.com)
+ ##  Copyright (C) 2022 - 2025 Open Risk (www.openriskmanagement.com)
  ##
  ##  This file is part of the matrix2json project.
  ##
