@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
+
 #include <Eigen/LU>
 
 #include "core/io_system.h"
