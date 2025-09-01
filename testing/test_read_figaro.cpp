@@ -35,7 +35,7 @@ TEST_CASE("Test reading FIGARO data", "[data-io]") {
     bool test = false;
 
     if (std::filesystem::exists(filename1) && std::filesystem::exists(filename2)) {
-        std::cout << "Files Found" << std::endl;
+        std::cout << "FIGARO Files Found" << std::endl;
 
         std::ifstream t1(cstr1);
         std::ifstream t2(cstr2);
@@ -51,7 +51,7 @@ TEST_CASE("Test reading FIGARO data", "[data-io]") {
 
         try {
             buffer << t1.rdbuf();
-            std::cout << "Ok Buffering File 1" << std::endl;
+            std::cout << "Ok Buffering File 2" << std::endl;
         } catch (...) {
             std::cout << "ERROR: Problem loading FIGARO data" << std::endl;
             abort();
@@ -60,7 +60,7 @@ TEST_CASE("Test reading FIGARO data", "[data-io]") {
         test = true;
 
     } else {
-        std::cout << "ERROR: FIGARO Input File does not exist" << std::endl;
+        std::cout << "ERROR: FIGARO Input Files do not exist" << std::endl;
         abort();
     }
     REQUIRE(test == true);

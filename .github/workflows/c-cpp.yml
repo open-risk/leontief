@@ -36,12 +36,27 @@ jobs:
           build-essential \
           cmake \
           g++ \
-          libeigen3-dev\
+          libeigen3-dev \
+          libpoco-dev \
+          libssl-dev
           pkg-config
 
         echo "Installed Packages:"
         dpkg -l | grep -E 'cmake|g\+\+|eigen'
         echo "::endgroup::"
+
+    - name: 📦 Install Catch2
+      run: |
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        sudo cmake --build build --target install
+        cd ..
+
+    - name: 🔬 Verify Dependencies
+      run: |
+        echo "Poco version: $(pkg-config --modversion poco)"
+        catch2-config --version
 
     - name: 🔬 Verify Eigen Installation
       id: eigen_check

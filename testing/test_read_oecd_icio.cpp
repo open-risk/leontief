@@ -21,46 +21,33 @@
 #include <fstream>
 
 /*
- * Test that a basic collection of FIGARO files is available and readable. NB: This does not ensure the desired collection is available.
+ * Test that a basic collection of OECD-ICIO files is available and readable.
  */
 
-TEST_CASE("Test reading FIGARO data", "[data-io]") {
+TEST_CASE("Test reading OECD-ICIO data", "[data-io]") {
 
-    std::string filename1 = "../data/matrix_eu-ic-supply_24ed_2022.csv";
-    std::string filename2 = "../data/matrix_eu-ic-use_24ed_2022.csv";
-
-    const char *cstr1 = filename1.c_str();
-    const char *cstr2 = filename2.c_str();
-
+    std::string filename = "../data/oecd-2017-2022/icio.csv";
+    const char *cstr = filename.c_str();
     bool test = false;
 
-    if (std::filesystem::exists(filename1) && std::filesystem::exists(filename2)) {
-        std::cout << "Files Found" << std::endl;
+    if (std::filesystem::exists(filename) && std::filesystem::exists(filename)) {
+        std::cout << "OECD ICIO Files Found" << std::endl;
 
-        std::ifstream t1(cstr1);
-        std::ifstream t2(cstr2);
+        std::ifstream t(cstr);
         std::stringstream buffer;
 
         try {
-            buffer << t1.rdbuf();
-            std::cout << "Ok Buffering File 1" << std::endl;
+            buffer << t.rdbuf();
+            std::cout << "Ok Buffering File" << std::endl;
         } catch (...) {
-            std::cout << "ERROR: Problem loading FIGARO data" << std::endl;
-            abort();
-        };
-
-        try {
-            buffer << t1.rdbuf();
-            std::cout << "Ok Buffering File 1" << std::endl;
-        } catch (...) {
-            std::cout << "ERROR: Problem loading FIGARO data" << std::endl;
+            std::cout << "ERROR: Problem loading OECD-ICIO data" << std::endl;
             abort();
         };
 
         test = true;
 
     } else {
-        std::cout << "ERROR: FIGARO Input File does not exist" << std::endl;
+        std::cout << "ERROR: OECD-ICIO Input File does not exist" << std::endl;
         abort();
     }
     REQUIRE(test == true);

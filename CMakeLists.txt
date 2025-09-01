@@ -83,6 +83,7 @@ set(TEST_FILES
         testing/test_load_exiobase_a_matrix.cpp
         testing/test_parse_figaro_supply_matrix.cpp
         testing/test_parse_figaro_use_matrix.cpp
+        testing/test_parse_oecd_io_matrix.cpp
         testing/test_leontief_inverse.cpp
         testing/test_ras.cpp
         testing/test_agg.cpp
@@ -146,13 +147,19 @@ target_include_directories(example6 PRIVATE ${Eigen3_INCLUDE_DIRS})
 target_compile_definitions(example6 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(example6 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-# EXAMPLE 7: CHECK SUT Balance
+# EXAMPLE 7: EEIO SUT Calculations
 add_executable(example7 examples/eeio_sut_calculations.cpp ${SOURCE_FILES})
 target_include_directories(example7 PRIVATE ${Eigen3_INCLUDE_DIRS})
 #add_compile_options("-O3")
 target_compile_definitions(example7 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(example6 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
+# EXAMPLE 8: CHECK IO Balance
+add_executable(example8 examples/check_io_balance.cpp ${SOURCE_FILES})
+target_include_directories(example8 PRIVATE ${Eigen3_INCLUDE_DIRS})
+#add_compile_options("-O3")
+target_compile_definitions(example8 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+target_link_libraries(example8 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # CATCH2 TESTING
 include(Catch)

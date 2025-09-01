@@ -35,11 +35,11 @@ TEST_CASE("Test reading EXIOBASE data", "[data-io]") {
             buffer << t.rdbuf();
             std::cout << "Ok++" << std::endl;
         } catch (...) {
-            std::cout << "ERROR: Problem loading IO data" << std::endl;
+            std::cout << "ERROR: Problem loading EXIOBASE IO data" << std::endl;
             abort();
         };
     } else {
-        std::cout << "ERROR: Input File does not exist" << std::endl;
+        std::cout << "ERROR: EXIOBASE Input File does not exist" << std::endl;
         abort();
     }
 }
