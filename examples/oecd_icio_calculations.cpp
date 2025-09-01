@@ -18,30 +18,31 @@
 #include <iostream>
 #include "utils/csv.h"
 #include "utils/scan_matrix.h"
+#include "core/io_system.h"
 
-// TODO investigate OECD-ICIO balance relations
+/**
+ * Load the matrices from csv files
+ * Construct A matrix from Z and X (calc from z - mode 2)
+ *
+ */
 
 using namespace csv;
 
 int main(int num_args, char **arg_strings) {
+
+    constexpr int ROWS = 4053; // csv row dimension (not used by csvreadr)
+    constexpr int COLS = 4537; // csv col dimension
     int n = 4050; // total sectors
     int fd = 486; // final demand types
     int va = 2; // value added types
 
-
     Eigen::MatrixXd Z(n, n);      // n x n transactions matrix
     Eigen::MatrixXd FD(n, fd);    // n x fd final demand matrix
     Eigen::MatrixXd VA(va, n + fd);    // va x n value added matrix
-
-    Eigen::VectorXd Oc(n);   // output column vector
-    Eigen::RowVectorXd Or(n);         // output row vector
-
-    constexpr int ROWS = 4053; // csv row dimension (not used by csvreader)
-    constexpr int COLS = 4537; // csv col dimension
+    Eigen::VectorXd X(n);   // output column vector
 
     CSVFormat format;
     format.delimiter(',').no_header();
-
     CSVReader reader("../data/oecd-2017-2022/icio.csv", format);
 
     double value;
@@ -54,18 +55,19 @@ int main(int num_args, char **arg_strings) {
             } else if (i < n && j < COLS - 1 && j >= n) {
                 FD(i, j - n) = value;
             } else if (i < n && j == COLS - 1) {
-                Oc(i) = value;
+                X(i) = value;
             } else if (i >= ROWS - va - 1  && i < ROWS - 1 && j < COLS - 1) {
-                std::cout << "VA: " << i << " - " << j << " - " << value << std::endl;
                 VA(i - n, j) = value;
             } else if (i == ROWS - 1 && j < n) {
-                Or(j) = value;
-                std::cout << "Or: " << i << " - " << j << " - " << value << std::endl;
+                // Or(j) = value;
             }
         }
         i++;
     }
+    std::cout << "Step 1: Read Data" << std::endl;
+    IOSystem MyIO = IOSystem(Z, X, 2);
+    std::cout << "Step 2: Initialize System" << std::endl;
+    MyIO.calc_from_z2();
+    std::cout << "Step 3: Calculate" << std::endl;
 
-    std::cout << Or.sum() << std::endl;
-    std::cout << Oc.sum() << std::endl;
 }

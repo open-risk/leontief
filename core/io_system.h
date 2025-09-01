@@ -31,7 +31,7 @@ public:
     *   Z - Flow matrix
     *   x - Industry output vector
     *   A - Coefficients matrix
-    *   L - Leontief matrix
+    *   L - Leontief inverse matrix
     *   y - Final demand vector / matrix
     */
     IOSystem(
@@ -72,33 +72,34 @@ public:
      * calculate standard flow (inputs Z, Y)
      */
     void calc_from_z();
+    void calc_from_z2();
     /**
       * calculate shortcut flow (inputs A, Y)
     */
     void calc_from_a();
 
     Eigen::MatrixXd getZ() {
-        return _Z;
+        return _z;
     }
     Eigen::MatrixXd getY() {
-        return _Y;
+        return _y;
     }
     Eigen::MatrixXd getX() {
         return _x;
     }
     Eigen::MatrixXd getA() {
-        return _A;
+        return _a;
     }
     Eigen::MatrixXd getL() {
-        return _L;
+        return _l;
     }
 
 
 private:
 
     // Matrices and vectors for computation
-    Eigen::MatrixXd _A, _Z, _Y, _L;
-    Eigen::VectorXd _x, _E, _f, _v, _U;
+    Eigen::MatrixXd _a, _z, _y, _l;
+    Eigen::VectorXd _x, _e, _f, _v, _u;
 
     // System dimensions (for Symmetric IO should be identical)
     int n{}; // rows
@@ -107,7 +108,7 @@ private:
     // Is the system initialized?
     bool initialized{};
 
-    // n x n -sized identity
+    // n x n - sized identity
     Eigen::MatrixXd I;
 
 };
@@ -115,25 +116,33 @@ private:
 inline IOSystem::IOSystem() = default;
 
 
-inline IOSystem::IOSystem(const Eigen::MatrixXd &Z, const Eigen::MatrixXd &Y, int mode) {
+inline IOSystem::IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, int mode) {
 
     if (mode == 0) {  // Initialize with Z and Y matrix
-        _Z = Z;
-        _Y = Y;
+        _z = X;
+        _y = Y;
 
-        _x.resize(_Z.rows());
-        _E.resizeLike(_x);
-        _f.resizeLike(_E);
-        _A.resizeLike(_Z);
-        _L.resizeLike(_Z);
+        _x.resize(_z.rows());
+        _e.resizeLike(_x);
+        _f.resizeLike(_e);
+        _a.resizeLike(_z);
+        _l.resizeLike(_z);
     }
     else if (mode == 1) { // Initialize with A and Y matrix
-        _A = Z;
-        _Y = Y;
+        _a = X;
+        _y = Y;
 
-        _E.resizeLike(_Y); // TODO vector only
-        _f.resizeLike(_E);
-        _L.resizeLike(_A);
+        _e.resizeLike(_y); // TODO vector only
+        _f.resizeLike(_e);
+        _l.resizeLike(_a);
+    }
+    else if (mode == 2) { // Initialize with Z and X matrix
+        _z = X;
+        _x = Y;
+
+        _e.resizeLike(_x); // TODO vector only
+        _f.resizeLike(_e);
+        _l.resizeLike(_a);
     }
 
     initialized = true;

@@ -38,11 +38,9 @@ jobs:
           g++ \
           libeigen3-dev \
           libpoco-dev \
-          libssl-dev
+          libssl-dev \
           pkg-config
 
-        echo "Installed Packages:"
-        dpkg -l | grep -E 'cmake|g\+\+|eigen'
         echo "::endgroup::"
 
     - name: 📦 Install Catch2
@@ -55,6 +53,8 @@ jobs:
 
     - name: 🔬 Verify Dependencies
       run: |
+        echo "Installed Packages and versions:"
+        dpkg -l | grep -E 'cmake|g\+\+|eigen|poco'
         echo "Poco version: $(pkg-config --modversion poco)"
         catch2-config --version
 
@@ -69,7 +69,7 @@ jobs:
         EIGEN_INCLUDE_PATH=$(pkg-config --cflags eigen3)
         echo "Eigen Include Path: $EIGEN_INCLUDE_PATH"
         
-        # Additional verification
+        # Additional verification for Eigen
         echo "#include <Eigen/Dense>" > eigen_test.cpp
         echo "int main() { return 0; }" >> eigen_test.cpp
         g++ -I/usr/include/eigen3 eigen_test.cpp -o eigen_test

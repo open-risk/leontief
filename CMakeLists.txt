@@ -133,8 +133,8 @@ add_compile_options("-O3")
 target_compile_definitions(example4 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
 target_link_libraries(example4 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-# EXAMPLE 5: IO Calculations
-add_executable(example5 examples/io_calculations.cpp ${SOURCE_FILES})
+# EXAMPLE 5: Generic IO Calculations
+add_executable(example5 examples/generic_io_calculations.cpp ${SOURCE_FILES})
 target_include_directories(example5 PRIVATE ${Eigen3_INCLUDE_DIRS})
 #add_compile_options("-O3")
 target_compile_definitions(example5 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
@@ -155,7 +155,7 @@ target_compile_definitions(example7 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${L
 target_link_libraries(example6 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # EXAMPLE 8: CHECK IO Balance
-add_executable(example8 examples/check_io_balance.cpp ${SOURCE_FILES})
+add_executable(example8 examples/oecd_icio_calculations.cpp ${SOURCE_FILES})
 target_include_directories(example8 PRIVATE ${Eigen3_INCLUDE_DIRS})
 #add_compile_options("-O3")
 target_compile_definitions(example8 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})

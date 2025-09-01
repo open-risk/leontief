@@ -22,23 +22,33 @@
 
 void IOSystem::calc_from_z() {
 
-    _x = _Z.rowwise().sum() + _Y.rowwise().sum();
-    _f = _E.array() / _x.array();
+    _x = _z.rowwise().sum() + _y.rowwise().sum();
+    _f = _e.array() / _x.array();
     Eigen::DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> xh(_x.size());
     xh = _x.asDiagonal().inverse();
-    _A = _Z * xh;
+    _a = _z * xh;
     Eigen::MatrixXd I = Eigen::MatrixXd::Identity(_x.size(), _x.size());
-    _L = (I - _A).inverse();
-    _v = _f.transpose() * _L;
-    _U = _v.array() * _Y.rowwise().sum().array();
+    _l = (I - _a).inverse();
+    _v = _f.transpose() * _l;
+    _u = _v.array() * _y.rowwise().sum().array();
+
+}
+
+void IOSystem::calc_from_z2() {
+
+    Eigen::DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> xh(_x.size());
+    xh = _x.asDiagonal().inverse();
+    _a = _z * xh;
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(_x.size(), _x.size());
+    _l = (I - _a).inverse();
 
 }
 
 void IOSystem::calc_from_a() {
 
-    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(_A.rows(), _A.rows());
-    _L = (I - _A).inverse();
-    _v = _f.transpose() * _L;
-    _U = _v.array() * _Y.rowwise().sum().array();
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(_a.rows(), _a.rows());
+    _l = (I - _a).inverse();
+    _v = _f.transpose() * _l;
+    _u = _v.array() * _y.rowwise().sum().array();
 
 }

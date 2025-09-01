@@ -16,6 +16,7 @@
 */
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <filesystem>
 #include <iostream>
 #include <fstream>
@@ -34,14 +35,15 @@ TEST_CASE("Test parse OECD_ICIO matrix", "[data-io]") {
     Eigen::MatrixXd Z(n, n);      // n x n transactions matrix
     Eigen::MatrixXd FD(n, fd);    // n x fd final demand matrix
     Eigen::MatrixXd VA(va, n + fd);    // va x n value added matrix
-
     Eigen::VectorXd Oc(n);   // output column vector
     Eigen::RowVectorXd Or(n);         // output row vector
 
     constexpr int ROWS = 4053; // csv row dimension (not used by csvreader)
     constexpr int COLS = 4537; // csv col dimension
 
-    CSVReader reader("../data/oecd-2017-2022/icio.csv");
+    CSVFormat format;
+    format.delimiter(',').no_header();
+    CSVReader reader("../data/oecd-2017-2022/icio.csv", format);
 
     double value;
     int i = 0;
@@ -50,24 +52,20 @@ TEST_CASE("Test parse OECD_ICIO matrix", "[data-io]") {
             value = row[j].get<double>();
             if (i < n && j < n) {
                 Z(i, j) = value;
-            }
-            else if (i < n && j < COLS - 1 && j >= n) {
+            } else if (i < n && j < COLS - 1 && j >= n) {
                 FD(i, j - n) = value;
-            }
-            else if (i < n && j == COLS - 1) {
+            } else if (i < n && j == COLS - 1) {
                 Oc(i) = value;
-            }
-            else if (i < ROWS - 1 && j < COLS - 1) {
+            } else if (i >= ROWS - va - 1 && i < ROWS - 1 && j < COLS - 1) {
                 VA(i - n, j) = value;
-            }
-            else if (i == ROWS - 1 && j < n) {
+            } else if (i == ROWS - 1 && j < n) {
                 Or(j) = value;
             }
         }
         i++;
     }
-    UNSCOPED_INFO("Output Row Sum: " << Z);
-    UNSCOPED_INFO("Output Row Sum: " << Or.sum());
-    UNSCOPED_INFO("Output Col Sum: " << Oc.sum());
-    REQUIRE(41 == 42);
+    double err = Or.sum() - Oc.sum();
+    REQUIRE_THAT(err,
+                 Catch::Matchers::WithinRel(0, 0.001)
+                 || Catch::Matchers::WithinAbs(0, 0.000001));
 }
