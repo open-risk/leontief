@@ -8,16 +8,112 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: 🔍 Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+      id: checkout
+
+    - name: 🛠️ System Information
+      run: |
+        echo "::group::System Details"
+        echo "Operating System: $(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2)"
+        echo "Kernel Version: $(uname -r)"
+        echo "CPU Info:"
+        lscpu | grep "Model name"
+        echo "Available Disk Space:"
+        df -h
+        echo "::endgroup::"
+
+    - name: Install dependencies
+      run: |
+        echo "::group::Dependency Installation"
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          g++ \
+          libeigen3-dev\
+          pkg-config
+
+        echo "Installed Packages:"
+        dpkg -l | grep -E 'cmake|g\+\+|eigen'
+        echo "::endgroup::"
+
+    - name: 🔬 Verify Eigen Installation
+      id: eigen_check
+      run: |
+        echo "::group::Eigen Verification"
+        EIGEN_VERSION=$(pkg-config --modversion eigen3)
+        echo "Eigen Version: $EIGEN_VERSION"
+        
+        # Verify include path
+        EIGEN_INCLUDE_PATH=$(pkg-config --cflags eigen3)
+        echo "Eigen Include Path: $EIGEN_INCLUDE_PATH"
+        
+        # Additional verification
+        echo "#include <Eigen/Dense>" > eigen_test.cpp
+        echo "int main() { return 0; }" >> eigen_test.cpp
+        g++ -I/usr/include/eigen3 eigen_test.cpp -o eigen_test
+        
+        if [ $? -eq 0 ]; then
+          echo "✅ Eigen compilation test passed"
+        else
+          echo "❌ Eigen compilation test failed"
+          exit 1
+        fi
+        echo "::endgroup::"
+
+    - name: 🏗️ Configure CMake
+      id: cmake_config
+      run: |
+        echo "::group::CMake Configuration"
+        cmake --version
+        
+        cmake -B ${{github.workspace}}/build \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DCMAKE_VERBOSE_MAKEFILE=ON \
+              -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3
+        
+        echo "CMake Configuration Complete"
+        echo "Build Directory Contents:"
+        ls -la ${{github.workspace}}/build
+        echo "::endgroup::"
+
+    - name: 🔨 Build Project
+      id: build
+      run: |
+        echo "::group::Compilation"
+        cmake --build ${{github.workspace}}/build \
+              --target leontief.dbg \
+              --config Debug \
+              -- VERBOSE=1
+        
+        # Check build artifacts
+        echo "Build Artifacts:"
+        find ${{github.workspace}}/build -type f -executable
+        echo "::endgroup::"
+
+
+    - name: 🚦 Verify Executable
+      id: verify_executable
+      run: |
+        echo "::group::Executable Verification"
+        EXECUTABLE_PATH="${{github.workspace}}/build/leontief.dbg"
+        
+        if [ -x "$EXECUTABLE_PATH" ]; then
+          echo "✅ Executable found at $EXECUTABLE_PATH"
+        
+          # Run executable with error handling
+          set +e
+          "$EXECUTABLE_PATH"
+          EXIT_CODE=$?
+          set -e
+        
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "✅ Leontief Executable ran successfully"
+          else
+            echo "❌
