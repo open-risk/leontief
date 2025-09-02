@@ -17,11 +17,28 @@
 
 #pragma once
 
+#include <random>
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>
 
-
 using namespace std;
+
+inline Eigen::MatrixXd BlockAggregation(int m, int n) {
+
+    std::vector<int> in(m), out;
+    std::iota(in.begin(), in.end(), 1);
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(in.begin(), in.end(), g);
+
+    Eigen::MatrixXd S(n, m);
+    S.setZero();
+
+    for (int j = 0; j < m; j++) {
+        S(j % n, in[j] - 1) = 1;
+    }
+    return S;
+}
 
 inline Eigen::MatrixXd RandomAggregationMatrix(int Size1, int Size2) {
     /** Aggregation method / data

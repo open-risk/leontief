@@ -42,13 +42,22 @@ public:
     }
 
     Eigen::MatrixXd getSt() {
-        return _s.transpose();
+        return _st;
+    }
+
+    Eigen::MatrixXd Aggregate(Eigen::MatrixXd &X){
+        // Validate matrix dimensions
+        if (X.rows() != _s.cols()) {
+            throw std::invalid_argument("Invalid matrix dimensions for aggregation");
+        }
+        return _s * X * _st;
     }
 
 private:
 
     // Matrix for Aggregation
     Eigen::MatrixXd _s;
+    Eigen::MatrixXd _st; // transpose
 
     // System dimensions
     int n{}; // rows
@@ -75,6 +84,7 @@ inline AggSystem::AggSystem() = default;
 inline AggSystem::AggSystem(const Eigen::MatrixXd &X) {
 
     _s = X;
+    _st = X.transpose();
     initialized = true;
 }
 

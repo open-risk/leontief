@@ -22,7 +22,7 @@
 #include <random>
 #include <iostream>
 #include "core/sut_system.h"
-#include "utils/io_matrix_generation.h"
+#include "utils/sut_matrix_generation.h"
 #include "utils/scan_matrix.h"
 
 TEST_CASE("Test SUT system creation", "[sut]") {

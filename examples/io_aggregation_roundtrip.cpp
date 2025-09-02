@@ -19,6 +19,7 @@
 #include <fstream>
 #include "utils/io_matrix_generation.h"
 #include "utils/agg_matrix_generation.h"
+#include "core/agg_system.h"
 
 /*
  * An example of aggregating and disaggregating IO matrices
@@ -38,6 +39,12 @@ int main(int num_args, char **arg_strings) {
     Eigen::MatrixXd  A(n, n);
     A = S * A0 * S.transpose();
     std::cout << A << std::endl;
+
+    AggSystem MyAgg (S);
+    std::cout << "Transpose: " << MyAgg.getSt() << std::endl;
+
+    Eigen::MatrixXd B(n, n);
+    B = MyAgg.Aggregate(A0);
 
     std::cout << "Row Sum Micro:" << S * A0.colwise().sum().transpose() << std::endl;
     std::cout << "Row Sum Macro:" << A.colwise().sum() << std::endl;

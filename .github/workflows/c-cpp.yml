@@ -52,14 +52,11 @@ jobs:
           -DCatch2_DIR=/usr/local/lib/cmake/Catch2
         sudo cmake --build build --target install
         cd ..
-        find /usr/local -name "catch2*"
-        find /usr/local -name "Catch2*"
 
     - name: 🔬 Verify CMake, g++, Poco and Catch2 Dependencies
       run: |
         echo "Installed Packages and versions:"
         dpkg -l | grep -E 'cmake|g\+\+|poco|catch2'
-        catch2-config --version
         export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig
         echo "Poco version: $(pkg-config --modversion poco)"
 

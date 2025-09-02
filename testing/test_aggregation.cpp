@@ -20,35 +20,33 @@
 #include <filesystem>
 #include <fstream>
 #include <algorithm>
-#include <random>
 #include <iostream>
 #include "utils/io_matrix_generation.h"
+#include "utils/agg_matrix_generation.h"
+#include "core/agg_system.h"
 
 TEST_CASE("Test Aggregation Algorithm", "[algorithms]") {
+
     int m = 20;
     int n = 5;
-    std::vector<int> in(m), out;
-    std::iota(in.begin(), in.end(), 1);
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(in.begin(), in.end(), g);
 
     float fraction = 0.25;
     Eigen::MatrixXd A0 = RandomSymmetricMatrix(m, fraction);
-
-    Eigen::MatrixXd S(n, m);
-    S.setZero();
-
-    for (int j = 0; j < m; j++) {
-        S(j % n, in[j] - 1) = 1;
-    }
+    Eigen::MatrixXd S = BlockAggregation(m, n);
 
     Eigen::MatrixXd A(n, n);
-
     A = S * A0 * S.transpose();
 
+    Eigen::MatrixXd B(n, n);
+    AggSystem MyAgg (S);
+    B = MyAgg.Aggregate(A0);
+
     std::cout << "Row Sum Micro:" << S * A0.colwise().sum().transpose() << std::endl;
-    std::cout << "Row Sum Macro:" << A.colwise().sum() << std::endl;
     std::cout << "Col Sum Micro:" << A0.rowwise().sum().transpose() * S.transpose() << std::endl;
-    std::cout << "Col Sum Macro:" << A.rowwise().sum().transpose() << std::endl;
+
+    std::cout << "Row Sum Macro A:" << A.colwise().sum() << std::endl;
+    std::cout << "Col Sum Macro A:" << A.rowwise().sum().transpose() << std::endl;
+
+    std::cout << "Row Sum Macro B:" << B.colwise().sum() << std::endl;
+    std::cout << "Col Sum Macro B:" << B.rowwise().sum().transpose() << std::endl;
 }
