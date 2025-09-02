@@ -19,7 +19,7 @@
 #include "utils/csv.h"
 #include "core/sut_system.h"
 #include "utils/scan_matrix.h"
-#include "utils/matrix_generation.h"
+#include "utils/sut_matrix_generation.h"
 
 /*
  * # EXAMPLE 7: EEIO SUT Calculations

@@ -20,8 +20,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include "utils/utils.h"
-#include "utils/matrix_generation.h"
+#include "utils/io_matrix_generation.h"
 
 TEST_CASE("Test Disaggregation Algorithm", "[algorithms]") {
     constexpr int size = 5;

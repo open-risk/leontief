@@ -68,8 +68,13 @@ int main(int num_args, char **arg_strings) {
         }
         i++;
     }
+
+    Eigen::VectorXd E;
+    E.resizeLike(X);
+    E.setZero();
+
     std::cout << "Step 1: Read Data" << std::endl;
-    IOSystem MyIO = IOSystem(Z, X, <#initializer#>, 2);
+    IOSystem MyIO = IOSystem(Z, X, E, 2);
     std::cout << "Step 2: Initialize System" << std::endl;
     MyIO.calc_from_z2();
     std::cout << "Step 3: Calculate" << std::endl;

@@ -54,7 +54,10 @@ int main(int num_args, char **arg_strings) {
     Eigen::VectorXd Y(7);
     Y << 1.2, 0, 0, 6.8, 0, 0, 0;
 
-    IOSystem io(A, Y, <#initializer#>, 1);
+    Eigen::VectorXd E(7);
+    E.setZero();
+
+    IOSystem io(A, Y, E, 1);
 
     // Calculate everything that can be calculated (starting with Z,Y)
     io.calc_from_a();

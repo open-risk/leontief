@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <random>
 #include <iostream>
-#include "utils/matrix_generation.h"
+#include "utils/io_matrix_generation.h"
 
 TEST_CASE("Test Aggregation Algorithm", "[algorithms]") {
     int m = 20;

@@ -20,9 +20,6 @@
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>
 
-// Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction);
-// Eigen::MatrixXd RandomAggregationatrix(int Size1, int Size2);
-
 using namespace std;
 
 /*
@@ -113,80 +110,6 @@ inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
     } else if (mode == 2) {
         result.resize(3, 3);
         result << 12, 8, 80, 10, 7, 83, 68, 95, 0;
-    }
-
-    return result;
-}
-
-/*
- * Bin Su et al. example
- * 3 x 3 system
- * Domestic and export demand
- * Emissions
- */
-
-inline Eigen::MatrixXd BinSuZ() {
-    Eigen::MatrixXd z(3,3);
-    z << 5, 2, 2, 3, 10, 3, 1, 1, 3;
-    return z;
-}
-
-inline Eigen::MatrixXd BinSuY() {
-    Eigen::MatrixXd y(3,2);
-    y << 3, 3, 3, 6, 4, 1;
-    return y;
-}
-
-inline Eigen::MatrixXd BinSuE() {
-    Eigen::MatrixXd e(3,1);
-    e << 10, 20, 20;
-    return e;
-}
-
-/*
- * Random Matrices
- */
-inline Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
-    Eigen::MatrixXd result;
-    srand((unsigned int) time(0));
-    result.resize(Size, Size);
-    result.setRandom();
-
-    std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0, 1.0);
-
-    for (Eigen::Index i = 0; i < Size; i++) {
-        for (Eigen::Index j = 0; j < Size; j++) {
-            double draw = distribution(generator);
-            if (draw < Fraction) {
-                result(i, j) = 0.0;
-            } else {
-                result(i, j) = std::abs(result(i, j));
-            }
-        }
-    }
-    return result;
-}
-
-inline Eigen::MatrixXd RandomAggregationMatrix(int Size1, int Size2) {
-    /** Aggregation method / data
-     *
-     * Standard Linear Aggregation matrix S
-     *
-     */
-
-    Eigen::MatrixXd result;
-    result.resize(Size1, Size2);
-    result.setZero();
-
-    std::vector<int> in(Size2), out;
-    std::iota(in.begin(), in.end(), 1);
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(in.begin(), in.end(), g);
-
-    for (int j = 0; j < Size2; j++) {
-        result(j % Size1, in[j] - 1) = 1;
     }
 
     return result;

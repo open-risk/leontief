@@ -17,7 +17,8 @@
 
 #include <iostream>
 #include <fstream>
-#include "utils/matrix_generation.h"
+#include "utils/io_matrix_generation.h"
+#include "utils/agg_matrix_generation.h"
 
 /*
  * An example of aggregating and disaggregating IO matrices

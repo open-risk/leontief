@@ -21,7 +21,7 @@
 #include <iostream>
 #include <fstream>
 #include "utils/compactify_use_matrix.h"
-#include "utils/matrix_generation.h"
+#include "utils/io_matrix_generation.h"
 
 TEST_CASE("Test the compactification of Use matrix data", "[algorithms]") {
 

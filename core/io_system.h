@@ -23,50 +23,50 @@
 
 #pragma once
 
+/**
+ * @brief Class holding an entire IO system
+ *
+ * @details Holds both input and processed data
+ *
+ * @note For SUT systems see corresponding class
+ *
+ * @warning WIP
+ *
+ * @tparam T Description of template parameter (if applicable)
+ *
+ * @see sut_system for SUT class
+ *
+ * @date 2025-09-02
+ *
+ */
 class IOSystem {
 
 public:
 
     /**
-    * Create an Input-Output system with the specified matrices.
-    *   Z - Flow matrix
-    *   x - Industry output vector
-    *   A - Coefficients matrix
-    *   L - Leontief inverse matrix
-    *   y - Final demand vector / matrix
-    */
+     * @brief
+     * @param X
+     * @param Y
+     * @param Z
+     * @param mode
+     */
     IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode);
 
     /**
-    * Create a blank system.
-    */
+     * @brief Create a blank system.
+     */
     IOSystem();
 
     /**
-    * Initialize the system with initial states as zero.
-    */
-    void init();
-
-    /**
-    * Initialize with data
-    */
-    void init(double t0, const Eigen::VectorXd &x0);
-
-    /**
-    * Update with data
-    */
-    void update(const Eigen::VectorXd &y);
-
-    /**
-    * Update
-    */
-    void update(const Eigen::VectorXd &y, double dt, Eigen::MatrixXd A);
-
-    /**
-     * calculate standard flow (inputs Z, Y)
+     * @brief calculate standard flow (inputs Z, Y)
      */
     void calc_from_z();
+
+    /**
+     * @brief
+     */
     void calc_from_z2();
+
     /**
       * calculate shortcut flow (inputs A, Y)
     */
@@ -112,9 +112,24 @@ private:
 
 };
 
+/**
+ * @brief
+ */
 inline IOSystem::IOSystem() = default;
 
-
+/**
+ *
+ * @brief Create an Input-Output system with the specified matrices.
+ *
+ * @details Component Matrices:
+ * Z Flow matrix, X Industry output vector, A Coefficients matrix, L Leontief inverse matrix
+ * y Final demand vector / matrix
+ *
+ * @param X
+ * @param Y
+ * @param Z
+ * @param mode
+ */
 inline IOSystem::IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode) {
 
     if (mode == 0) {  // Initialize with Z and Y matrix

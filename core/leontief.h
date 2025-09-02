@@ -23,6 +23,7 @@
 #include <iostream>
 
 namespace leontief {
+
     //// RAS algorithm
 
     inline Eigen::MatrixXd RAS(Eigen::MatrixXd &A0) {

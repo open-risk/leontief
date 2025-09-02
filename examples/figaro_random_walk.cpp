@@ -21,7 +21,7 @@
 #include "utils/csv.h"
 #include "core/sut_system.h"
 #include "utils/scan_matrix.h"
-#include "utils/matrix_generation.h"
+#include "utils/io_matrix_generation.h"
 #include "utils/compactify_use_matrix.h"
 
 using namespace csv;

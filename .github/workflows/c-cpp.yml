@@ -39,18 +39,21 @@ jobs:
           libeigen3-dev \
           libpoco-dev \
           libssl-dev \
-          catch2 \
           pkg-config
 
         echo "::endgroup::"
 
-#    - name: 📦 Install Catch2
-#      run: |
-#        git clone https://github.com/catchorg/Catch2.git
-#        cd Catch2
-#        cmake -Bbuild -H. -DBUILD_TESTING=OFF
-#        sudo cmake --build build --target install
-#        cd ..
+    - name: 📦 Install Catch2
+      run: |
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF \
+          -DCMAKE_PREFIX_PATH=/usr/local/lib/cmake/Catch2 \
+          -DCatch2_DIR=/usr/local/lib/cmake/Catch2
+        sudo cmake --build build --target install
+        cd ..
+        find /usr/local -name "catch2*"
+        find /usr/local -name "Catch2*"
 
     - name: 🔬 Verify CMake, g++, Poco and Catch2 Dependencies
       run: |

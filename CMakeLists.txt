@@ -25,7 +25,7 @@ cmake_minimum_required(VERSION 3.19)
 # Project name and version
 project(leontief)
 set(LEONTIEF_VERSION_MAJOR 0)
-set(LEONTIEF_VERSION_MINOR 1)
+set(LEONTIEF_VERSION_MINOR 2)
 set(LEONTIEF_VERSION_PATCH 0)
 set(LEONTIEF_VERSION ${LEONTIEF_VERSION_MAJOR}.${LEONTIEF_VERSION_MINOR}.${LEONTIEF_VERSION_PATCH})
 
@@ -63,11 +63,14 @@ set(CORE_FILES
         core/calc_io.cpp
         core/leontief.h
         core/sut_system.h
+        core/agg_system.h
 )
 
 set(UTIL_FILES
         utils/compactify_use_matrix.h
-        utils/matrix_generation.h
+        utils/io_matrix_generation.h
+        utils/sut_matrix_generation.h
+        utils/agg_matrix_generation.h
         utils/scan_matrix.h
         utils/utils.h
         utils/csv.h
@@ -86,8 +89,8 @@ set(TEST_FILES
         testing/test_parse_oecd_io_matrix.cpp
         testing/test_leontief_inverse.cpp
         testing/test_ras.cpp
-        testing/test_agg.cpp
-        testing/test_disagg.cpp
+        testing/test_aggregation.cpp
+        testing/test_disaggregation.cpp
         testing/test_sut_system.cpp
         testing/test_use_matrix_compactify.cpp
 )
