@@ -52,18 +52,19 @@ jobs:
 #        sudo cmake --build build --target install
 #        cd ..
 
-    - name: 🔬 Verify Dependencies
+    - name: 🔬 Verify CMake, g++, Poco and Catch2 Dependencies
       run: |
         echo "Installed Packages and versions:"
-        dpkg -l | grep -E 'cmake|g\+\+|eigen|poco'
-        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig
-        echo "Poco version: $(pkg-config --modversion poco)"
+        dpkg -l | grep -E 'cmake|g\+\+|poco|catch2'
         catch2-config --version
+        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig
+        echo "Poco version: $(pkg-config --modversion poco)"
 
     - name: 🔬 Verify Eigen Installation
       id: eigen_check
       run: |
         echo "::group::Eigen Verification"
+        dpkg -l | grep -E 'eigen'
         EIGEN_VERSION=$(pkg-config --modversion eigen3)
         echo "Eigen Version: $EIGEN_VERSION"
         

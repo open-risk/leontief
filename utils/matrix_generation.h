@@ -25,6 +25,10 @@
 
 using namespace std;
 
+/*
+ * Generate a test Use matrix with an symmetric IO part and a desired number of final demand columns and value added rows
+ *
+ */
 inline Eigen::VectorXd TestIntensity(const int m, const int n, const int mode) {
     Eigen::VectorXd result;
     result.setZero();
@@ -74,10 +78,6 @@ inline Eigen::MatrixXd TestSupplyMatrix(const int m, const int n, const int mode
     return result;
 }
 
-/*
- * Generate a test Use matrix with an symmetric IO part and a desired number of final demand columns and value added rows
- *
- */
 inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
     Eigen::MatrixXd result;
     int IO = m;
@@ -118,7 +118,34 @@ inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
     return result;
 }
 
+/*
+ * Bin Su et al. example
+ * 3 x 3 system
+ * Domestic and export demand
+ * Emissions
+ */
 
+inline Eigen::MatrixXd BinSuZ() {
+    Eigen::MatrixXd z(3,3);
+    z << 5, 2, 2, 3, 10, 3, 1, 1, 3;
+    return z;
+}
+
+inline Eigen::MatrixXd BinSuY() {
+    Eigen::MatrixXd y(3,2);
+    y << 3, 3, 3, 6, 4, 1;
+    return y;
+}
+
+inline Eigen::MatrixXd BinSuE() {
+    Eigen::MatrixXd e(3,1);
+    e << 10, 20, 20;
+    return e;
+}
+
+/*
+ * Random Matrices
+ */
 inline Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
     Eigen::MatrixXd result;
     srand((unsigned int) time(0));

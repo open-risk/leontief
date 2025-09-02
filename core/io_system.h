@@ -19,6 +19,7 @@
 #define LEONTIEF_IO_SYSTEM_H
 
 #include <Eigen/Core>
+#include <iostream>
 
 #pragma once
 
@@ -34,14 +35,7 @@ public:
     *   L - Leontief inverse matrix
     *   y - Final demand vector / matrix
     */
-    IOSystem(
-            const Eigen::MatrixXd &Z,
-            const Eigen::MatrixXd &Y,
-            int mode
-            // const Eigen::MatrixXd &A,
-            // const Eigen::MatrixXd &x,
-            // const Eigen::MatrixXd &L
-    );
+    IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode);
 
     /**
     * Create a blank system.
@@ -93,7 +87,12 @@ public:
     Eigen::MatrixXd getL() {
         return _l;
     }
-
+    Eigen::MatrixXd getE() {
+        return _e;
+    }
+    Eigen::MatrixXd getF() {
+        return _f;
+    }
 
 private:
 
@@ -116,7 +115,7 @@ private:
 inline IOSystem::IOSystem() = default;
 
 
-inline IOSystem::IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, int mode) {
+inline IOSystem::IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode) {
 
     if (mode == 0) {  // Initialize with Z and Y matrix
         _z = X;
@@ -144,7 +143,16 @@ inline IOSystem::IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, in
         _f.resizeLike(_e);
         _l.resizeLike(_a);
     }
+    else if (mode == 3) { // Initialize with Z, Y and E matrix
+        _z = X;
+        _y = Y;
+        _e = Z;
 
+        _x.resize(_z.rows());
+        _f.resizeLike(_e);
+        _a.resizeLike(_z);
+        _l.resizeLike(_z);
+    }
     initialized = true;
 }
 

@@ -69,7 +69,7 @@ int main(int num_args, char **arg_strings) {
         i++;
     }
     std::cout << "Step 1: Read Data" << std::endl;
-    IOSystem MyIO = IOSystem(Z, X, 2);
+    IOSystem MyIO = IOSystem(Z, X, <#initializer#>, 2);
     std::cout << "Step 2: Initialize System" << std::endl;
     MyIO.calc_from_z2();
     std::cout << "Step 3: Calculate" << std::endl;
