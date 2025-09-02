@@ -45,25 +45,6 @@ int main(int num_args, char **arg_strings) {
     std::cout << "F: " << io.getF() << std::endl;
 
 
-
-//    int m = 20; //  cols
-//    int n = 5; // rows
-//
-//    Eigen::MatrixXd S = RandomAggregationMatrix(n, m);
-//    std::cout << "Aggregation Matrix: " << S << std::endl;
-//
-//    float fraction = 0.25;
-//    Eigen::MatrixXd A0 = RandomSymmetricMatrix(m, fraction);
-//
-//    Eigen::MatrixXd  A(n, n);
-//    A = S * A0 * S.transpose();
-//    std::cout << A << std::endl;
-//
-//    std::cout << "Row Sum Micro:" << S * A0.colwise().sum().transpose() << std::endl;
-//    std::cout << "Row Sum Macro:" << A.colwise().sum() << std::endl;
-//    std::cout << "Col Sum Micro:" << A0.rowwise().sum().transpose() * S.transpose() << std::endl;
-//    std::cout << "Col Sum Macro:" << A.rowwise().sum().transpose() << std::endl;
-
     return 0;
 }
 

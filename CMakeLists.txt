@@ -91,6 +91,7 @@ set(TEST_FILES
         testing/test_ras.cpp
         testing/test_aggregation.cpp
         testing/test_disaggregation.cpp
+        testing/test_io_system.cpp
         testing/test_sut_system.cpp
         testing/test_use_matrix_compactify.cpp
 )
@@ -102,13 +103,13 @@ set(SOURCE_FILES
 
 
 # DEBUG MODE EXAMPLE
- add_executable(leontief.dbg examples/io_aggregation_roundtrip.cpp ${SOURCE_FILES})
+ add_executable(leontief.dbg examples/generic_io_calculation.cpp ${SOURCE_FILES})
  target_include_directories(leontief.dbg PRIVATE ${Catch2_INCLUDE_DIRS})
  target_include_directories(leontief.dbg PRIVATE ${Eigen3_INCLUDE_DIRS})
  target_compile_definitions(leontief.dbg PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
  target_link_libraries(leontief.dbg Catch2::Catch2WithMain Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-
+# Collection of Examples
 file(GLOB examples_SRCS "examples/*.cpp")
 add_custom_target(all_examples)
 

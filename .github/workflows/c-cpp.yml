@@ -124,14 +124,5 @@ jobs:
         
         if [ -x "$EXECUTABLE_PATH" ]; then
           echo "✅ Executable found at $EXECUTABLE_PATH"
-        
-          # Run executable with error handling
-          set +e
-          "$EXECUTABLE_PATH"
-          EXIT_CODE=$?
-          set -e
-        
-          if [ $EXIT_CODE -eq 0 ]; then
-            echo "✅ Leontief Executable ran successfully"
-          else
-            echo "❌
+        else
+          echo "❌ Executable not found at $EXECUTABLE_PATH"

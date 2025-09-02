@@ -20,9 +20,7 @@
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>
 
-
 using namespace std;
-
 
 /*
  * Bin Su et al. example
@@ -32,19 +30,19 @@ using namespace std;
  */
 
 inline Eigen::MatrixXd BinSuZ() {
-    Eigen::MatrixXd z(3,3);
+    Eigen::MatrixXd z(3, 3);
     z << 5, 2, 2, 3, 10, 3, 1, 1, 3;
     return z;
 }
 
 inline Eigen::MatrixXd BinSuY() {
-    Eigen::MatrixXd y(3,2);
+    Eigen::MatrixXd y(3, 2);
     y << 3, 3, 3, 6, 4, 1;
     return y;
 }
 
 inline Eigen::MatrixXd BinSuE() {
-    Eigen::MatrixXd e(3,1);
+    Eigen::MatrixXd e(3, 1);
     e << 10, 20, 20;
     return e;
 }
@@ -74,3 +72,90 @@ inline Eigen::MatrixXd RandomSymmetricMatrix(int Size, float Fraction) {
     return result;
 }
 
+/**
+ * Collection of simple IO systems for testing
+ * Selected by the mode variable
+ * mode = 0, trivial IO system
+ * mode = 1, 2x2 system
+ * mode = 2, 7x7 system
+ */
+
+/**
+ * @brief Generate value added matrices for testing
+ * @param n
+ * @param va
+ * @param mode
+ * @return
+ */
+inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
+    Eigen::MatrixXd result;
+    if (mode == 2) {
+        result.resize(va, n);
+        result << 60, 95;
+    }
+    return result;
+}
+
+/**
+ * @brief
+ * @param m
+ * @param fd
+ * @param mode
+ * @return
+ */
+inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
+    Eigen::MatrixXd result;
+
+    // Miller Blair page 29
+    if (mode == 2) {
+        result.resize(m, fd);
+        result<< 1.2, 0, 0, 6.8, 0, 0, 0;
+    }
+    return result;
+}
+
+/**
+ * @brief
+ * @param m
+ * @param n
+ * @param mode
+ * @return
+ */
+inline Eigen::MatrixXd TestZMatrix(const int m, const int n, const int mode) {
+    Eigen::MatrixXd result;
+    int IO = m;
+    int FD = 1;
+    int VA = 1;
+
+    if (mode == 0) {
+        // trivial
+    } else if (mode == 1) {
+        // 2x2
+    } else if (mode == 2) {
+        // 7x7
+    }
+    return result;
+}
+
+/**
+ * @brief
+ * @param m
+ * @param n
+ * @param mode
+ * @return
+ */
+inline Eigen::MatrixXd TestAMatrix(const int m, const int n, const int mode) {
+    Eigen::MatrixXd result;
+    int IO = m;
+    int FD = 1;
+    int VA = 1;
+
+    if (mode == 2) {
+        result.resize(7, 7);
+        // 7x7
+        // Table 2.7 The 2003 US Domestic Direct Requirements Matrix, A
+        // Miller Blair page 29
+        result << .2008, .0000, .0011, .0338, .0001, .0018, .0009, .0010, .0658, .0035, .0219, .0151, .0001, .0026,.0034, .0002, .0012, .0021, .0035, .0071, .0214, .1247, .0684, .1801, .2319, .0339, .0414, .0726, .0855, .0529, .0914, .0952, .0645, .0315, .0528, .0897, .1668, .1332, .1255, .1647, .2712, .1873, .0093, .0129, .0095, .0197, .0190, .0184, .0228;
+    }
+    return result;
+}

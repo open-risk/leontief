@@ -19,9 +19,10 @@
 #include <Eigen/Core>
 
 #include "core/io_system.h"
+#include "utils/io_matrix_generation.h"
 
 /*
- * # EXAMPLE 5: Generic IO Calculations
+ * Example of a Generic IO Calculation
  */
 
 int main(int num_args, char **arg_strings) {
@@ -44,15 +45,11 @@ int main(int num_args, char **arg_strings) {
     // Calculate everything that can be calculated (starting with Z,Y)
     // io.calc_from_z();
 
-    // Initialize 7x7 System
-    // mode=1
+    Eigen::MatrixXd A;
+    A = TestAMatrix(7,7,2);
 
-    // TODO move to matrix generation, add reference
-    Eigen::MatrixXd A(7,7);
-    A << .2008, .0000, .0011, .0338, .0001, .0018, .0009, .0010, .0658, .0035, .0219, .0151, .0001, .0026,.0034, .0002, .0012, .0021, .0035, .0071, .0214, .1247, .0684, .1801, .2319, .0339, .0414, .0726, .0855, .0529, .0914, .0952, .0645, .0315, .0528, .0897, .1668, .1332, .1255, .1647, .2712, .1873, .0093, .0129, .0095, .0197, .0190, .0184, .022;
-
-    Eigen::VectorXd Y(7);
-    Y << 1.2, 0, 0, 6.8, 0, 0, 0;
+    Eigen::VectorXd Y;
+    Y = TestFDMatrix(7, 1, 2);
 
     Eigen::VectorXd E(7);
     E.setZero();

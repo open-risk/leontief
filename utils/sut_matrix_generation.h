@@ -40,6 +40,13 @@ inline Eigen::VectorXd TestIntensity(const int m, const int n, const int mode) {
     return result;
 }
 
+/**
+ * @brief
+ * @param n
+ * @param va
+ * @param mode
+ * @return
+ */
 inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
     Eigen::MatrixXd result;
     if (mode == 2) {
@@ -49,6 +56,13 @@ inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
     return result;
 }
 
+/**
+ * @brief
+ * @param m
+ * @param fd
+ * @param mode
+ * @return
+ */
 inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
     Eigen::MatrixXd result;
     if (mode == 2) {
@@ -58,6 +72,13 @@ inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
     return result;
 }
 
+/**
+ * @brief
+ * @param m
+ * @param n
+ * @param mode
+ * @return
+ */
 inline Eigen::MatrixXd TestSupplyMatrix(const int m, const int n, const int mode) {
     Eigen::MatrixXd result;
     if (mode == 0) {
@@ -75,6 +96,13 @@ inline Eigen::MatrixXd TestSupplyMatrix(const int m, const int n, const int mode
     return result;
 }
 
+/**
+ * @brief
+ * @param m
+ * @param n
+ * @param mode
+ * @return
+ */
 inline Eigen::MatrixXd TestUseMatrix(const int m, const int n, const int mode) {
     Eigen::MatrixXd result;
     int IO = m;
