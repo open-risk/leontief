@@ -26,6 +26,9 @@
 
 using namespace csv;
 
+/*
+ * # EXAMPLE 4: FIGARO Random Walk
+ */
 int main(int num_args, char **arg_strings) {
 
     // LOAD FIGARO TRANSITION MATRIX

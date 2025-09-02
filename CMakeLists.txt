@@ -99,77 +99,33 @@ set(SOURCE_FILES
 
 
 # DEBUG MODE EXAMPLE
-add_executable(leontief.dbg examples/aggregation_roundtrip.cpp ${SOURCE_FILES})
-target_include_directories(leontief.dbg PRIVATE ${Catch2_INCLUDE_DIRS})
-target_include_directories(leontief.dbg PRIVATE ${Eigen3_INCLUDE_DIRS})
-target_compile_definitions(leontief.dbg PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(leontief.dbg Catch2::Catch2WithMain Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+ add_executable(leontief.dbg examples/io_aggregation_roundtrip.cpp ${SOURCE_FILES})
+ target_include_directories(leontief.dbg PRIVATE ${Catch2_INCLUDE_DIRS})
+ target_include_directories(leontief.dbg PRIVATE ${Eigen3_INCLUDE_DIRS})
+ target_compile_definitions(leontief.dbg PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+ target_link_libraries(leontief.dbg Catch2::Catch2WithMain Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-# EXAMPLE 1: Inversion Benchmark
-add_executable(leontief.tty examples/inversion_benchmark.cpp ${SOURCE_FILES})
-target_include_directories(leontief.tty PRIVATE ${Eigen3_INCLUDE_DIRS})
-add_compile_options("-O3")
-target_compile_definitions(leontief.tty PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(leontief.tty Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
-# EXAMPLE 2: Compactify USE table
-add_executable(example2 examples/compactify_use_table.cpp ${SOURCE_FILES})
-target_include_directories(example2 PRIVATE ${Eigen3_INCLUDE_DIRS})
-add_compile_options("-O3")
-target_compile_definitions(example2 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example2 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+file(GLOB examples_SRCS "examples/*.cpp")
+add_custom_target(all_examples)
 
-# EXAMPLE 3: Construct Transition Matrix
-add_executable(example3 examples/construct_transition_matrix.cpp ${SOURCE_FILES})
-target_include_directories(example3 PRIVATE ${Eigen3_INCLUDE_DIRS})
-add_compile_options("-O3")
-target_compile_definitions(example3 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example3 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+foreach(example_src ${examples_SRCS})
+    get_filename_component(example ${example_src} NAME_WE)
+    add_executable(${example} ${example_src} ${SOURCE_FILES})
+    target_include_directories(${example} PRIVATE ${Eigen3_INCLUDE_DIRS})
+    add_compile_options("-O3")
+    target_compile_definitions(${example} PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+    target_link_libraries(${example}  Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+    add_dependencies(all_examples ${example})
+endforeach()
 
-# EXAMPLE 4: FIGARO Random Walk
-add_executable(example4 examples/figaro_random_walk.cpp ${SOURCE_FILES})
-target_include_directories(example4 PRIVATE ${Eigen3_INCLUDE_DIRS})
-add_compile_options("-O3")
-target_compile_definitions(example4 PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example4 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
-
-# EXAMPLE 5: Generic IO Calculations
-add_executable(example5 examples/generic_io_calculations.cpp ${SOURCE_FILES})
-target_include_directories(example5 PRIVATE ${Eigen3_INCLUDE_DIRS})
-#add_compile_options("-O3")
-target_compile_definitions(example5 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example5 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
-
-# EXAMPLE 6: CHECK SUT Balance
-add_executable(example6 examples/check_sut_balance.cpp ${SOURCE_FILES})
-target_include_directories(example6 PRIVATE ${Eigen3_INCLUDE_DIRS})
-#add_compile_options("-O3")
-target_compile_definitions(example6 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example6 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
-
-# EXAMPLE 7: EEIO SUT Calculations
-add_executable(example7 examples/eeio_sut_calculations.cpp ${SOURCE_FILES})
-target_include_directories(example7 PRIVATE ${Eigen3_INCLUDE_DIRS})
-#add_compile_options("-O3")
-target_compile_definitions(example7 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example6 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
-
-# EXAMPLE 8: CHECK IO Balance
-add_executable(example8 examples/oecd_icio_calculations.cpp ${SOURCE_FILES})
-target_include_directories(example8 PRIVATE ${Eigen3_INCLUDE_DIRS})
-#add_compile_options("-O3")
-target_compile_definitions(example8 PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
-target_link_libraries(example8 Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
 
 # CATCH2 TESTING
 include(Catch)
 include(CTest)
 enable_testing()
-
 add_executable(unit_tests ${TEST_FILES} ${SOURCE_FILES})
-
 catch_discover_tests(unit_tests)
-
 target_include_directories(unit_tests PRIVATE ${Catch2_INCLUDE_DIRS})
 target_include_directories(unit_tests PRIVATE ${Eigen3_INCLUDE_DIRS})
 target_compile_definitions(unit_tests PRIVATE DEBUG_MODE=1 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})

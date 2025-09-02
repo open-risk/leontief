@@ -21,6 +21,9 @@
 #include "utils/scan_matrix.h"
 #include "utils/matrix_generation.h"
 
+/*
+ * # EXAMPLE 7: EEIO SUT Calculations
+ */
 int main(int num_args, char **arg_strings) {
 
     int m = 2; // product count

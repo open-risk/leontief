@@ -23,6 +23,10 @@
 
 using namespace csv;
 
+/*
+ *# EXAMPLE 6: CHECK SUT Balance
+ */
+
 int main(int num_args, char **arg_strings) {
     // LOAD FIGARO-E3 SUPPLY MATRIX
     // constexpr int ROWS = 9798;

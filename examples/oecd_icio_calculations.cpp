@@ -20,6 +20,10 @@
 #include "utils/scan_matrix.h"
 #include "core/io_system.h"
 
+/*
+ * # EXAMPLE 8: CHECK IO Balance
+ */
+
 /**
  * Load the matrices from csv files
  * Construct A matrix from Z and X (calc from z - mode 2)

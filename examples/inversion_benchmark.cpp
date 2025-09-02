@@ -21,7 +21,9 @@
 #include <Eigen/Core>
 #include "utils/utils.h"
 
-
+/*
+ * EXAMPLE 1: Inversion Benchmark
+ */
 int main(int num_args, char **arg_strings) {
 
 

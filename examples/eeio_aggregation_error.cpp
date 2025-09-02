@@ -19,6 +19,13 @@
 #include <fstream>
 #include "utils/matrix_generation.h"
 
+/*
+ * Aggregation errors in EEIO calculations
+ * From Input–output analysis of CO2 emissions embodied in trade: The effects of sector aggregation
+ * Bin Su, H.C. Huang, B.W. Ang, P. Zhou
+ * Energy Economics 32 (2010) 166–175
+ */
+
 int main(int num_args, char **arg_strings) {
 
     int m = 20; //  cols

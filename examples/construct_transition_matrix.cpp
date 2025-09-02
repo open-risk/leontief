@@ -25,6 +25,10 @@
 
 using namespace csv;
 
+/*
+ *  # EXAMPLE 3: Construct Transition Matrix
+ */
+
 // Create Upstream Transition Probabilities Matrix
 //
 // Load U and S tables (clean form - without labels)
