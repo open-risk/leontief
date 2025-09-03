@@ -26,7 +26,6 @@
  * Bin Su, H.C. Huang, B.W. Ang, P. Zhou
  * Energy Economics 32 (2010) 166–175
  */
-
 int main(int num_args, char **arg_strings) {
 
     Eigen::MatrixXd Z = BinSuZ();

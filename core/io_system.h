@@ -43,13 +43,6 @@ class IOSystem {
 
 public:
 
-    /**
-     * @brief
-     * @param X
-     * @param Y
-     * @param Z
-     * @param mode
-     */
     IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode);
 
     /**

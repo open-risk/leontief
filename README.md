@@ -2,7 +2,7 @@
 
 Leontief is a C++/Python toolkit to facilitate working with economic Input-Output models. 
 
-![IO](docs/US-IO.png)
+![IO](images/US-IO.png)
 
 ## Overall Functionality Objectives
 
@@ -58,7 +58,6 @@ Current download scripts are in the directory leontief/scripts
 bash scripts/download_oecd-ici.sh
 ```
 
-
 #### Pre-processing
 
 The focus of Leontief is on high performance *numerical calculations* involving large matrices. It does not offer dataframe type functionality for searching or filtering data, this is more economically achieved using Python. Yet some preprocessing is required. The following scripts offer needed functionality:
@@ -68,15 +67,15 @@ The focus of Leontief is on high performance *numerical calculations* involving 
 
 #### IO Systems
 
-TODO
+IO Systems refers to symmetric input-output tables and models 
 
 #### SUT Systems
 
-TODO
+SUT Systems refers to supply and use tables and models
 
 #### EEIO Functionality
 
-
+Both IO and SUT models support EEIO functionality via standard extensions.
 
 ## Further Resources
 

@@ -25,7 +25,6 @@ using namespace csv;
 /*
  *  Compactify the Final Demand and Value Added columns / rows of a Use matrix into one column and row respectively
  */
-
 int main(int num_args, char **arg_strings) {
 
 

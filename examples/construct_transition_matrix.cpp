@@ -40,6 +40,12 @@ using namespace csv;
 // Add additional (VA sink node)
 // Normalize entries to create probability matrix
 
+/**
+ * @brief
+ * @param num_args
+ * @param arg_strings
+ * @return
+ */
 int main(int num_args, char **arg_strings) {
 
     // STEP 1: CONFIGURATION
