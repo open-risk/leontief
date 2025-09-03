@@ -6,15 +6,20 @@ Leontief is a C++/Python toolkit to facilitate working with economic Input-Outpu
 
 ## Overall Functionality Objectives
 
-The overall design principle behind Leontief is to strike a balance between usability and performance when working with and/or developing algorithms and tools related to economic input-output systems. A key such design decision is to use a user-friendly C++ library for vector, matrix, tensor manipulations that offers a higher-level API similar e.g., to that of Matlab.  
+### Performance versus Usability
+
+The overall design principle behind Leontief is to strike a balance between _usability_ and _performance_ when working with and/or developing algorithms and tools related to economic input-output systems. EEIO systems can vary significantly in size, with the largest models requiring High Performance Computing (HPC) infrastructure to operate. Achieving tolerable performance on commodity computing infrastructure while maintaining usability by a wide range of users is not trivial. A key design decision in this direction is to use **Eigen**, a user-friendly C++ library for vector, matrix, tensor manipulations that offers a higher-level API similar e.g., to that of Matlab. While not as user-friendly as e.g., Python writing standalone scripts to performs various EEIO tasks is relatively straightforward (NB: a Python wrapper might eventually be available).  
+
+### SUT/EEIO and Networek Focus
 
 Leontief helps with a number of typical tasks in Environmentally Extended Input-Output modeling:
 
-* Pre-processing Input-Output tables using command line tools and ingesting IO matrices into a C++ environment for further calculations.
+* Pre-processing Input-Output tables using command line tools and ingesting IO or SUT matrices into a C++ environment for further calculations.
 * Solving typical EEIO problems using a library of tested algorithms. 
-* Investigating ad-hoc research questions by writing new high-level code in the form scripts. In particular emphasize graph-oriented tools and calculations
 
-The current focus of development is around utilizing the FIGARO dataset but all open databases will be integrated in due course.
+Besides standard calculations, Leontief supports investigating ad-hoc research questions by writing new high-level code in the form of scripts. In particular we emphasize graph-oriented tools and calculations.
+
+> A current focus of development is around utilizing the FIGARO dataset but all open databases will be integrated in due course.
 
 ## Installation / Workflow
 
@@ -63,7 +68,6 @@ bash scripts/download_oecd-ici.sh
 The focus of Leontief is on high performance *numerical calculations* involving large matrices. It does not offer dataframe type functionality for searching or filtering data, this is more economically achieved using Python. Yet some preprocessing is required. The following scripts offer needed functionality:
 
 * Strip the matrix files (e.g., bash strip_exiobase.sh) from label data (we will not need those for numerical C++ calculations).
-* TBC
 
 #### IO Systems
 

@@ -126,4 +126,5 @@ jobs:
           echo "✅ Executable found at $EXECUTABLE_PATH"
         else
           echo "❌ Executable not found at $EXECUTABLE_PATH"
+        fi
         echo "::endgroup::"
