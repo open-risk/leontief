@@ -1,6 +1,6 @@
 ## Leontief Changelog
 
-# 0.2 (TBD)
+# 0.2 (September 2025)
 
 * First bundled alpha release
 * Focus on SUT system development and FIGARO data
