@@ -22,7 +22,7 @@
 #include "utils/utils.h"
 
 /*
- * EXAMPLE 1: Inversion Benchmark
+ * EXAMPLE 1: Inversion Benchmark using EXIOBASE 3 pxp A matrix
  */
 int main(int num_args, char **arg_strings) {
 
