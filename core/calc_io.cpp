@@ -37,9 +37,12 @@ void IOSystem::calc_from_z() {
 void IOSystem::calc_from_z2() {
 
     Eigen::DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> xh(_x.size());
+    std::cout << "Calculate Normalization" << std::endl;
     xh = _x.asDiagonal().inverse();
+    std::cout << "Calculate A Matrix" << std::endl;
     _a = _z * xh;
     Eigen::MatrixXd I = Eigen::MatrixXd::Identity(_x.size(), _x.size());
+    std::cout << "Calculate Leontief Inverse" << std::endl;
     _l = (I - _a).inverse();
 
 }

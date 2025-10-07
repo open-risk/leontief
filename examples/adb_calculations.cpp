@@ -25,8 +25,9 @@
  */
 
 /**
- * Load the matrices from multipe csv files
- * TODO Construct A matrix from Z and X
+ * Load the ADB matrices from multiple csv files
+ * Check the balance of Z, FD and X
+ * Construct A matrix from Z and X
  *
  */
 
@@ -42,6 +43,7 @@ int main(int num_args, char **arg_strings) {
     Eigen::MatrixXd FD(n, fd);    // n x fd final demand matrix
     Eigen::MatrixXd VA(va, n + fd);    // va x n value added matrix
     Eigen::VectorXd X(n);   // output column vector
+    Eigen::MatrixXd E; // dummy impact matrix
 
     double value;
     CSVFormat format;
@@ -91,13 +93,21 @@ int main(int num_args, char **arg_strings) {
     }
 
     std::cout << "Step 1: Read Data" << std::endl;
+    std::cout << "ADB Z Matrix with Rows x Cols: " << Z.rows() << " x " << Z.cols() << std::endl;
 
-//    Eigen::VectorXd E;
-//    E.resizeLike(X);
-//    E.setZero();
-//    IOSystem MyIO = IOSystem(Z, X, E, 2);
-//    std::cout << "Step 2: Initialize System" << std::endl;
-//    MyIO.calc_from_z2();
-//    std::cout << "Step 3: Calculate" << std::endl;
+    // Checking balance
+    auto row_sumZ = Z.rowwise().sum();
+    auto row_sumFD = FD.rowwise().sum();
+    auto check_X = row_sumZ + row_sumFD;
+
+    for (int j = 0; j < n; j++) {
+        std::cout << j << " " << check_X(j) << " " << X(j) << std::endl;
+    }
+
+    // Calculating Leontief inverse
+    std::cout << "Initializing System" << std::endl;
+    IOSystem io(Z, FD, E, 0);
+    std::cout << "Starting Calculation" << std::endl;
+    io.calc_from_z2();
 
 }
