@@ -1,5 +1,5 @@
 # This file is part of the Leontief distribution (https://github.com/open-risk/leontief).
-# Copyright (c) 2024 - 2025 Open Risk (https://www.openriskmanagement.com)
+# Copyright (c) 2024 - 2026 Open Risk (https://www.openriskmanagement.com)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 #set(CMAKE_CXX_FLAGS_DEBUG)
 set(CMAKE_PREFIX_PATH cmake-build-release)
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-SET(CMAKE_C_FLAGS_RELEASE "-O3")
+set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 # Find dependencies (installed via Conan)
 find_package(Poco REQUIRED COMPONENTS Foundation Util Net)

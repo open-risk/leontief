@@ -8,16 +8,18 @@ Leontief is a C++/Python toolkit to facilitate working with economic Input-Outpu
 
 ### Performance versus Usability
 
-The overall design principle behind Leontief is to strike a balance between _usability_ and _performance_ when working with and/or developing algorithms and tools related to economic input-output systems. EEIO systems can vary significantly in size, with the largest models requiring High Performance Computing (HPC) infrastructure to operate. Achieving tolerable performance on commodity computing infrastructure while maintaining usability by a wide range of users is not trivial. A key design decision in this direction is to use **Eigen**, a user-friendly C++ library for vector, matrix, tensor manipulations that offers a higher-level API similar e.g., to that of Matlab. While not as user-friendly as e.g., Python writing standalone scripts to performs various EEIO tasks is relatively straightforward (NB: a Python wrapper might eventually be available).  
+The overall design principle behind Leontief is to strike a balance between _usability_ and _performance_ when working with and/or developing algorithms and tools related to economic input-output systems. EEIO systems can vary significantly in size, with the largest models requiring High Performance Computing (HPC) infrastructure to operate. Achieving tolerable performance on commodity computing infrastructure while maintaining usability by a wide range of users is not trivial. 
 
-### SUT/EEIO and Networek Focus
+A key design decision in this direction is to use **Eigen**, a user-friendly C++ library for vector, matrix, tensor manipulations that offers a higher-level API similar e.g., to that of Matlab. While not as user-friendly as e.g., Python writing standalone scripts to performs various EEIO tasks is relatively straightforward (NB: a Python wrapper might eventually be available).  
+
+### SUT/EEIO and Network Focus
 
 Leontief helps with a number of typical tasks in Environmentally Extended Input-Output modeling:
 
 * Pre-processing Input-Output tables using command line tools and ingesting IO or SUT matrices into a C++ environment for further calculations.
 * Solving typical EEIO problems using a library of tested algorithms. 
 
-Besides standard calculations, Leontief supports investigating ad-hoc research questions by writing new high-level code in the form of scripts. In particular we emphasize graph-oriented tools and calculations.
+Besides standard calculations, Leontief supports investigating ad-hoc research questions by writing new high-level code in the form of scripts. In particular, we emphasize graph-oriented tools and calculations.
 
 > A current focus of development is around utilizing the FIGARO dataset but all open databases will be integrated in due course.
 
@@ -44,7 +46,11 @@ There is a suit of catch2 based tests that help verify that everything is instal
 
 ### Conan Installation
 
-* pip install conan
+* uv python install 3.14      # installs the latest Python in a user directory
+* cd leontief; uv venv .venv  # create a virtual environment inside the leontief directory
+* uv pip install conan        # install conan
+* uv pip install -r requirements.txt
+* conan profile detect
 * conan install . --output-folder=cmake-build-debug --build=missing -s build_type=Debug
 
 ### Data Organization
