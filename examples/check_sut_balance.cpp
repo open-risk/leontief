@@ -72,5 +72,4 @@ int main(int num_args, char **arg_strings) {
     for (int j = 0; j < 100; j++) {
         std::cout << j << " " << col_sum1(j) << " " << col_sum2(j) << std::endl;
     }
-
 }

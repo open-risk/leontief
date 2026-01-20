@@ -30,7 +30,6 @@ using namespace csv;
  * # EXAMPLE 4: FIGARO Random Walk
  */
 int main(int num_args, char **arg_strings) {
-
     // LOAD FIGARO TRANSITION MATRIX
     constexpr int MAX = 5890;
     Eigen::MatrixXd Q(MAX, MAX);
@@ -98,7 +97,8 @@ int main(int num_args, char **arg_strings) {
             // Compute Next Node
             int new_state = prob_vector[old_state](gen);
             // Compute Impact Intensity
-            std::cout << "Step " << k << " : from " << old_state << " to " << new_state << " with impact " << Intensity[new_state] << std::endl;
+            std::cout << "Step " << k << " : from " << old_state << " to " << new_state << " with impact " << Intensity[
+                new_state] << std::endl;
             Impact[k] += Intensity[new_state];
             old_state = new_state;
             k += 1;

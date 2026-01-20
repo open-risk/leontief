@@ -47,7 +47,6 @@ using namespace csv;
  * @return
  */
 int main(int num_args, char **arg_strings) {
-
     // STEP 1: CONFIGURATION
 
     // MILLER-BLAIR SYSTEM
@@ -98,8 +97,8 @@ int main(int num_args, char **arg_strings) {
     i = 0;
     for (auto &row: reader2) {
         for (int j = 0; j < UCOLS; j++) {
-                UP(i, j) = row[j].get<double>();
-            }
+            UP(i, j) = row[j].get<double>();
+        }
         i++;
     }
 

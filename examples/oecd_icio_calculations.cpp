@@ -17,7 +17,6 @@
 
 #include <iostream>
 #include "utils/csv.h"
-#include "utils/scan_matrix.h"
 #include "core/io_system.h"
 
 /*
@@ -33,17 +32,16 @@
 using namespace csv;
 
 int main(int num_args, char **arg_strings) {
-
     constexpr int ROWS = 4053; // csv row dimension (not used by csvreadr)
     constexpr int COLS = 4537; // csv col dimension
     int n = 4050; // total sectors
     int fd = 486; // final demand types
     int va = 2; // value added types
 
-    Eigen::MatrixXd Z(n, n);      // n x n transactions matrix
-    Eigen::MatrixXd FD(n, fd);    // n x fd final demand matrix
-    Eigen::MatrixXd VA(va, n + fd);    // va x n value added matrix
-    Eigen::VectorXd X(n);   // output column vector
+    Eigen::MatrixXd Z(n, n); // n x n transactions matrix
+    Eigen::MatrixXd FD(n, fd); // n x fd final demand matrix
+    Eigen::MatrixXd VA(va, n + fd); // va x n value added matrix
+    Eigen::VectorXd X(n); // output column vector
 
     CSVFormat format;
     format.delimiter(',').no_header();
@@ -63,7 +61,7 @@ int main(int num_args, char **arg_strings) {
                 FD(i, j - n) = value;
             } else if (i < n && j == COLS - 1) {
                 X(i) = value;
-            } else if (i >= ROWS - va - 1  && i < ROWS - 1 && j < COLS - 1) {
+            } else if (i >= ROWS - va - 1 && i < ROWS - 1 && j < COLS - 1) {
                 VA(i - n, j) = value;
             } else if (i == ROWS - 1 && j < n) {
                 // Or(j) = value;
@@ -81,5 +79,4 @@ int main(int num_args, char **arg_strings) {
     std::cout << "Step 2: Initialize System" << std::endl;
     MyIO.calc_from_z2();
     std::cout << "Step 3: Calculate" << std::endl;
-
 }

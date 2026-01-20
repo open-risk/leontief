@@ -34,15 +34,14 @@
 using namespace csv;
 
 int main(int num_args, char **arg_strings) {
-
     int n = 2625; // total sectors
     int fd = 375; // final demand types
     int va = 6; // value added types
 
-    Eigen::MatrixXd Z(n, n);      // n x n transactions matrix
-    Eigen::MatrixXd FD(n, fd);    // n x fd final demand matrix
-    Eigen::MatrixXd VA(va, n + fd);    // va x n value added matrix
-    Eigen::VectorXd X(n);   // output column vector
+    Eigen::MatrixXd Z(n, n); // n x n transactions matrix
+    Eigen::MatrixXd FD(n, fd); // n x fd final demand matrix
+    Eigen::MatrixXd VA(va, n + fd); // va x n value added matrix
+    Eigen::VectorXd X(n); // output column vector
     Eigen::MatrixXd E; // dummy impact matrix
 
     double value;
@@ -109,5 +108,4 @@ int main(int num_args, char **arg_strings) {
     IOSystem io(Z, FD, E, 0);
     std::cout << "Starting Calculation" << std::endl;
     io.calc_from_z2();
-
 }

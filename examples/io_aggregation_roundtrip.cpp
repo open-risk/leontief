@@ -26,7 +26,6 @@
  */
 
 int main(int num_args, char **arg_strings) {
-
     int m = 20; //  cols
     int n = 5; // rows
 
@@ -36,11 +35,11 @@ int main(int num_args, char **arg_strings) {
     float fraction = 0.25;
     Eigen::MatrixXd A0 = RandomSymmetricMatrix(m, fraction);
 
-    Eigen::MatrixXd  A(n, n);
+    Eigen::MatrixXd A(n, n);
     A = S * A0 * S.transpose();
     std::cout << A << std::endl;
 
-    AggSystem MyAgg (S);
+    AggSystem MyAgg(S);
     std::cout << "Transpose: " << MyAgg.getSt() << std::endl;
 
     Eigen::MatrixXd B(n, n);
@@ -53,5 +52,3 @@ int main(int num_args, char **arg_strings) {
 
     return 0;
 }
-
-

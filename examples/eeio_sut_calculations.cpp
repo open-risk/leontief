@@ -25,7 +25,6 @@
  * # EXAMPLE 7: EEIO SUT Calculations
  */
 int main(int num_args, char **arg_strings) {
-
     int m = 2; // product count
     int n = 2; // sector count
     int fd = 1; // final demand count
@@ -76,15 +75,14 @@ int main(int num_args, char **arg_strings) {
 
     std::cout.precision(2);
     std::cout << "P(0) = " << Pm1.transpose() << std::endl;
-    for (int k=0; k < iterations; k++) {
+    for (int k = 0; k < iterations; k++) {
         P = QR * Pm1;
         Pm1 = P;
         Impact(k) = Intensity.transpose() * P;
-        std::cout << "P(" << k+1 << ") = " << P.transpose() << std::endl;
-        std::cout << "I(" << k+1 << ") = " << Impact(k) << std::endl;
+        std::cout << "P(" << k + 1 << ") = " << P.transpose() << std::endl;
+        std::cout << "I(" << k + 1 << ") = " << Impact(k) << std::endl;
     }
 
     std::cout << "------------------" << std::endl;
     std::cout << "I: " << Impact.sum() << std::endl;
-
 }

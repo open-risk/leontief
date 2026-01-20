@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 # Project metadata
 set(PROJECT_VENDOR "Open Risk")
 set(PROJECT_CONTACT "info@openriskmanagement.com")
@@ -55,7 +54,6 @@ find_package(OpenMP)
 #
 
 include_directories(.)
-
 
 set(CORE_FILES
         core/options.h
@@ -101,7 +99,6 @@ set(SOURCE_FILES
         ${ALGORITHM_FILES}
         ${UTIL_FILES})
 
-
 # DEBUG MODE EXAMPLE
  add_executable(leontief.dbg examples/generic_io_calculation.cpp ${SOURCE_FILES})
  target_include_directories(leontief.dbg PRIVATE ${Catch2_INCLUDE_DIRS})
@@ -123,6 +120,19 @@ foreach(example_src ${examples_SRCS})
     add_dependencies(all_examples ${example})
 endforeach()
 
+# Course scripts
+file(GLOB course_SRCS "examples/course/*.cpp")
+add_custom_target(all_course)
+
+foreach(course_src ${course_SRCS})
+    get_filename_component(script ${course_src} NAME_WE)
+    add_executable(${script} ${course_src} ${SOURCE_FILES})
+    target_include_directories(${script} PRIVATE ${Eigen3_INCLUDE_DIRS})
+    add_compile_options("-O3")
+    target_compile_definitions(${script} PRIVATE DEBUG_MODE=0 LOG_LEVEL=7 VERSION=${LEONTIEF_VERSION})
+    target_link_libraries(${script}  Eigen3::Eigen Poco::Foundation Poco::Util Poco::Net)
+    add_dependencies(all_course ${script})
+endforeach()
 
 # CATCH2 TESTING
 include(Catch)

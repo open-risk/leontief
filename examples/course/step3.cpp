@@ -16,32 +16,34 @@
 */
 
 #include <iostream>
-#include <fstream>
-#include "utils/io_matrix_generation.h"
+#include <Eigen/Core>
+
 #include "core/io_system.h"
 
+
 /*
- * Aggregation errors in EEIO calculations
- * From Input–output analysis of CO2 emissions embodied in trade: The effects of sector aggregation
- * Bin Su, H.C. Huang, B.W. Ang, P. Zhou
- * Energy Economics 32 (2010) 166–175
- */
+* Example of a 2x2 IO System Calculation
+*/
+
 int main(int num_args, char **arg_strings) {
-    Eigen::MatrixXd Z = BinSuZ();
-    Eigen::MatrixXd Y = BinSuY();
-    Eigen::MatrixXd E = BinSuE();
+    int mode = 0;
 
-    IOSystem io(Z, Y, E, 3);
-    std::cout << "Z: " << io.getZ() << std::endl;
-    std::cout << "Y: " << io.getY() << std::endl;
-    std::cout << "E: " << io.getE() << std::endl;
+    Eigen::MatrixXd Z(2,2);
+    Z << 200, 100, 80, 50;
+    Eigen::MatrixXd Y(2, 2);
+    Y << 300, 100, 200, 150;
 
+    Eigen::VectorXd E;
+
+    IOSystem io(Z, Y, E, mode);
+
+    // Calculate everything that can be calculated (starting with inputs Z, Y)
     io.calc_from_z();
-    std::cout << "X: " << io.getX() << std::endl;
-    std::cout << "A: " << io.getA() << std::endl;
-    std::cout << "L: " << io.getL() << std::endl;
-    std::cout << "F: " << io.getF() << std::endl;
 
-
-    return 0;
+    // Report
+    std::cout << "Z Table (Industry Transactions):\n" << io.getZ() << std::endl;
+    std::cout << "Y Table (Demand): \n" << io.getY() << std::endl;
+    std::cout << "x Vector (Total Output): \n" << io.getX() << std::endl;
+    std::cout << "A Table (Normalized Transactions): \n" << io.getA() << std::endl;
+    std::cout << "L Table (Leontief Inverse): \n" << io.getL() << std::endl;
 }

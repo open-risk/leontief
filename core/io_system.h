@@ -89,7 +89,7 @@ public:
 
 private:
 
-    // Matrices and vectors for computation
+    // Matrices and vectors for storage and computation
     Eigen::MatrixXd _a, _z, _y, _l;
     Eigen::VectorXd _x, _e, _f, _v, _u;
 

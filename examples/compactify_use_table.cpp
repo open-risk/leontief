@@ -26,8 +26,6 @@ using namespace csv;
  *  Compactify the Final Demand and Value Added columns / rows of a Use matrix into one column and row respectively
  */
 int main(int num_args, char **arg_strings) {
-
-
     constexpr int MAX_ROW = 2950; // Matrix row size
     constexpr int MAX_COL = 3174; // Matrix col size
 
