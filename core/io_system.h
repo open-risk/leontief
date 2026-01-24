@@ -23,6 +23,8 @@
 
 #pragma once
 
+using namespace Eigen;
+
 /**
  * @brief Class holding an entire IO system
  *
@@ -43,7 +45,7 @@ class IOSystem {
 
 public:
 
-    IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode);
+    IOSystem(const MatrixXd &X, const MatrixXd &Y, const MatrixXd &Z, int mode);
 
     /**
      * @brief Create a blank system.
@@ -65,33 +67,33 @@ public:
     */
     void calc_from_a();
 
-    Eigen::MatrixXd getZ() {
+    MatrixXd getZ() {
         return _z;
     }
-    Eigen::MatrixXd getY() {
+    MatrixXd getY() {
         return _y;
     }
-    Eigen::MatrixXd getX() {
+    MatrixXd getX() {
         return _x;
     }
-    Eigen::MatrixXd getA() {
+    MatrixXd getA() {
         return _a;
     }
-    Eigen::MatrixXd getL() {
+    MatrixXd getL() {
         return _l;
     }
-    Eigen::MatrixXd getE() {
+    MatrixXd getE() {
         return _e;
     }
-    Eigen::MatrixXd getF() {
+    MatrixXd getF() {
         return _f;
     }
 
 private:
 
     // Matrices and vectors for storage and computation
-    Eigen::MatrixXd _a, _z, _y, _l;
-    Eigen::VectorXd _x, _e, _f, _v, _u;
+    MatrixXd _a, _z, _y, _l;
+    VectorXd _x, _e, _f, _v, _u;
 
     // System dimensions (for Symmetric IO should be identical)
     int n{}; // rows
@@ -101,7 +103,7 @@ private:
     bool initialized{};
 
     // n x n - sized identity
-    Eigen::MatrixXd I;
+    MatrixXd I;
 
 };
 
@@ -123,7 +125,7 @@ inline IOSystem::IOSystem() = default;
  * @param Z
  * @param mode
  */
-inline IOSystem::IOSystem(const Eigen::MatrixXd &X, const Eigen::MatrixXd &Y, const Eigen::MatrixXd &Z, int mode) {
+inline IOSystem::IOSystem(const MatrixXd &X, const MatrixXd &Y, const MatrixXd &Z, int mode) {
 
     if (mode == 0) {  // Initialize with Z and Y matrix
         _z = X;

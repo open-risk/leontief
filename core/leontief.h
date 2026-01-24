@@ -22,16 +22,18 @@
 #include <Eigen/Core>
 #include <iostream>
 
+using namespace Eigen;
+
 namespace leontief {
 
     //// RAS algorithm
 
-    inline Eigen::MatrixXd RAS(Eigen::MatrixXd &A0) {
+    inline MatrixXd RAS(MatrixXd &A0) {
         int size = A0.cols();
-        Eigen::MatrixXd A = A0;
-        Eigen::ArrayXd column_sum;
-        Eigen::ArrayXd row_sum;
-        Eigen::ArrayXd delta;
+        MatrixXd A = A0;
+        ArrayXd column_sum;
+        ArrayXd row_sum;
+        ArrayXd delta;
 
         column_sum.resize(size);
         row_sum.resize(size);

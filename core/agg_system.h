@@ -23,6 +23,8 @@
 
 #pragma once
 
+using namespace Eigen;
+
 /**
  * @brief Class holding an IO aggregation system
  * *
@@ -35,17 +37,17 @@ public:
 
     AggSystem();
 
-    AggSystem(const Eigen::MatrixXd &X);
+    AggSystem(const MatrixXd &X);
 
-    Eigen::MatrixXd getS() {
+    MatrixXd getS() {
         return _s;
     }
 
-    Eigen::MatrixXd getSt() {
+    MatrixXd getSt() {
         return _st;
     }
 
-    Eigen::MatrixXd Aggregate(Eigen::MatrixXd &X){
+    MatrixXd Aggregate(MatrixXd &X){
         // Validate matrix dimensions
         if (X.rows() != _s.cols()) {
             throw std::invalid_argument("Invalid matrix dimensions for aggregation");
@@ -56,8 +58,8 @@ public:
 private:
 
     // Matrix for Aggregation
-    Eigen::MatrixXd _s;
-    Eigen::MatrixXd _st; // transpose
+    MatrixXd _s;
+    MatrixXd _st; // transpose
 
     // System dimensions
     int n{}; // rows
@@ -81,7 +83,7 @@ inline AggSystem::AggSystem() = default;
  *
  * @param X
  */
-inline AggSystem::AggSystem(const Eigen::MatrixXd &X) {
+inline AggSystem::AggSystem(const MatrixXd &X) {
 
     _s = X;
     _st = X.transpose();

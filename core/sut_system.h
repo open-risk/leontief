@@ -22,6 +22,8 @@
 
 #pragma once
 
+using namespace Eigen;
+
 class SUTSystem {
 public:
     /**
@@ -35,15 +37,15 @@ public:
     *   Qd - Downstream probabilities
     */
     SUTSystem(
-        Eigen::MatrixXd &S,
-        Eigen::MatrixXd &U,
-        Eigen::MatrixXd &VA,
-        Eigen::MatrixXd &FD
+        MatrixXd &S,
+        MatrixXd &U,
+        MatrixXd &VA,
+        MatrixXd &FD
     );
 
     SUTSystem() = default;
 
-    void CreateTransactionsMatrix(const Eigen::MatrixXd &M, const Eigen::MatrixXd U) {
+    void CreateTransactionsMatrix(const MatrixXd &M, const MatrixXd U) {
         int wy = M.cols() + U.cols() + 1;
         int wx = M.rows() + U.rows() + 1;
         _W.resize(wx, wy);
@@ -87,19 +89,19 @@ public:
         _Qd = _W;
     }
 
-    Eigen::MatrixXd &getW() {
+    MatrixXd &getW() {
         return _W;
     }
 
-    Eigen::MatrixXd &getQu() {
+    MatrixXd &getQu() {
         return _Qu;
     }
 
-    Eigen::MatrixXd &getTO() {
+    MatrixXd &getTO() {
         return _TPO;
     }
 
-    Eigen::MatrixXd &getTI() {
+    MatrixXd &getTI() {
         return _TPI;
     }
 
@@ -115,27 +117,27 @@ private:
     // both input data and computed data
 
     // Components
-    Eigen::MatrixXd _S; // m x n supply matrix (transpose of n x m make matrix)
-    Eigen::MatrixXd _U; // m x n use matrix
-    Eigen::MatrixXd _VA; // va x n value added matrix (part of use table)
-    Eigen::MatrixXd _FD; // m x fd final demand matrix (part of use table)
+    MatrixXd _S; // m x n supply matrix (transpose of n x m make matrix)
+    MatrixXd _U; // m x n use matrix
+    MatrixXd _VA; // va x n value added matrix (part of use table)
+    MatrixXd _FD; // m x fd final demand matrix (part of use table)
 
     // Sums
-    Eigen::MatrixXd _TII; // total industry input from supply table (1 x n row vector)
-    Eigen::MatrixXd _TIO; // total industry output from use table (1 x n row vector)
-    Eigen::MatrixXd _TPI; // total product input from use table (m x 1 column vector)
-    Eigen::MatrixXd _TPO; // total product output from supply table (m x 1 column vector)
+    MatrixXd _TII; // total industry input from supply table (1 x n row vector)
+    MatrixXd _TIO; // total industry output from use table (1 x n row vector)
+    MatrixXd _TPI; // total product input from use table (m x 1 column vector)
+    MatrixXd _TPO; // total product output from supply table (m x 1 column vector)
 
     // Normalizations
-    Eigen::MatrixXd _W;
-    Eigen::MatrixXd _Qu;
-    Eigen::MatrixXd _Qd;
+    MatrixXd _W;
+    MatrixXd _Qu;
+    MatrixXd _Qd;
 
     // Is the system initialized?
     bool initialized{};
 };
 
-inline SUTSystem::SUTSystem(Eigen::MatrixXd &S, Eigen::MatrixXd &U, Eigen::MatrixXd &VA, Eigen::MatrixXd &FD) {
+inline SUTSystem::SUTSystem(MatrixXd &S, MatrixXd &U, MatrixXd &VA, MatrixXd &FD) {
     _S = S;
     _U = U;
     _VA = VA;

@@ -86,7 +86,7 @@
     #error Leontief: floating-point number type (LEONTIEF_FPN_TYPE) must be 'float' or 'double'
 #endif
 
-//
+using namespace Eigen;
 
 namespace leontief
 {
@@ -98,16 +98,16 @@ namespace leontief
     static const double eps_dbl = std::numeric_limits<fp_t>::epsilon();
     static const double inf = std::numeric_limits<fp_t>::infinity();
 
-    using Mat_t = Eigen::Matrix<fp_t, Eigen::Dynamic, Eigen::Dynamic>;
+    using Mat_t = Matrix<fp_t, Dynamic, Dynamic>;
 
-    using ColVec_t = Eigen::Matrix<fp_t, Eigen::Dynamic, 1>;
-    using RowVec_t = Eigen::Matrix<fp_t, 1, Eigen::Dynamic>;
+    using ColVec_t = Matrix<fp_t, Dynamic, 1>;
+    using RowVec_t = Matrix<fp_t, 1, Dynamic>;
 
-    using ColVecInt_t = Eigen::Matrix<int, Eigen::Dynamic, 1>;
-    using RowVecInt_t = Eigen::Matrix<int, 1, Eigen::Dynamic>;
+    using ColVecInt_t = Matrix<int, Dynamic, 1>;
+    using RowVecInt_t = Matrix<int, 1, Dynamic>;
 
-    using ColVecUInt_t = Eigen::Matrix<size_t, Eigen::Dynamic, 1>;
-    using RowVecUInt_t = Eigen::Matrix<size_t, 1, Eigen::Dynamic>;
+    using ColVecUInt_t = Matrix<size_t, Dynamic, 1>;
+    using RowVecUInt_t = Matrix<size_t, 1, Dynamic>;
 }
 
 
