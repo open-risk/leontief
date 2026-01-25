@@ -53,6 +53,33 @@ public:
     IOSystem();
 
     /**
+     * @brief Calculate the industry output x from the Z and Y matrix
+     * industry output (x) = flows (sum_columns(Z)) + final demand (sum_columns(Y))
+     */
+    void calc_x();
+
+    /**
+     * @brief Calculate the industry output x from L and a y vector.
+     * x = Ly
+     */
+    void calc_x_from_L();
+
+    /**
+     * @brief Calculate the Z matrix (flows) from A and x
+     */
+    void calc_Z();
+
+    /**
+     * @brief Calculate the A matrix (coefficients) from Z and x
+     */
+    void calc_A();
+
+    /**
+     * @brief Calculate the B matrix (coefficients) from Z and x
+     */
+    void calc_B();
+
+    /**
      * @brief calculate standard flow (inputs Z, Y)
      */
     void calc_from_z();
@@ -67,6 +94,27 @@ public:
     */
     void calc_from_a();
 
+    /**
+     * @brief Calculate the Leontief L from A
+     * L = inverse matrix of (I - A)
+     */
+    void calc_L();
+
+    /**
+     * @brief Calculate Ghosh inverse G from B
+     * G = inverse matrix of (I - B)
+     */
+    void calc_G();
+
+    /**
+     * @brief Calculate extensions/factor inputs coefficients
+     */
+    void calc_S();
+
+    //
+    // Getters
+    //
+
     MatrixXd getZ() {
         return _z;
     }
@@ -78,6 +126,9 @@ public:
     }
     MatrixXd getA() {
         return _a;
+    }
+    MatrixXd getB() {
+        return _b;
     }
     MatrixXd getL() {
         return _l;
@@ -92,8 +143,13 @@ public:
 private:
 
     // Matrices and vectors for storage and computation
-    MatrixXd _a, _z, _y, _l;
-    VectorXd _x, _e, _f, _v, _u;
+    // Basic system
+    MatrixXd _a, _b, _z, _y;
+    VectorXd _x;
+    // inverses
+    MatrixXd _l, _g;
+    // extensions
+    VectorXd _e, _f, _v, _u;
 
     // System dimensions (for Symmetric IO should be identical)
     int n{}; // rows
@@ -165,5 +221,6 @@ inline IOSystem::IOSystem(const MatrixXd &X, const MatrixXd &Y, const MatrixXd &
     }
     initialized = true;
 }
+
 
 #endif //LEONTIEF_IO_SYSTEM_H

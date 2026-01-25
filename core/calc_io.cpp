@@ -22,6 +22,49 @@
 
 using namespace Eigen;
 
+
+void IOSystem::calc_x() {
+    _x = _z.rowwise().sum() + _y.rowwise().sum();
+}
+
+void IOSystem::calc_x_from_L() {
+    _x = _l * _y;
+}
+
+void IOSystem::calc_Z() {
+    _z = _a * _x;
+}
+
+void IOSystem::calc_A() {
+    DiagonalMatrix<double, Dynamic, Dynamic> xh(_x.size());
+    xh = _x.asDiagonal().inverse();
+    _a = _z * xh;
+}
+
+void IOSystem::calc_B() {
+    DiagonalMatrix<double, Dynamic, Dynamic> xh(_x.size());
+    xh = _x.asDiagonal().inverse();
+    _b = xh * _z;
+}
+
+void IOSystem::calc_L() {
+    MatrixXd I = MatrixXd::Identity(_x.size(), _x.size());
+    _l = (I - _a).inverse();
+}
+
+void IOSystem::calc_G() {
+    MatrixXd I = MatrixXd::Identity(_x.size(), _x.size());
+    _g = (I - _b).inverse();
+}
+
+void IOSystem::calc_S() {
+    DiagonalMatrix<double, Dynamic, Dynamic> xh(_x.size());
+    xh = _x.asDiagonal().inverse();
+    _f = _e * xh;
+}
+
+
+
 void IOSystem::calc_from_z() {
 
     _x = _z.rowwise().sum() + _y.rowwise().sum();
