@@ -105,11 +105,14 @@ inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
  */
 inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
     Eigen::MatrixXd result;
+    result.resize(m, fd);
 
-    // Miller Blair page 29
     if (mode == 2) {
-        result.resize(m, fd);
-        result<< 1.2, 0, 0, 6.8, 0, 0, 0;
+        // Miller Blair page 29
+        result << 1.2, 0, 0, 6.8, 0, 0, 0;
+    } else if (mode == 3) {
+        // pymrio small MRIO data
+        result << 14, 3, 2.5, 2.5, 13, 6, 5, 20, 10, 10, 3, 10;
     }
     return result;
 }
@@ -123,6 +126,7 @@ inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
  */
 inline Eigen::MatrixXd TestZMatrix(const int m, const int n, const int mode) {
     Eigen::MatrixXd result;
+    result.resize(n, n);
     int IO = m;
     int FD = 1;
     int VA = 1;
@@ -133,6 +137,13 @@ inline Eigen::MatrixXd TestZMatrix(const int m, const int n, const int mode) {
         // 2x2
     } else if (mode == 2) {
         // 7x7
+    } else if (mode == 3) {
+        result << 10, 5, 1, 6, 5, 7,
+                0, 2, 0, 0, 5, 3,
+                10, 3, 20, 4, 2, 0,
+                5, 0, 0, 1, 10, 9,
+                0, 10, 1, 0, 20, 1,
+                5, 0, 0, 1, 10, 10;
     }
     return result;
 }
@@ -155,7 +166,8 @@ inline Eigen::MatrixXd TestAMatrix(const int m, const int n, const int mode) {
         // 7x7
         // Table 2.7 The 2003 US Domestic Direct Requirements Matrix, A
         // Miller Blair page 29
-        result << .2008, .0000, .0011, .0338, .0001, .0018, .0009, .0010, .0658, .0035, .0219, .0151, .0001, .0026,.0034, .0002, .0012, .0021, .0035, .0071, .0214, .1247, .0684, .1801, .2319, .0339, .0414, .0726, .0855, .0529, .0914, .0952, .0645, .0315, .0528, .0897, .1668, .1332, .1255, .1647, .2712, .1873, .0093, .0129, .0095, .0197, .0190, .0184, .0228;
+        result
+                << .2008, .0000, .0011, .0338, .0001, .0018, .0009, .0010, .0658, .0035, .0219, .0151, .0001, .0026, .0034, .0002, .0012, .0021, .0035, .0071, .0214, .1247, .0684, .1801, .2319, .0339, .0414, .0726, .0855, .0529, .0914, .0952, .0645, .0315, .0528, .0897, .1668, .1332, .1255, .1647, .2712, .1873, .0093, .0129, .0095, .0197, .0190, .0184, .0228;
     }
     return result;
 }

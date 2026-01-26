@@ -90,6 +90,7 @@ set(TEST_FILES
         testing/test_aggregation.cpp
         testing/test_disaggregation.cpp
         testing/test_io_system.cpp
+        testing/test_io_math.cpp
         testing/test_sut_system.cpp
         testing/test_use_matrix_compactify.cpp
 )

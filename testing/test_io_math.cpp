@@ -24,14 +24,9 @@
 #include "utils/io_matrix_generation.h"
 #include "utils/scan_matrix.h"
 
-TEST_CASE("Test IO system creation", "[io]") {
+TEST_CASE("Test IO system mathematics", "[io]") {
 
     // TODO Examples
-    // Select test data
-
-    // MODE 0: Trivial System
-
-
     int mode = 3; // select test
 
     // MODE 1: Open Risk WP 16, Appendix 1 System (Based on Kitzes 2013)
@@ -48,21 +43,25 @@ TEST_CASE("Test IO system creation", "[io]") {
     // int va = 1; // value added count
     // int mode = 2; // select test
 
+    // Insert test data
+    // MODE 0: Trivial System
+    //    int n = 1; // sector count
+    //    int fd = 1; // final demand count
+
     // MODE 3: Small MRIO from the Pymrio distribution
     int m = 6; // total product count (3 sectors x 2 regions)
     int n = 6; // total sector count (3 sectors x 2 regions)
     int fd = 2; // final demand matrix (2 regions)
 
-    Eigen::MatrixXd Z = TestZMatrix(n, n, mode);
-    Eigen::MatrixXd FD = TestFDMatrix(n, fd, mode);
-    Eigen::MatrixXd dummy;
+    MatrixXd Z = TestZMatrix(n, n, mode);
+    MatrixXd FD = TestFDMatrix(n, fd, mode);
+    // Eigen::MatrixXd dummy;
 
     // Initialize and compute full IO system
-    IOSystem testIO(Z, FD, dummy, 0);
+    // IOSystem testIO(Z, FD, dummy, 0);
 
     // Test TODO
-    //    REQUIRE(TestBalance(testSUT.getTI(), testSUT.getTO()) == 1);
-    //    REQUIRE(TestProbabilities(testSUT.getQu()) == 1);
-    //    REQUIRE(TestColumnNorm(testSUT.getQu()) == 1);
+    REQUIRE(Z.sum() == 166);
+    REQUIRE(FD.rows()*FD.cols() == 12);
 
 }
