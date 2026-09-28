@@ -52,7 +52,7 @@ TEST_CASE("Test SUT system creation", "[sut]") {
     Eigen::MatrixXd S = TestSupplyMatrix(m, n, mode);
     Eigen::MatrixXd U = TestUseMatrix(m, n, mode);
     Eigen::MatrixXd VA = TestVAMatrix(n, va, mode);
-    Eigen::MatrixXd FD = TestFDMatrix(m, va, mode);
+    Eigen::MatrixXd FD = TestYMatrix(m, va, mode);
 
 
     // Initialize and compute full SUT system

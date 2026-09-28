@@ -54,7 +54,7 @@ TEST_CASE("Test IO system creation", "[io]") {
     int fd = 2; // final demand matrix (2 regions)
 
     Eigen::MatrixXd Z = TestZMatrix(n, n, mode);
-    Eigen::MatrixXd FD = TestFDMatrix(n, fd, mode);
+    Eigen::MatrixXd FD = TestYMatrix(n, fd, mode);
     Eigen::MatrixXd dummy;
 
     // Initialize and compute full IO system

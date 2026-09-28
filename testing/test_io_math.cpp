@@ -54,7 +54,7 @@ TEST_CASE("Test IO system mathematics", "[io]") {
     int fd = 2; // final demand matrix (2 regions)
 
     MatrixXd Z = TestZMatrix(n, n, mode);
-    MatrixXd FD = TestFDMatrix(n, fd, mode);
+    MatrixXd Y = TestYMatrix(n, fd, mode);
     // Eigen::MatrixXd dummy;
 
     // Initialize and compute full IO system
@@ -62,6 +62,6 @@ TEST_CASE("Test IO system mathematics", "[io]") {
 
     // Test TODO
     REQUIRE(Z.sum() == 166);
-    REQUIRE(FD.rows()*FD.cols() == 12);
+    REQUIRE(Y.rows()*Y.cols() == 12);
 
 }

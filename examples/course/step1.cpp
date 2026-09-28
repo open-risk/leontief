@@ -48,7 +48,7 @@ int main(int num_args, char **arg_strings) {
     A = TestAMatrix(7, 7, 2);
 
     Eigen::VectorXd Y;
-    Y = TestFDMatrix(7, 1, 2);
+    Y = TestYMatrix(7, 1, 2);
 
     Eigen::VectorXd E(7);
     E.setZero();

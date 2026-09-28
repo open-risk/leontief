@@ -103,7 +103,7 @@ inline Eigen::MatrixXd TestVAMatrix(const int n, const int va, const int mode) {
  * @param mode
  * @return
  */
-inline Eigen::MatrixXd TestFDMatrix(const int m, const int fd, const int mode) {
+inline Eigen::MatrixXd TestYMatrix(const int m, const int fd, const int mode) {
     Eigen::MatrixXd result;
     result.resize(m, fd);
 
